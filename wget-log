@@ -1,0 +1,6 @@
+--2025-10-24 11:30:56--  https://downloads2.broadcom.com/?file=VMware-Workstation-Full-17.6.4-24832109.x86_64.bundle
+Resolving downloads2.broadcom.com (downloads2.broadcom.com)... 162.159.140.167, 172.66.0.165, 2a06:98c1:58::a5, ...
+Connecting to downloads2.broadcom.com (downloads2.broadcom.com)|162.159.140.167|:443... connected.
+HTTP request sent, awaiting response... 403 Forbidden
+2025-10-24 11:30:57 ERROR 403: Forbidden.
+
