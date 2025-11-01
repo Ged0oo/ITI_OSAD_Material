@@ -1,0 +1,69 @@
+Student(
+    SerialNumber PK,
+    Div,
+    FullName,
+    Age,
+    Gender,
+    BirthDate,
+    PrevCertCopy,
+    SchoolMail,
+    ClassName FK
+)
+
+
+MedicalReport(
+    ReportID PK,
+    Weight,
+    Length,
+    Diseases,
+    StudentID FK
+)
+
+
+Parent(
+    ParentID PK,
+    Name,
+    Relationship
+)
+
+
+Class(
+    ClassName PK,
+    BuildingNumber,
+    FloorNumber,
+    Capacity,
+    Schedule
+)
+
+
+Teacher(
+    TeacherID PK,
+    Name,
+    Subject,
+    PhoneNumber,
+    Email,
+    Salary,
+    SupervisorID FK
+)
+
+
+StudentPaernts(
+    StudentID FK,
+    ParentID FK,
+    (ParentID, StudentID) PK
+)
+
+
+Sibling(
+    Student_1_ID FK,
+    Student_2_ID FK,
+    Discount,
+    (Student_1_ID, Student_2_ID) PK
+)
+
+
+TeacherClass(
+    ClassName FK,
+    TeacherID FK,
+    (TeacherID, TeacherID) PK
+)

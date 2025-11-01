@@ -1,0 +1,45 @@
+Patient(
+    PatientID PK,
+    FullName,
+    DateOfBirth,
+    Gender,
+    Age,
+    ChronicDiseases,
+    MobileNumber
+)
+
+
+Test(
+    TestCode PK,
+    TestName,
+    Cost,
+    Duration
+)
+
+
+Branch(
+    BranchCode PK,
+    ShortName,
+    City,
+    Street,
+    BuildingNum,
+    EmployeeID FK
+)
+
+
+Employee(
+    EmployeeID PK,
+    FullNAme,
+    Salary,
+    Team,
+    StartTime,
+    EndTime,
+    BranchCode FK,
+)
+
+
+BranchTest(
+    BranchCode FK,
+    TestCode FK,
+    (BranchCode, TestCode) PK
+)

@@ -1,0 +1,53 @@
+شركة برمجيات Software House ########
+سيستم لمستشغى ( شئون عاملين - مشتريات - مبيعات - مرتبات - اجازات .. )
+____
+
+1- محلل النظم System Analyst : يجمع كل المعلومات المطلوبة عن البرنامج من العميل ( 70 ورقة )
+2- مصمم النظم DB Designer - يرسم تصميم لقواعد البيانات او تصميمات اخرى للبرنامج  
+70 ورقة > 1 تصميم قاعدة بيانات 
+Entity Relationship diagram
+ERD
+3- ال technical : 
+	1- DB Administrator : مدير قواعد البيانات     ==== >>> Data Engineer 
+   [ install and configure – engine performance - backup and recovery - security and roles .. ]
+	2- DB Developer : مبرمج ( مطور ) قواعد البيانات
+[ build business tables - change columns - insert - update - delete data ] 
+	3- Application developer : مبرمج ( مطور ) التطبيقات 
+				- مطور تطبيقات ويب ( مطور فرونت اند - مطور باك اند )
+				- مطور تطبيقات موبايل
+				- مطور تطبيقات ديسكتوب
+
+4- Tester مختبر البرامج  = QA Quality Assurance - 
+	مسئوليته انه يوافق على ان البرنامج يعمل بافضل شكل ( افضل كفاءة - سرعة - كل المتطلبات موجودة - كل المتطلبات شغالة )
+5- العميل Client = End User : الاختبار الأخير والتشغيل 
+
+++++++++++++++++++++++++++++
+Maintenace دعم فنى  
+change requests العميل طلبات جديدة 
+
+
+...............
+تمر سنوات - وبتدخل بيانات كتيرة جداً في السيرفر 
+_____________________
+
+محتاجين نستفيد من البيانات دى عشان نقدر نتخذ قرارات 
+
+Data Analyst
+عمل احصائيات analytics 
+لاتخاذ قرارات بناءاً على الاحصائيات دى ويظهرها في شكل dashboards 
+Data Visualization 
+Data Analyst
+ [ excel - business domain - statistics - sql - python [R] - visualize power bi - tableau .. ]
+اعطاء تقارير وداشبورد بناءاً على الوضع الحالى للبيانات
+_
+
+Data Scientist 
+ [ excel - business domain - statistics - sql - python [R] - visualize power bi - tableau .. ]
++
+Machine Learning (adv. statisics - advanced python)
+اعطاء توقعات واستنتاجات عن المستقبل بناءاً على البيانات الحالية الموجودة
+
++++++++++
+
+AI Engineer = tech.
+(Machine Learning - AI)

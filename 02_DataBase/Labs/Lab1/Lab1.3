@@ -1,0 +1,60 @@
+Branch(
+    BranchID PK,
+    Address,
+    ContactNumber,
+    StaffID FK
+)
+
+
+Staff(
+    StaffID PK,
+    FullName,
+    Age,
+    City,
+    Region,
+    Role,
+    JoinDate,
+    Salary,
+    BranchID FK,
+)
+
+
+Customer(
+    CustomerID PK,
+    Name,
+    ContactNumber
+)
+
+
+MenuItem(
+    ItemCode PK,
+    ItemName,
+    UnitPrice,
+    Category,
+    BranchID FK
+)
+
+
+Order(
+    OrderID PK,
+    OrderAddress,
+    OrderDate,
+    OrderTime,
+    TotalBill,
+    CustomerID FK
+)
+
+
+DeliveryPerson(
+  DeliveryNationalID PK,
+  Name,
+  ContactNumber
+)
+
+
+OrderItem(
+    OrderID FK,
+    ItemCode FK,
+    Quantity,
+    (OrderID, ItemCode) PK
+)

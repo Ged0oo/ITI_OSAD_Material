@@ -1,0 +1,42 @@
+Office(
+    OfficeID PK,
+    Address, 
+    ContactNumber
+)
+
+
+Owner(
+    OwnerID PK,
+    FullName,
+    BankAccNumb,
+    OfficeID FK
+)
+
+
+Car(
+    ID PK,
+    ModelBrand,
+    ModelName,
+    ModelYear,
+    Licence,
+    RentAmount,
+    Status,
+    OwnerID FK
+)
+
+
+Tenant(
+    ID PK,
+    Licence,
+    Phone
+)
+
+
+RentTransaction(
+    TenantID FK,
+    CarID FK,
+    StartDate,
+    Duration,
+    Payment,
+    (TenantID, CarID, StartDate) PK
+)
