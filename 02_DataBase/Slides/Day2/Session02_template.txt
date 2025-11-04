@@ -1,0 +1,151 @@
+-- --------------------------------------------------------------
+set autocommit = 0;
+
+
+-- DMLs [insert, update, delete] >> Transaction Control [ Commit - Rollback ]
+-- 1. insert 
+-- example : insert new dept [280, Data Science, 109, 1400 ]
+-- --			insert new employee [ 207, your data, hire date = 24-4-2022,
+-- 						comm = null | job id = it prog	| dept id = 280 ]
+
+
+
+
+
+
+
+-- 2- Update 
+-- example : employee date no 207
+-- --			 comm = 0.5, phone = null,	salary + 2000
+-- --		     email = Yahia.Momtaz.207@gmail.com
+
+
+
+
+-- 3. delete 
+-- example : delete department no 280
+
+
+
+
+-- SQL Functions : Aggregate Functions
+-- example : show the use of aggregate functions : sum, max, min, avg, count 
+
+
+
+-- example : use all aggregate functions but for dept = 30
+
+
+-- Error ## donot put a column beside aggregated functions
+
+
+
+-- # Group by : to categorize data  |  Having to filter aggregated functions
+-- example : show aggregated functions per each department 
+--    2.exclude employees with null dept,
+-- 	  3.exclude departments with count(*) = 1
+
+
+-- example : show aggregated functions per each department and per each job
+-- Nested group by [ Drilling ]
+
+
+-- example : show sum of salary for dept id = 40 beside dept id 
+
+
+
+-- avg () example : show the special case of avg function
+
+
+
+--  Join Between Tables --
+/*
+ 1- inner join  [ 1st syntax | 2nd syntax ]
+ 2- outer join
+ 3- self join [ recursive ] [unary relationship]
+*/
+-- 1. inner join [ 1st syntax ]
+-- example (2 tables): show employees data ... , beside department_name
+
+
+-- example (3 tables): show employees data , beside department_name, beside city
+
+-- 2nd syntax 
+-- example (2 tables): show employees data ... , beside department_name
+
+
+-- example (3 tables): show employees data , beside department_name, beside city
+
+
+
+-- when Cross Join [ bad join ] can be happened ? 
+
+
+
+
+-- ## 2. Outer Join Type ## --
+-- show employees data beside dept name [ and show also employees with no dept  ]
+
+
+
+
+-- ## 3. Self Join [ Recursive ] | Unary Relationship 
+-- ex : Categories | Sub Categories | Sub Categories .. in E commerce websites
+-- ex : شجرة الحسابات  GL
+-- example : show employees data [ last_name, salary ]
+--         beside his supervisor [ last_name, salary ]
+
+
+
+
+
+
+-- self join with outer join 
+
+
+
+
+-- ###### Subquery #######
+-- 1] Single Row Subquery   =     >     <    >=     <=    != 
+-- Query inside another Query 
+-- example : show all employees data works in dept ( the same dept for emp no 115 )
+
+
+
+-- example : Show employee with first name = Alexander , last name Khoo
+
+
+
+
+-- example : Show Employees who have the Max Salary 
+
+
+
+
+-- example : Show Employees who work in dept (The department with name = IT)
+
+
+
+
+-- 2] Multi Row Sub Query   in       Any    All 
+-- example : show departments data which have employees
+
+
+                        
+-- example : show departments data which have no employees  
+-- NOT IN : note remove null from sub query
+
+
+
+   
+-- example : show employees who have salary > ALL salaries of employees in dept 30
+
+
+
+-- example : show employees who have salary > ANY salaries of employees in dept 30
+
+
+
+
+-- ## Union 
+

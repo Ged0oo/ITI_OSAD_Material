@@ -1,0 +1,61 @@
+## School example
+> 0nf : default 
+Students[#student_id, name, location(city - zone), tel, level, level_mgr, subject, subject_desc, Grade]
+------------
+
+> 1nf {Multi values attributes - Composite attributes - Repeating Groups (Multi Values + related attributes ) }
+Students[#student_id, name, city, zone level, level_mgr]
+Students_Tel[ #student_id(FK), #tel]
+Students_Subject[#student_id(FK), #subject, subject_desc, Grade]
+
+-----------------------------------
+> 2nf { Partial dependency = attribute depend Partially on composite key attribute }
+Students[#student_id, name, city, zone, level, level_mgr]
+Students_Tel[ #student_id(FK), #tel]
+
+Students_Subject[#student_id(FK), #subject(FK), Grade]   جدول مواد الطلاب   - attribute on relationship ( grade)
+Subjects[#subject, subject_desc, no_books, no_pages]  جدول المواد
+
+-----------------------------------
+> 3nf{ Transitive [ Fake dependency ] :> Attribute depend on a NON PK. Key Attribute }
+Students[#student_id, name, city, zone, level(FK)]
+Levels[#Level, level_mgr]
+Students_Tel[ #student_id(FK), #tel]
+Students_Subject[#student_id(FK), #subject(FK), Grade]  
+Subjects[#subject, subject_desc, no_books, no_pages]  جدول المواد 
+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## ITI Example
+0 nf 
+--
+Students [#student_no, name, address(street, city), tel, f_code, f_name, major, dept_name, dept_desc, grade, comments]
+-------------
+> 1nf {Multi values attributes - Composite attributes - Repeating Groups (Multi Values + related attributes ) }
+--
+
+----------------------
+> 2nf { Partial dependency = attribute depend Partially on composite attribute }
+----------------
+
+------------------------
+> 3nf{ Transitive [ Fake dependency ] :> Attribute depend on a NON Key Attribute }
+______________________
+

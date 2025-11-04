@@ -1,0 +1,35 @@
+* Create Databse
+create database data_base_name
+
+* Create Table
+create table table_name(
+    col1 datatype constrains
+    id INT primary key,
+);
+
+* Drop
+DROP DATABASE IF EXISTS data_base_name;
+
+* Rename DB
+alter database old_name 
+modify name = new_name;
+
+* Rename Table
+alter table old_name 
+rename to new_name;
+
+* Rename Column
+alter table table_name
+rename column old_col to new_col
+
+* Add Column
+alter table table_name
+add new_col datatype
+
+* Modify Column datatype
+alter table table_name
+modify column col_name new_datatype
+
+* Inser Statment
+inser into table_name (col1, co12, ....,coln)
+values (val1, val2, ...., valn);
