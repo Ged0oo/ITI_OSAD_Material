@@ -1,0 +1,14 @@
+What is a zombie process?
+
+What is a orphan process?
+
+Explain runlevels / systemd targets.
+
+What is cgroups and namespaces?
+
+du and df
+
+process and jobs
+
+daemon service
+
