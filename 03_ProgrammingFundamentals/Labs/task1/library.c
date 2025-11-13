@@ -52,3 +52,15 @@ void delay_s(int sec) {
     sleep(sec);
 #endif
 }
+
+void printMessage(char *msg){
+    printf("%s\n", msg);
+    fflush(stdout);
+}
+
+void printMsgWithColorInPosition(char *msg, Color_t color, int x, int y){
+    setColor(color);
+    gotoxy(x, y);
+    printf("%s\n", msg);
+    fflush(stdout);
+}

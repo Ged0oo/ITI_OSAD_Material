@@ -26,10 +26,15 @@ typedef enum {
     WHITE_COLOR   =  7
 } Color_t;
 
+void clearScreen();
 void gotoxy(int x, int y);
+
 void setColor(Color_t color);
 void resetColor();
-void clearScreen();
+
+void printMessage(char *msg);
+void printMsgWithColorInPosition(char *msg, Color_t color, int x, int y);
+
 void delay_ms(int ms);
 void delay_s(int sec);
 
