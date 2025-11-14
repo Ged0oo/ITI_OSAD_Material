@@ -6,10 +6,11 @@
 
 #define Y_POSITION           70
 #define CURSER_POSITION      65
+#define CURSER_STEP          2
 
 #define NEW_POSITION         6
-#define DISPLAY_POSITION     7
-#define EXIT_POSITION        8
+#define DISPLAY_POSITION     NEW_POSITION + CURSER_STEP
+#define EXIT_POSITION        DISPLAY_POSITION + CURSER_STEP
 
 #define NEW_MESSAGE             "NEW"
 #define DISPLAY_MESSAGE         "DISPLAY"

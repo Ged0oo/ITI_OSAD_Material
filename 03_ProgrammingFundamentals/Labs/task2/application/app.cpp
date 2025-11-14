@@ -29,8 +29,11 @@ void setCurserPosition(int position){
 void applicationLoop() {
     const int MIN_POS = NEW_POSITION;
     const int MAX_POS = EXIT_POSITION;
-    const int RANGE = MAX_POS - MIN_POS + 1;
-    curPos = MIN_POS;
+    const int STEP = CURSER_STEP;
+    const int ITEMS = (MAX_POS - MIN_POS) / STEP + 1;
+
+    int idx = 0;
+    curPos = MIN_POS + idx * STEP;
 
     while (1) {
         setCurserPosition(curPos);
@@ -48,26 +51,27 @@ void applicationLoop() {
 
             case UP_KEYBOARD_STROKE:
             case RIGHT_KEYBOARD_STROKE:
-                if(selectFlag == false) curPos -= 1; 
+                if (!selectFlag) idx--;
                 break;
 
             case DOWN_KEYBOARD_STROKE:
             case LEFT_KEYBOARD_STROKE:
-                if(selectFlag == false) curPos += 1; 
+                if (!selectFlag) idx++;
                 break;
 
             case HOME_KEYBOARD_STROKE:
-                if(selectFlag == false) curPos = MIN_POS;
+                if (!selectFlag) idx = 0;
                 break;
 
             case END_KEYBOARD_STROKE:
-                if(selectFlag == false) curPos = MAX_POS; 
+                if (!selectFlag) idx = ITEMS - 1;
                 break;
 
             default: continue;
         }
 
-        curPos = MIN_POS + ((curPos - MIN_POS) % RANGE + RANGE) % RANGE;
+        idx = (idx % ITEMS + ITEMS) % ITEMS;
+        curPos = MIN_POS + idx * STEP;
     }
 }
 
