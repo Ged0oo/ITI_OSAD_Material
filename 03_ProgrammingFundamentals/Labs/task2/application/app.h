@@ -4,12 +4,12 @@
 #include "../keyboard/keyboard.h"
 #include "../screen/screen.h"
 
-#define Y_POSITION           5
-#define CURSER_POSITION      0
+#define Y_POSITION           70
+#define CURSER_POSITION      65
 
-#define NEW_POSITION         2
-#define DISPLAY_POSITION     3
-#define EXIT_POSITION        4
+#define NEW_POSITION         6
+#define DISPLAY_POSITION     7
+#define EXIT_POSITION        8
 
 #define NEW_MESSAGE             "NEW"
 #define DISPLAY_MESSAGE         "DISPLAY"

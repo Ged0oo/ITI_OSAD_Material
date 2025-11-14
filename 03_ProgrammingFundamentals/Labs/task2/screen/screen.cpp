@@ -71,4 +71,3 @@ void printMsgWithColorInPosition(const string& msg, Color_t color, int x, int y)
     printMessage(msg);
     resetColor();
 }
-

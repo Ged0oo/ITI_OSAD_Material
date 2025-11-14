@@ -13,9 +13,9 @@ void init(){
 void updateScreen(){
     if(selectFlag == false){
         clearScreen();
-        printMsgWithColorInPosition(NEW_MESSAGE, RED_COLOR, Y_POSITION, NEW_POSITION);
-        printMsgWithColorInPosition(DISPLAY_MESSAGE, GREEN_COLOR, Y_POSITION, DISPLAY_POSITION);
-        printMsgWithColorInPosition(EXIT_MESSAGE, BLUE_COLOR, Y_POSITION, EXIT_POSITION);
+        printMsgWithColorInPosition(NEW_MESSAGE, WHITE_COLOR, Y_POSITION, NEW_POSITION);
+        printMsgWithColorInPosition(DISPLAY_MESSAGE, WHITE_COLOR, Y_POSITION, DISPLAY_POSITION);
+        printMsgWithColorInPosition(EXIT_MESSAGE, WHITE_COLOR, Y_POSITION, EXIT_POSITION);
     }
 }
 

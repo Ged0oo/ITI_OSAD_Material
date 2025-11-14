@@ -4,9 +4,6 @@
 
 #include <iostream>
 #include <string>
-#include <termios.h>
-#include <unistd.h>
-#include "../screen/screen.h"
 
 using namespace std;
 
@@ -14,11 +11,12 @@ using namespace std;
 #include <windows.h>
 #include <conio.h>
 #else
+#include <termios.h>
 #include <unistd.h>
 #include <time.h>
+extern termios originalTerminal;
 #endif
 
-extern termios originalTerminal;
 
 #define ESC_KEYBOARD_STROKE        27
 #define UP_KEYBOARD_STROKE         1001

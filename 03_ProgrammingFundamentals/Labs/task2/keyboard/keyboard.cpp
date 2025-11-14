@@ -1,16 +1,28 @@
 #include "keyboard.h"
 #include <iostream>
-#include <termios.h>
-#include <unistd.h>
 using namespace std;
 
+#if !defined(_WIN32) && !defined(_WIN64)
 termios originalTerminal;
+#endif
+
 
 void restoreTerminal() {
+
+#if defined(_WIN32) || defined(_WIN64)
+    return;
+#else
     tcsetattr(STDIN_FILENO, TCSANOW, &originalTerminal);
+#endif
 }
 
+
+
 void enableRowMode() {
+
+#if defined(_WIN32) || defined(_WIN64)
+    return;
+#else
     static bool enabled = false;
     if (enabled) return;
 
@@ -20,82 +32,118 @@ void enableRowMode() {
     temp.c_lflag &= ~(ICANON | ECHO);
     tcsetattr(STDIN_FILENO, TCSANOW, &temp);
 
-    atexit(restoreTerminal); 
+    atexit(restoreTerminal);
     enabled = true;
+#endif
 }
+
+
 
 int readChar() {
+
+#if defined(_WIN32) || defined(_WIN64)
+    return _getch();
+#else
     enableRowMode();
     return getchar();
+#endif
 }
 
+
+
 int decodeEscapeSequence() {
-    int c2 = readChar(); // '[' or 'O'
-    if (c2 != '[' && c2 != 'O') return 27; // plain ESC
+
+#if defined(_WIN32) || defined(_WIN64)
+    return ESC_KEYBOARD_STROKE;
+
+#else
+    int c2 = readChar(); 
+    if (c2 != '[' && c2 != 'O')
+        return ESC_KEYBOARD_STROKE;
 
     int c3 = readChar();
 
-    // ESC O H / F
     if (c2 == 'O') {
-        if (c3 == 'H') return 1005; // HOME
-        if (c3 == 'F') return 1006; // END
-        return 27;
+        if (c3 == 'H') return HOME_KEYBOARD_STROKE;
+        if (c3 == 'F') return END_KEYBOARD_STROKE;
+        return ESC_KEYBOARD_STROKE;
     }
 
-    // Arrows + Home/End
     switch (c3) {
-        case 'A': return 1001; // UP
-        case 'B': return 1002; // DOWN
-        case 'C': return 1003; // RIGHT
-        case 'D': return 1004; // LEFT
-        case 'H': return 1005; // HOME
-        case 'F': return 1006; // END
+        case 'A': return UP_KEYBOARD_STROKE;
+        case 'B': return DOWN_KEYBOARD_STROKE;
+        case 'C': return RIGHT_KEYBOARD_STROKE;
+        case 'D': return LEFT_KEYBOARD_STROKE;
+        case 'H': return HOME_KEYBOARD_STROKE;
+        case 'F': return END_KEYBOARD_STROKE;
     }
 
-    // ESC [ 1 ~ or ESC [ 4 ~
-    if (c3 == '1') {
-        if (readChar() == '~') return 1005;
-    }
-    if (c3 == '4') {
-        if (readChar() == '~') return 1006;
-    }
+    if (c3 == '1' && readChar() == '~') return HOME_KEYBOARD_STROKE;
+    if (c3 == '4' && readChar() == '~') return END_KEYBOARD_STROKE;
 
-    return 27;
+    return ESC_KEYBOARD_STROKE;
+#endif
 }
+
+
 
 int getKey() {
     int ch = readChar();
 
-    // ENTER (LF)
-    if (ch == 10) return 1007;       // ENTER_KEYBOARD_STROKE
+#if defined(_WIN32) || defined(_WIN64)
 
-    // BACKSPACE
-    if (ch == 127) return 1008;       // BACKSPACE_KEYBOARD_STROKE
+    if (ch == 13) return ENTER_KEYBOARD_STROKE;
 
-    // Normal key
-    if (ch != 27)
-        return ch;
+    if (ch == 8) return BACKSPACE_KEYBOARD_STROKE;
 
-    // ESC sequence
+    if (ch == 27) return ESC_KEYBOARD_STROKE;
+
+    if (ch == 224) {
+        int c2 = _getch();
+        switch (c2) {
+            case 72: return UP_KEYBOARD_STROKE;
+            case 80: return DOWN_KEYBOARD_STROKE;
+            case 75: return LEFT_KEYBOARD_STROKE;
+            case 77: return RIGHT_KEYBOARD_STROKE;
+            case 71: return HOME_KEYBOARD_STROKE;
+            case 79: return END_KEYBOARD_STROKE;
+        }
+    }
+
+    return ch;
+
+#else
+
+    if (ch == 10) return ENTER_KEYBOARD_STROKE;
+
+    if (ch == 127) return BACKSPACE_KEYBOARD_STROKE;
+
+    if (ch != 27) return ch;
+
     return decodeEscapeSequence();
+
+#endif
 }
+
+
+
 
 void printDetectedKey() {
     int ch = getKey();
     string str;
 
     switch (ch) {
-        case 27:    str = "ESC"; break;
-        case 1001:  str = "UP"; break;
-        case 1002:  str = "DOWN"; break;
-        case 1003:  str = "RIGHT"; break;
-        case 1004:  str = "LEFT"; break;
-        case 1005:  str = "HOME"; break;
-        case 1006:  str = "END"; break;
-        case 1007:  str = "ENTER"; break;
-        case 1008:  str = "BACKSPACE"; break;
+        case ESC_KEYBOARD_STROKE:       str = "ESC"; break;
+        case UP_KEYBOARD_STROKE:        str = "UP"; break;
+        case DOWN_KEYBOARD_STROKE:      str = "DOWN"; break;
+        case RIGHT_KEYBOARD_STROKE:     str = "RIGHT"; break;
+        case LEFT_KEYBOARD_STROKE:      str = "LEFT"; break;
+        case HOME_KEYBOARD_STROKE:      str = "HOME"; break;
+        case END_KEYBOARD_STROKE:       str = "END"; break;
+        case ENTER_KEYBOARD_STROKE:     str = "ENTER"; break;
+        case BACKSPACE_KEYBOARD_STROKE: str = "BACKSPACE"; break;
         default:
-            cout << "Char: " << (char)ch << " (" << ch << ")" << endl;
+            cout << "Char: " << (char)ch << " (" << ch << ")\n";
             return;
     }
 
