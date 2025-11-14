@@ -29,27 +29,25 @@ void resetColor() {
 
 
 void clearScreen() {
+    
 #if defined(_WIN32) || defined(_WIN64)
     system("cls");
 #else
-    cout << "\033[2J\033[H";
+    std::cout << "\033[2J\033[H" << std::flush;
 #endif
 }
 
-
-#include <iostream>
-using namespace std;
 
 void hideCursor() {
     cout << "\033[?25l";
     cout.flush();
 }
 
+
 void showCursor() {
     cout << "\033[?25h";
     cout.flush();
 }
-
 
 
 void delay_s(int sec) {
@@ -73,3 +71,4 @@ void printMsgWithColorInPosition(const string& msg, Color_t color, int x, int y)
     printMessage(msg);
     resetColor();
 }
+

@@ -1,5 +1,6 @@
 #include "app.h"
 
+bool selectFlag = false;
 int curPos = NEW_POSITION;
 
 void init(){
@@ -10,43 +11,58 @@ void init(){
 }
 
 void updateScreen(){
-    clearScreen();
-    printMsgWithColorInPosition("New", RED_COLOR, Y_POSITION, NEW_POSITION);
-    printMsgWithColorInPosition("Display", GREEN_COLOR, Y_POSITION, DISPLAY_POSITION);
-    printMsgWithColorInPosition("Exit", BLUE_COLOR, Y_POSITION, EXIT_POSITION);
+    if(selectFlag == false){
+        clearScreen();
+        printMsgWithColorInPosition(NEW_MESSAGE, RED_COLOR, Y_POSITION, NEW_POSITION);
+        printMsgWithColorInPosition(DISPLAY_MESSAGE, GREEN_COLOR, Y_POSITION, DISPLAY_POSITION);
+        printMsgWithColorInPosition(EXIT_MESSAGE, BLUE_COLOR, Y_POSITION, EXIT_POSITION);
+    }
 }
 
 void setCurserPosition(int position){
-    updateScreen();
-    printMsgWithColorInPosition("->", WHITE_COLOR, CURSER_POSITION, position);
+    if(selectFlag == false){
+        updateScreen();
+        printMsgWithColorInPosition("->", WHITE_COLOR, CURSER_POSITION, position);
+    }
 }
 
 void applicationLoop() {
     const int MIN_POS = NEW_POSITION;
     const int MAX_POS = EXIT_POSITION;
     const int RANGE = MAX_POS - MIN_POS + 1;
-
-    int curPos = MIN_POS;
+    curPos = MIN_POS;
 
     while (1) {
         setCurserPosition(curPos);
         int ch = getKey();
 
         switch (ch) {
+            case ENTER_KEYBOARD_STROKE:
+                selectFlag = true;
+                HandleUserSelection(curPos);
+                break;
+
+            case BACKSPACE_KEYBOARD_STROKE:
+                selectFlag = false;
+                break;
+
             case UP_KEYBOARD_STROKE:
             case RIGHT_KEYBOARD_STROKE:
-                curPos -= 1; break;
+                if(selectFlag == false) curPos -= 1; 
+                break;
 
             case DOWN_KEYBOARD_STROKE:
             case LEFT_KEYBOARD_STROKE:
-                curPos += 1; break;
+                if(selectFlag == false) curPos += 1; 
+                break;
 
             case HOME_KEYBOARD_STROKE:
-                curPos = MIN_POS;
+                if(selectFlag == false) curPos = MIN_POS;
                 break;
 
             case END_KEYBOARD_STROKE:
-                curPos = MAX_POS; break;
+                if(selectFlag == false) curPos = MAX_POS; 
+                break;
 
             default: continue;
         }
@@ -55,3 +71,12 @@ void applicationLoop() {
     }
 }
 
+void HandleUserSelection(int pos){
+    clearScreen();
+    switch (pos) {
+        case NEW_POSITION:      printMsgWithColorInPosition(NEW_MESSAGE, RED_COLOR, Y_POSITION, NEW_POSITION);           break;
+        case DISPLAY_POSITION:  printMsgWithColorInPosition(DISPLAY_MESSAGE, GREEN_COLOR, Y_POSITION, DISPLAY_POSITION); break;
+        case EXIT_POSITION:     printMsgWithColorInPosition(EXIT_MESSAGE, BLUE_COLOR, Y_POSITION, EXIT_POSITION);        break;
+    }
+    printMsgWithColorInPosition("->", WHITE_COLOR, CURSER_POSITION, pos);
+}

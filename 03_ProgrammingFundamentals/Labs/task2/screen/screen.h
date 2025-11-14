@@ -17,7 +17,6 @@ using namespace std;
 #include <time.h>
 #endif
 
-
 typedef enum {
     BLACK_COLOR   =  0,
     RED_COLOR     =  1,
@@ -40,6 +39,5 @@ void printMessage(const string& msg);
 void printMsgWithColorInPosition(const string& msg, Color_t color, int x, int y);
 
 void delay_s(int sec);
-
 
 #endif

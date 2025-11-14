@@ -20,7 +20,7 @@ void enableRowMode() {
     temp.c_lflag &= ~(ICANON | ECHO);
     tcsetattr(STDIN_FILENO, TCSANOW, &temp);
 
-    atexit(restoreTerminal); // auto restore on program exit
+    atexit(restoreTerminal); 
     enabled = true;
 }
 
@@ -30,19 +30,19 @@ int readChar() {
 }
 
 int decodeEscapeSequence() {
-    int c2 = readChar(); // '[' or 'O' or number
-    if (c2 != '[' && c2 != 'O')
-        return 27; // plain ESC
+    int c2 = readChar(); // '[' or 'O'
+    if (c2 != '[' && c2 != 'O') return 27; // plain ESC
 
     int c3 = readChar();
 
-    // Case 1: ESC O H / ESC O F
+    // ESC O H / F
     if (c2 == 'O') {
         if (c3 == 'H') return 1005; // HOME
         if (c3 == 'F') return 1006; // END
+        return 27;
     }
 
-    // Case 2: ESC [ A/B/C/D/H/F (arrows + home/end)
+    // Arrows + Home/End
     switch (c3) {
         case 'A': return 1001; // UP
         case 'B': return 1002; // DOWN
@@ -52,24 +52,32 @@ int decodeEscapeSequence() {
         case 'F': return 1006; // END
     }
 
-    // Case 3: ESC [ 1 ~  or  ESC [ 4 ~
+    // ESC [ 1 ~ or ESC [ 4 ~
     if (c3 == '1') {
-        int c4 = readChar();
-        if (c4 == '~') return 1005; // HOME
+        if (readChar() == '~') return 1005;
     }
-
     if (c3 == '4') {
-        int c4 = readChar();
-        if (c4 == '~') return 1006; // END
+        if (readChar() == '~') return 1006;
     }
 
-    return 27; // fallback to ESC
+    return 27;
 }
 
 int getKey() {
     int ch = readChar();
-    if (ch != 27) return ch;
-    else return decodeEscapeSequence();
+
+    // ENTER (LF)
+    if (ch == 10) return 1007;       // ENTER_KEYBOARD_STROKE
+
+    // BACKSPACE
+    if (ch == 127) return 1008;       // BACKSPACE_KEYBOARD_STROKE
+
+    // Normal key
+    if (ch != 27)
+        return ch;
+
+    // ESC sequence
+    return decodeEscapeSequence();
 }
 
 void printDetectedKey() {
@@ -79,12 +87,16 @@ void printDetectedKey() {
     switch (ch) {
         case 27:    str = "ESC"; break;
         case 1001:  str = "UP"; break;
-        case 1002:  str = "Down"; break;
-        case 1003:  str = "Right"; break;
-        case 1004:  str = "Left"; break;
-        case 1005:  str = "Home"; break;
-        case 1006:  str = "End"; break;
-        default: return;
+        case 1002:  str = "DOWN"; break;
+        case 1003:  str = "RIGHT"; break;
+        case 1004:  str = "LEFT"; break;
+        case 1005:  str = "HOME"; break;
+        case 1006:  str = "END"; break;
+        case 1007:  str = "ENTER"; break;
+        case 1008:  str = "BACKSPACE"; break;
+        default:
+            cout << "Char: " << (char)ch << " (" << ch << ")" << endl;
+            return;
     }
 
     cout << "You pressed: " << str << endl;

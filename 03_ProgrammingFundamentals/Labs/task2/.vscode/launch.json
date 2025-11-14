@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": false,
-      "cwd": "/home/nagy/Mine/ITI/03_ProgrammingFundamentals/Labs/task2",
-      "program": "/home/nagy/Mine/ITI/03_ProgrammingFundamentals/Labs/task2/build/Debug/outDebug",
+      "cwd": "/home/nagy/Mine/ITI/03_ProgrammingFundamentals/Labs/task2/application",
+      "program": "/home/nagy/Mine/ITI/03_ProgrammingFundamentals/Labs/task2/application/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
