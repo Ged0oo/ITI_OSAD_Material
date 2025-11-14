@@ -1,30 +1,47 @@
-TCH = gcc
-OPT = -Wall -Wextra -std=c11
-SRC = $(wildcard *.c)
-OBJ = $(SRC:.c=.o)
+TCH = g++
+OPT = -Wall -Wextra -std=c++17
+SRC = $(wildcard *.cpp)
+OBJ = $(SRC:.cpp=.o)
 TARGET = app
+
+
+# Detect OS
+ifeq ($(OS),Windows_NT)
+	CLEAN = del /Q /F
+	EXT = .exe
+else
+	CLEAN = rm -f
+	EXT =
+endif
+
 
 .PHONY: all clean
 
-all: $(TARGET)
 
-# Build object files
-%.o: %.c
+all: $(TARGET)$(EXT)
+
+
+# Compile source files to object files
+%.o: %.cpp
 	@$(TCH) $(OPT) -c $< -o $@
 
-# Preprocessed file
-%.i: %.c
+
+# Generate preprocessed files
+%.i: %.cpp
 	@$(TCH) $(OPT) -E $< -o $@
 
-# Assembly file
-%.s: %.c
+
+# Generate assembly files
+%.s: %.cpp
 	@$(TCH) $(OPT) -S $< -o $@
 
-# Link executable
-$(TARGET): $(OBJ)
-	@$(TCH) $(OBJ) -o $(TARGET)
-	@echo "Build complete: $(TARGET)"
+
+# Link object files into final executable
+$(TARGET)$(EXT): $(OBJ)
+	@$(TCH) $(OBJ) -o $(TARGET)$(EXT)
+	@echo Build complete: $(TARGET)$(EXT)
+
 
 clean:
-	@rm -f $(TARGET) *.o *.s *.i *.elf
-	@echo "Cleaned build files"
+	@$(CLEAN) $(TARGET)$(EXT) *.o *.s *.i *.elf 2>nul || true
+	@echo Cleaned build files

@@ -2,20 +2,17 @@
 #define __LIBRARY_H__
 
 
-#include <stdio.h>
+#include <iostream>
+#include <string>
+
+using namespace std;
+
 #if defined(_WIN32) || defined(_WIN64)
 #include <windows.h>
 #else
 #include <unistd.h>
 #include <time.h>
 #endif
-
-
-// #define BLACK_COLOR     0
-// #define RED_COLOR       1
-// #define GREEN_COLOR     2
-// #define BLUE_COLOR      4
-// #define WHITE_COLOR     7
 
 
 typedef enum {
@@ -26,16 +23,16 @@ typedef enum {
     WHITE_COLOR   =  7
 } Color_t;
 
+
 void clearScreen();
 void gotoxy(int x, int y);
 
 void setColor(Color_t color);
 void resetColor();
 
-void printMessage(char *msg);
-void printMsgWithColorInPosition(char *msg, Color_t color, int x, int y);
+void printMessage(const string& msg);
+void printMsgWithColorInPosition(const string& msg, Color_t color, int x, int y);
 
-void delay_ms(int ms);
 void delay_s(int sec);
 
 
