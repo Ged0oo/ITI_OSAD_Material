@@ -37,6 +37,21 @@ void clearScreen() {
 }
 
 
+#include <iostream>
+using namespace std;
+
+void hideCursor() {
+    cout << "\033[?25l";
+    cout.flush();
+}
+
+void showCursor() {
+    cout << "\033[?25h";
+    cout.flush();
+}
+
+
+
 void delay_s(int sec) {
 #if defined(_WIN32) || defined(_WIN64)
     Sleep(sec * 1000);

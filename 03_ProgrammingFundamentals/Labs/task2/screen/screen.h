@@ -33,6 +33,9 @@ void gotoxy(int x, int y);
 void setColor(Color_t color);
 void resetColor();
 
+void hideCursor();
+void showCursor();
+
 void printMessage(const string& msg);
 void printMsgWithColorInPosition(const string& msg, Color_t color, int x, int y);
 

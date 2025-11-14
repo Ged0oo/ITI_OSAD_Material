@@ -2,7 +2,7 @@ TCH = g++
 OPT = -Wall -Wextra -std=c++17
 
 # --- Directories ---
-SRC_DIRS := . keyboard screen
+SRC_DIRS := . keyboard screen application
 BUILD_DIR := build/Debug
 TARGET := app
 

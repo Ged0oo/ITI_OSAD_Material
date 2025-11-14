@@ -57,6 +57,7 @@ int decodeEscapeSequence() {
         int c4 = readChar();
         if (c4 == '~') return 1005; // HOME
     }
+
     if (c3 == '4') {
         int c4 = readChar();
         if (c4 == '~') return 1006; // END
@@ -67,10 +68,8 @@ int decodeEscapeSequence() {
 
 int getKey() {
     int ch = readChar();
-    if (ch != 27)
-        return ch;
-    else
-        return decodeEscapeSequence();
+    if (ch != 27) return ch;
+    else return decodeEscapeSequence();
 }
 
 void printDetectedKey() {
@@ -85,9 +84,7 @@ void printDetectedKey() {
         case 1004:  str = "Left"; break;
         case 1005:  str = "Home"; break;
         case 1006:  str = "End"; break;
-        default:
-            cout << "You pressed: " << (char)ch << " (" << ch << ")" << endl;
-            return;
+        default: return;
     }
 
     cout << "You pressed: " << str << endl;

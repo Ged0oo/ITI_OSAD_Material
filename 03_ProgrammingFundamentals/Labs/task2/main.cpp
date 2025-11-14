@@ -1,9 +1,7 @@
 #include "main.h"
 
 int main() {
-    atexit(restoreTerminal);
-    while (1) {
-        printDetectedKey();
-    }
+    init();
+    applicationLoop();
     return 0;
 }
