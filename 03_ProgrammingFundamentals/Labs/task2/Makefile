@@ -52,5 +52,5 @@ $(TARGET)$(EXT): $(OBJ)
 
 # --- Clean build ---
 clean:
-	@$(CLEAN) $(TARGET)$(EXT) $(BUILD_DIR)/*/*.o $(BUILD_DIR)/*/*.s $(BUILD_DIR)/*/*.i 2>nul || true
+	@$(CLEAN) $(TARGET)$(EXT) nul $(BUILD_DIR)/*/*.o $(BUILD_DIR)/*/*.s $(BUILD_DIR)/*/*.i 2>nul || true
 	@echo Cleaned build files
