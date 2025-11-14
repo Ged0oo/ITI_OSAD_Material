@@ -11,10 +11,14 @@
 #define NEW_POSITION         6
 #define DISPLAY_POSITION     NEW_POSITION + CURSER_STEP
 #define EXIT_POSITION        DISPLAY_POSITION + CURSER_STEP
+#define QUITE_POSITION       EXIT_POSITION + CURSER_STEP
+
 
 #define NEW_MESSAGE             "NEW"
 #define DISPLAY_MESSAGE         "DISPLAY"
 #define EXIT_MESSAGE            "EXIT"
+#define QUITE_MESSAGE           "QUITE"
+
 
 
 void init();

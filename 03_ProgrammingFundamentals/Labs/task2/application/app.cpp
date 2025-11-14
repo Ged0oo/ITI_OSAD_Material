@@ -1,6 +1,7 @@
 #include "app.h"
 
 bool selectFlag = false;
+bool quiteFlag = false;
 int curPos = NEW_POSITION;
 
 void init(){
@@ -16,6 +17,7 @@ void updateScreen(){
         printMsgWithColorInPosition(NEW_MESSAGE, WHITE_COLOR, Y_POSITION, NEW_POSITION);
         printMsgWithColorInPosition(DISPLAY_MESSAGE, WHITE_COLOR, Y_POSITION, DISPLAY_POSITION);
         printMsgWithColorInPosition(EXIT_MESSAGE, WHITE_COLOR, Y_POSITION, EXIT_POSITION);
+        printMsgWithColorInPosition(QUITE_MESSAGE, WHITE_COLOR, Y_POSITION, QUITE_POSITION);
     }
 }
 
@@ -28,7 +30,7 @@ void setCurserPosition(int position){
 
 void applicationLoop() {
     const int MIN_POS = NEW_POSITION;
-    const int MAX_POS = EXIT_POSITION;
+    const int MAX_POS = QUITE_POSITION;
     const int STEP = CURSER_STEP;
     const int ITEMS = (MAX_POS - MIN_POS) / STEP + 1;
 
@@ -36,6 +38,11 @@ void applicationLoop() {
     curPos = MIN_POS + idx * STEP;
 
     while (1) {
+        if(quiteFlag == true){
+            clearScreen();
+            return;
+        }
+        
         setCurserPosition(curPos);
         int ch = getKey();
 
@@ -81,6 +88,7 @@ void HandleUserSelection(int pos){
         case NEW_POSITION:      printMsgWithColorInPosition(NEW_MESSAGE, RED_COLOR, Y_POSITION, NEW_POSITION);           break;
         case DISPLAY_POSITION:  printMsgWithColorInPosition(DISPLAY_MESSAGE, GREEN_COLOR, Y_POSITION, DISPLAY_POSITION); break;
         case EXIT_POSITION:     printMsgWithColorInPosition(EXIT_MESSAGE, BLUE_COLOR, Y_POSITION, EXIT_POSITION);        break;
+        case QUITE_POSITION:    quiteFlag=true;  break;
     }
     printMsgWithColorInPosition("->", WHITE_COLOR, CURSER_POSITION, pos);
 }
