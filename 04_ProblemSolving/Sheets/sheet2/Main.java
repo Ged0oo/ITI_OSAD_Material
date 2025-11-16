@@ -82,6 +82,33 @@ public class Main {
         return head;
     }
     
+    static public boolean hasCycle(ListNode head) {      
+        ListNode slow = head, fast = head;
+      
+        while(fast != null && fast.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+            if(slow == fast) return true;
+        }
+
+        return false;
+    }
+    
+    
+    public List<List<Integer>> generate(int numRows) {
+        List<List<Integer>> ret = new ArrayList<>(numRows);
+        
+        for(int i=0 ; i<numRows ; i++){
+            List<Integer> row = new ArrayList<>(i + 1);
+            for (int j = 0; j <= i; j++) {
+                if (j == 0 || j == i) row.add(1);
+                else row.add(ret.get(i - 1).get(j - 1) + ret.get(i - 1).get(j));
+            }
+            ret.add(row);
+        }   
+
+        return ret;
+    }
     public static void main(String[] args) {
 
     }
