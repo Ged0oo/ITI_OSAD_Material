@@ -3,12 +3,21 @@
 int row = 0, col = 0, tableSize = 0, val = 1; 
 
 void init() {
-    cout << "Enter odd positive size integer : ";
-    cin >> tableSize;
+    do{
+        cout << "Enter odd positive size integer : ";
+        cin >> tableSize;
+
+        if(tableSize <= 0) cout << "Table Size Must be +ve" << endl;
+        else if(tableSize%2==0) cout << "Table Size Must be Odd" << endl;
+
+    } while ((tableSize <= 0) || (tableSize%2==0));
+    
+
     val = 1;
     row = 1;
     col = (tableSize + 1) / 2;
     clearScreen();
+    applicationLoop();
 }
 
 void applicationLoop() {
