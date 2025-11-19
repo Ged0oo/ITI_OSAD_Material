@@ -119,7 +119,7 @@ public class Main {
             else right = mid - 1;
         }
         return left;
-    }
+    }    
     
     public List<Integer> getRow(int rowIndex) {
         List<Integer> res = new ArrayList<>();
@@ -134,6 +134,55 @@ public class Main {
         }
         
         return res;
+    }
+    
+	static Map<Character, Integer> romanMap = new HashMap<>(Map.of(
+		'I', 1,
+		'V', 5,
+		'X', 10,
+		'L', 50,
+		'C', 100,
+		'D', 500,
+		'M', 1000
+	));
+
+	static public int romanToInt(String s) {
+		int sum = 0, cur = 0, prev = 0;
+		for(char ch : s.toCharArray()){
+			cur = romanMap.get(ch);
+			if(cur > prev) sum += cur - (2*prev);
+			else sum += cur;
+			prev = cur;
+		}
+		return sum;
+	}
+    
+    static public String longestCommonPrefix(String[] strs) {
+        if(strs == null || strs.length == 0) return "";
+
+		Arrays.sort(strs);
+		
+		String first = strs[0], last = strs[strs.length - 1];
+		
+		int i=0;
+		while (i<first.length() && i<last.length() && first.charAt(i) == last.charAt(i)) i++;
+
+		return first.substring(0, i);
+    }
+	
+	static public String addBinary(String a, String b) {
+		StringBuilder ret = new StringBuilder();
+		int l1 = a.length()-1, l2 = b.length()-1, carry = 0;
+
+		while(l1>=0 || l2>=0 || carry>0){
+			int sum = carry;
+			if(l1 >= 0) sum += a.charAt(l1--) - '0';
+			if(l2 >= 0) sum += b.charAt(l2--) - '0';
+			ret.insert(0, (sum%2));
+			carry = sum/2;
+		}
+
+		return ret.toString();
     }
     
     public static void main(String[] args) {
