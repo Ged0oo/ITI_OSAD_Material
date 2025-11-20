@@ -184,7 +184,56 @@ public class Main {
 
 		return ret.toString();
     }
+	
+	public int finalValueAfterOperations(String[] operations) {
+        int x = 0;
+        for(String op : operations){
+            if(op.charAt(1) == '+') x++;
+            else x--;
+        }
+        return x;
+    }
     
+    public int minimumMoves(String s) {
+        int i=0, move=0;
+
+        while(i < s.length()){
+            if(s.charAt(i) == 'X'){
+                i += 3;
+                move++;
+            }
+            else i++;
+        }
+
+        return move;
+    }
+	
+	static public boolean isPalindrome(int x) {
+        String num = String.valueOf(x);
+        return num.equals(new StringBuilder(num).reverse().toString());
+    }
+	
+	public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        ListNode temp = new ListNode(0);
+        ListNode current = temp;
+        int carry = 0;
+
+        while (l1 != null || l2 != null || carry > 0) {
+            int v1 = (l1 != null) ? l1.val : 0;
+            int v2 = (l2 != null) ? l2.val : 0;
+
+            int sum = v1 + v2 + carry;
+            carry = sum / 10;
+            current.next = new ListNode(sum % 10);
+            
+            current = current.next;
+            if (l1 != null) l1 = l1.next;
+            if (l2 != null) l2 = l2.next;
+        }
+
+        return temp.next;
+    }
+      
     public static void main(String[] args) {
 
     }
