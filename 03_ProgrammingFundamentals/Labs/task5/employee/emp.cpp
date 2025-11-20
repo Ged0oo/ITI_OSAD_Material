@@ -1,9 +1,5 @@
 #include "emp.h"
 
-#include <iostream>
-#include <fstream>
-#include <sstream>
-
 
 void EmployeeManager::addEmployee(const Employee& emp) {
     employees.push_back(emp);
