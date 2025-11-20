@@ -4,6 +4,8 @@
 
 #include <dirent.h>
 #include <vector>
+#include <limits>
+
 #include "../keyboard/keyboard.h"
 #include "../screen/screen.h"
 #include "../vi/vi.h"
@@ -27,5 +29,7 @@ void setCurserPosition(int position);
 void applicationLoop();
 void HandleUserSelection(int pos);
 void HandleNewFile();
+void HandleEndKeyAction();
+
 
 #endif

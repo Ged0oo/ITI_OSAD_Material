@@ -1,9 +1,11 @@
 #include "vi.h"
 
+
 string currentFilename = "";
 vector<string> buffer;
 int cursorX = 0;
 int cursorY = 0;
+
 
 void drawScreen(){
     clearScreen();
@@ -17,6 +19,7 @@ void drawScreen(){
     gotoxy(cursorX+1, cursorY+1);
     showCursor();
 }
+
 
 void moveCursor(int key){
     if(buffer.empty()) return;
@@ -50,6 +53,7 @@ void moveCursor(int key){
     }
 }
 
+
 void insertChar(char c){
     if(buffer.empty()) buffer.push_back("");
     if(cursorY >= (int)buffer.size()) cursorY = buffer.size() - 1;
@@ -57,6 +61,7 @@ void insertChar(char c){
     buffer[cursorY].insert(buffer[cursorY].begin() + cursorX, c);
     cursorX++;
 }
+
 
 void deleteChar(){
     if(buffer.empty() || cursorY >= (int)buffer.size()) return;
@@ -72,6 +77,7 @@ void deleteChar(){
         cursorY--;
     }
 }
+
 
 void editorLoop(const string& filename) {
     currentFilename = filename;
@@ -109,6 +115,7 @@ void editorLoop(const string& filename) {
     }
 }
 
+
 void loadFile(const string& filename){
     buffer.clear();
     ifstream file(filename);
@@ -122,11 +129,25 @@ void loadFile(const string& filename){
     if(buffer.empty()) buffer.push_back("");
 }
 
+
 void saveFile(const string& filename){
     ofstream file(filename);
 
     if(!file.is_open()){
         cerr << "Error: Could not save file " << filename << endl;
+        return;
+    }
+
+    for(const string &line : buffer) file << line << '\n';
+    file.close();
+}
+
+
+void appendFile(const string& filename){
+    ofstream file(filename, ios::app);
+
+    if(!file.is_open()){
+        cerr << "Error: Could not append to file " << filename << endl;
         return;
     }
 

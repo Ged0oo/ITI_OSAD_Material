@@ -33,6 +33,7 @@ void deleteChar();
 
 void loadFile(const string& filename);
 void saveFile(const string& filename);
+void appendFile(const string& filename);
 
 void handleCommandMode(int key);
 void handleInsertMode(int key);

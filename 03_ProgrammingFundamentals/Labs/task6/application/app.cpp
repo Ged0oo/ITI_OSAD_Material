@@ -1,6 +1,5 @@
 #include "app.h"
 
-
 bool selectFlag = false;
 bool quiteFlag = false;
 int curPos = NEW_POSITION;
@@ -59,7 +58,7 @@ void applicationLoop() {
                 selectFlag = false;
                 break;
 
-            case ESC_KEYBOARD_STROKE:
+            case ESC_KEYBOARD_STROKE:                
                 quiteFlag=true;
                 break;
 
@@ -118,8 +117,18 @@ void HandleNewFile(){
     
     loadFile(name);
     editorLoop(name);
-    saveFile(name);
-    
-    selectFlag = false;
-    updateScreen();
+
+    printMsgWithColorInPosition("Save(s) or Discard(d) : ", WHITE_COLOR, Y_POSITION, NEW_POSITION + 2*CURSER_STEP);
+
+    while (true) {
+        int ch = getKey();
+        if (ch == 'd' || ch == 'D') return;
+        else if (ch == 's' || ch == 'S') {
+            saveFile(name);
+            selectFlag = false;
+            updateScreen();
+            return;
+        } 
+        else continue;
+    }
 }
