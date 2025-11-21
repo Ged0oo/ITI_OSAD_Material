@@ -1,5 +1,6 @@
 #include "app.h"
 
+
 bool selectFlag = false;
 bool quiteFlag = false;
 int curPos = NEW_POSITION;
