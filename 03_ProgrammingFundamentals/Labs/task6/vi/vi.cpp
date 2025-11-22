@@ -2,16 +2,71 @@
 
 
 string currentFilename = "";
-vector<string> buffer;
+string *buffer = nullptr;
+
+int bufferLines = 0;
 int cursorX = 0;
 int cursorY = 0;
 
 
+static void clearBuffer() {
+    delete [] buffer;
+    buffer = nullptr;
+    bufferLines = 0;
+}
+
+
+static void pushLine(string line){
+    string *newBuf = new string[bufferLines + 1];
+    for(int i=0 ; i<bufferLines ; i++) newBuf[i] = buffer[i];
+    newBuf[bufferLines] = line;
+    delete [] buffer;
+    buffer = newBuf;
+    bufferLines++;
+}
+
+
+static void insertLine(int pos, string line){
+    if(pos < 0) pos = 0;
+    if(pos > bufferLines) pos = bufferLines;
+
+    string *newBuf = new string[bufferLines + 1];
+    for(int i=0 ; i<pos ; i++) newBuf[i] = buffer[i];
+
+    newBuf[pos] = line;
+    for(int i=pos ; i<bufferLines ; i++) newBuf[i] = buffer[i];
+
+    delete [] buffer;
+    buffer = newBuf;
+    bufferLines++;
+}
+
+
+static void deleteLineAt(int pos){
+    if (bufferLines <= 0) return;
+    if (pos < 0 || pos >= bufferLines) return;
+    if (bufferLines == 1) {
+        clearBuffer();
+        return;
+    }    
+
+    string *newBuf = new string[bufferLines - 1];
+    for(int i=0, j=0 ; i<bufferLines ; i++){
+        if(i == pos) continue;
+        newBuf[j++] = buffer[i++];
+    }
+
+    delete [] buffer;
+    buffer = newBuf;
+    bufferLines--;
+}
+
+
 void drawScreen(){
     clearScreen();
-    if(buffer.empty()) buffer.push_back("");
+    if(bufferLines == 0) pushLine("");
 
-    for(int i = 0; i < buffer.size(); ++i){
+    for(int i = 0; i < bufferLines ; i++){
         gotoxy(1, i + 1);
         cout << buffer[i];
     }
@@ -22,7 +77,7 @@ void drawScreen(){
 
 
 void moveCursor(int key){
-    if(buffer.empty()) return;
+    if(bufferLines == 0) return;
 
     switch (key) {
         case UP_KEYBOARD_STROKE:
@@ -31,7 +86,7 @@ void moveCursor(int key){
             break;
 
         case DOWN_KEYBOARD_STROKE:
-            if(cursorY + 1 < buffer.size()) cursorY++;
+            if(cursorY + 1 < bufferLines) cursorY++;
             if(cursorX > buffer[cursorY].size()) cursorX = buffer[cursorY].size();
             break;
 
@@ -45,7 +100,7 @@ void moveCursor(int key){
 
         case RIGHT_KEYBOARD_STROKE:
             if(cursorX < (int)buffer[cursorY].size()) cursorX++;
-            else if(cursorY + 1 < buffer.size()) {
+            else if(cursorY + 1 < bufferLines) {
                 cursorY++;
                 cursorX = 0;
             }
@@ -55,15 +110,15 @@ void moveCursor(int key){
 
 
 void insertChar(char c){
-    if(buffer.empty()) buffer.push_back("");
-    if(cursorY >= buffer.size()) cursorY = buffer.size() - 1;
+    if (bufferLines == 0) pushLine("");
+    if(cursorY >= bufferLines) cursorY = bufferLines - 1;
     buffer[cursorY].insert(buffer[cursorY].begin() + cursorX, c);
     cursorX++;
 }
 
 
 void deleteChar(){
-    if(buffer.empty() || cursorY >= buffer.size()) return;
+    if (bufferLines == 0 || cursorY >= bufferLines) return;
 
     if(cursorX > 0){
         buffer[cursorY].erase(buffer[cursorY].begin() + cursorX - 1);
@@ -72,17 +127,17 @@ void deleteChar(){
     else if (cursorY > 0) {
         cursorX = buffer[cursorY - 1].size();
         buffer[cursorY - 1] += buffer[cursorY];
-        buffer.erase(buffer.begin() + cursorY);
+        deleteLineAt(cursorY);
         cursorY--;
     }
 }
 
 
-void editorLoop(const string& filename) {
+void editorLoop(string filename) {
     cursorX = 0;
     cursorY = 0;
 
-    if(buffer.empty()) buffer.push_back("");
+    if (bufferLines == 0) pushLine("");
     drawScreen();
 
     while(true) {
@@ -92,7 +147,7 @@ void editorLoop(const string& filename) {
         else if(key == ENTER_KEYBOARD_STROKE) {
             string newLine = buffer[cursorY].substr(cursorX);
             buffer[cursorY] = buffer[cursorY].substr(0, cursorX);
-            buffer.insert(buffer.begin() + cursorY + 1, newLine);
+            insertLine(cursorY + 1, newLine);
             cursorY++;
             cursorX = 0;
         }
@@ -114,21 +169,21 @@ void editorLoop(const string& filename) {
 }
 
 
-void loadFile(const string& filename){
-    buffer.clear();
+void loadFile(string filename){
+    clearBuffer();
     ifstream file(filename);
 
     if(file.is_open()){
         string line;
-        while (getline(file, line)) buffer.push_back(line);
+        while (getline(file, line)) pushLine(line);
         file.close();
     }
 
-    if(buffer.empty()) buffer.push_back("");
+    if(bufferLines) pushLine("");
 }
 
 
-void saveFile(const string& filename){
+void saveFile(string filename){
     ofstream file(filename);
 
     if(!file.is_open()){
@@ -136,12 +191,12 @@ void saveFile(const string& filename){
         return;
     }
 
-    for(const string &line : buffer) file << line << '\n';
+    for(int i = 0; i < bufferLines; ++i) file << buffer[i] << '\n';
     file.close();
 }
 
 
-void appendFile(const string& filename){
+void appendFile(string filename){
     ofstream file(filename, ios::app);
 
     if(!file.is_open()){
@@ -149,6 +204,6 @@ void appendFile(const string& filename){
         return;
     }
 
-    for(const string &line : buffer) file << line << '\n';
+    for(int i = 0; i < bufferLines; ++i) file << buffer[i] << '\n';
     file.close();
 }

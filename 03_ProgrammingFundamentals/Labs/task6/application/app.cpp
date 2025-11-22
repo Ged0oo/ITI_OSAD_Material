@@ -17,7 +17,8 @@ void init(){
 void updateScreen(){
     if(selectFlag == false){
         clearScreen();
-        printMsgWithColorInPosition(NEW_MESSAGE, WHITE_COLOR, Y_POSITION, NEW_POSITION);
+        printMsgWithColorInPosition(NEW_MESSAGE,  WHITE_COLOR, Y_POSITION, NEW_POSITION);
+        printMsgWithColorInPosition(OPEN_MESSAGE, WHITE_COLOR, Y_POSITION, OPEN_POSITION);
         printMsgWithColorInPosition(EXIT_MESSAGE, WHITE_COLOR, Y_POSITION, EXIT_POSITION);
     }
 }
@@ -97,6 +98,10 @@ void HandleUserSelection(int pos){
             HandleNewFile();      
             break;
 
+        case OPEN_POSITION:
+            HandleOpenFile();      
+            break;
+
         case EXIT_POSITION:     
             printMsgWithColorInPosition(EXIT_MESSAGE, BLUE_COLOR, Y_POSITION, EXIT_POSITION);    
             delay_s(1);  
@@ -114,7 +119,6 @@ void HandleNewFile(){
     printMsgWithColorInPosition("Enter File Name : ", WHITE_COLOR, Y_POSITION, NEW_POSITION+CURSER_STEP);
     string name; 
     cin >> name;
-    name += ".vi";
     
     loadFile(name);
     editorLoop(name);
@@ -132,4 +136,26 @@ void HandleNewFile(){
         } 
         else continue;
     }
+}
+
+
+void HandleOpenFile(){
+    clearScreen();
+    printMsgWithColorInPosition(OPEN_MESSAGE, BLUE_COLOR, Y_POSITION, OPEN_POSITION);  
+    
+    printMsgWithColorInPosition("Enter File Name : ", WHITE_COLOR, Y_POSITION, OPEN_POSITION+CURSER_STEP);
+    showCursor();
+    
+    string name;
+    getline(cin, name);
+    hideCursor();
+    
+    loadFile(name);
+    drawScreen();
+
+    printMsgWithColorInPosition("Press any key to continue...", WHITE_COLOR, Y_POSITION + 5, OPEN_POSITION);
+    getKey();
+    
+    selectFlag = false;
+    updateScreen();
 }

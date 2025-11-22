@@ -24,16 +24,16 @@ typedef enum {
 extern string currentFilename;
 
 
-void editorLoop(const string& filename);
+void editorLoop(string filename);
 void drawScreen();
 
 void moveCursor(int key);
 void insertChar(char c);
 void deleteChar();
 
-void loadFile(const string& filename);
-void saveFile(const string& filename);
-void appendFile(const string& filename);
+void loadFile(string filename);
+void saveFile(string filename);
+void appendFile(string filename);
 
 void handleCommandMode(int key);
 void handleInsertMode(int key);

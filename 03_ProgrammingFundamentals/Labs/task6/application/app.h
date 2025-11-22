@@ -16,10 +16,12 @@
 #define CURSER_STEP          2
 
 #define NEW_POSITION         6
-#define EXIT_POSITION        NEW_POSITION + CURSER_STEP
+#define OPEN_POSITION        NEW_POSITION + CURSER_STEP
+#define EXIT_POSITION        OPEN_POSITION + CURSER_STEP
 
 
 #define NEW_MESSAGE             "Touch New File"
+#define OPEN_MESSAGE            "Open File"
 #define EXIT_MESSAGE            "EXIT"
 
 
@@ -30,6 +32,6 @@ void applicationLoop();
 void HandleUserSelection(int pos);
 void HandleNewFile();
 void HandleEndKeyAction();
-
+void HandleOpenFile();
 
 #endif
