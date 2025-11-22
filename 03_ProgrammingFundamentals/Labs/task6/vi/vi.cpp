@@ -11,8 +11,8 @@ void drawScreen(){
     clearScreen();
     if(buffer.empty()) buffer.push_back("");
 
-    for(size_t i = 0; i < buffer.size(); ++i){
-        gotoxy(1, int(i) + 1);
+    for(int i = 0; i < buffer.size(); ++i){
+        gotoxy(1, i + 1);
         cout << buffer[i];
     }
 
@@ -27,17 +27,17 @@ void moveCursor(int key){
     switch (key) {
         case UP_KEYBOARD_STROKE:
             if(cursorY > 0) cursorY--;
-            if(cursorX > (int)buffer[cursorY].size()) cursorX = buffer[cursorY].size();
+            if(cursorX > buffer[cursorY].size()) cursorX = buffer[cursorY].size();
             break;
 
         case DOWN_KEYBOARD_STROKE:
-            if(cursorY + 1 < (int)buffer.size()) cursorY++;
-            if(cursorX > (int)buffer[cursorY].size()) cursorX = buffer[cursorY].size();
+            if(cursorY + 1 < buffer.size()) cursorY++;
+            if(cursorX > buffer[cursorY].size()) cursorX = buffer[cursorY].size();
             break;
 
         case LEFT_KEYBOARD_STROKE:
             if(cursorX > 0) cursorX--;
-            else if(cursorY > 0) { // move to end of previous line
+            else if(cursorY > 0) {
                 cursorY--;
                 cursorX = buffer[cursorY].size();
             }
@@ -45,7 +45,7 @@ void moveCursor(int key){
 
         case RIGHT_KEYBOARD_STROKE:
             if(cursorX < (int)buffer[cursorY].size()) cursorX++;
-            else if(cursorY + 1 < (int)buffer.size()) { // move to start of next line
+            else if(cursorY + 1 < buffer.size()) {
                 cursorY++;
                 cursorX = 0;
             }
@@ -56,15 +56,14 @@ void moveCursor(int key){
 
 void insertChar(char c){
     if(buffer.empty()) buffer.push_back("");
-    if(cursorY >= (int)buffer.size()) cursorY = buffer.size() - 1;
-
+    if(cursorY >= buffer.size()) cursorY = buffer.size() - 1;
     buffer[cursorY].insert(buffer[cursorY].begin() + cursorX, c);
     cursorX++;
 }
 
 
 void deleteChar(){
-    if(buffer.empty() || cursorY >= (int)buffer.size()) return;
+    if(buffer.empty() || cursorY >= buffer.size()) return;
 
     if(cursorX > 0){
         buffer[cursorY].erase(buffer[cursorY].begin() + cursorX - 1);
@@ -80,7 +79,6 @@ void deleteChar(){
 
 
 void editorLoop(const string& filename) {
-    currentFilename = filename;
     cursorX = 0;
     cursorY = 0;
 
@@ -107,7 +105,7 @@ void editorLoop(const string& filename) {
                 key == RIGHT_KEYBOARD_STROKE) {
             moveCursor(key);
         }
-        else if(key >= 32 && key <= 126) {
+        else if(key >= SPACE_KEY_ASCII && key < DELETE_KEY_ASCII) {
             insertChar((char)key);
         }
 

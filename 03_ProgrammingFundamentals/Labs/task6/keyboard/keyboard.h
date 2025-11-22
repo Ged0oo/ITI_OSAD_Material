@@ -35,6 +35,9 @@ extern termios originalTerminal;
 #define ENTER_KEYBOARD_STROKE      1007
 #define BACKSPACE_KEYBOARD_STROKE  1008
 
+#define SPACE_KEY_ASCII        32
+#define DELETE_KEY_ASCII          127
+
 
 int getKey();
 int decodeEscapeSequence();
