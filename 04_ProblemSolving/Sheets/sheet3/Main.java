@@ -29,7 +29,69 @@ public class Main {
         Arrays.sort(str2);
         return Arrays.equals(str1, str2);
     }
-   
+	
+    public int missingNumber(int[] nums) {
+        int n = nums.length, ans = 0;
+        for (int i = 1; i <= n; i++) ans ^= i;
+        for (int i = 0; i < nums.length; i++) ans ^= nums[i];
+        return ans;
+    }
+	
+    static public char findTheDifference(String s, String t) {
+        int xor = 0;
+        for (char c : s.toCharArray()) xor ^= c;
+        for (char c : t.toCharArray()) xor ^= c;
+        return (char) xor;
+    }
+	
+    static public int arrayPairSum(int[] nums) {
+        int sum = 0;
+        Arrays.sort(nums);
+        for(int i=0 ; i<nums.length ; i+= 2) sum += nums[i];
+        return sum;
+    }
+	
+	static public int[] intersection(int[] nums1, int[] nums2) {
+        HashSet<Integer> set = new HashSet<>();
+        for (int n : nums1) set.add(n);
+
+        return Arrays.stream(nums2)
+                    .filter(set::contains)
+                    .distinct()
+                    .toArray();
+    }
+
+    public int[] smallerNumbersThanCurrent(int[] nums) {
+        TreeMap<Integer, Integer> map = new TreeMap<>();
+        for(int num : nums) map.put(num, map.getOrDefault(num, 0) + 1);
+
+        int pref = 0;
+        Map<Integer, Integer> st = new HashMap<>();
+        for(Map.Entry<Integer, Integer> entry : map.entrySet()){
+            st.put(entry.getKey(), pref);
+            pref += entry.getValue();
+        }
+
+        int[] ret = new int[nums.length];
+        for(int i=0 ; i<nums.length ; i++){
+            ret[i] = st.get(nums[i]);
+        }
+
+        return ret;
+    }
+	
+	public int findKthLargest(int[] nums, int k) {
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+        for (int num : nums) {
+            if (minHeap.size() < k) minHeap.add(num);
+            else if (num > minHeap.peek()) {
+                minHeap.poll();
+                minHeap.add(num);
+            }
+        }
+        return minHeap.peek();
+    }
+	
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 		sc.close();
