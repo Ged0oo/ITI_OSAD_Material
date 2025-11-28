@@ -11,13 +11,20 @@ int main(void){
         getline(cin, input);
 
         if (input == "exit") break;
-        
+
         basetype *obj = detectType(input);
         myList.add(obj);
     }
 
     cout << "\nFinal List:\n";
     printListContent(myList);
+
+    List lst;
+    lst.add(3);
+    lst.add("Nagy");
+    lst.add(4.5f);
+    lst.add('B');
+    printListContent(lst);
 
     return 0;
 }

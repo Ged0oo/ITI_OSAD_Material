@@ -18,6 +18,11 @@ public:
     ~List();
 
     void add(basetype *obj);
+    void add(int v);
+    void add(float v);
+    void add(char v);
+    void add(const string& v);
+    void add(const char* v);
     basetype* get(int idx);
 
     int getSize();

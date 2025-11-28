@@ -40,6 +40,12 @@ void List::add(basetype *obj) {
     }
 }
 
+void List::add(int v) { add(new Integer(v)); }
+void List::add(float v) { add(new Float(v)); }
+void List::add(char v) { add(new Character(v)); }
+void List::add(const string& v) { add(new String(v)); }
+void List::add(const char* v) { add(new String(string(v))); }
+
 
 basetype* List::get(int idx) {
     if(idx >= 0 && idx < size) return data[idx];

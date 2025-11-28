@@ -1,5 +1,5 @@
 TCH = g++
-OPT = -Wall -Wextra -std=c++17
+OPT = -std=c++17
 
 # --- Directories ---
 SRC_DIRS := . BaseType List
