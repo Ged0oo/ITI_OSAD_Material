@@ -40,10 +40,14 @@ void List::add(basetype *obj) {
     }
 }
 
+void List::add(string v){
+    basetype *obj = detectType(v);
+    this->add(obj);
+}   
+
 void List::add(int v) { add(new Integer(v)); }
 void List::add(float v) { add(new Float(v)); }
 void List::add(char v) { add(new Character(v)); }
-void List::add(const string& v) { add(new String(v)); }
 void List::add(const char* v) { add(new String(string(v))); }
 
 

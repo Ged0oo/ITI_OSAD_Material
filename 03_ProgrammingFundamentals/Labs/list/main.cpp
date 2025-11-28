@@ -9,11 +9,8 @@ int main(void){
     while(1){
         cout << "\nInput: ";
         getline(cin, input);
-
         if (input == "exit") break;
-
-        basetype *obj = detectType(input);
-        myList.add(obj);
+        myList.add(input);
     }
 
     cout << "\nFinal List:\n";
