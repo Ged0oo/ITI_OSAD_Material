@@ -33,7 +33,7 @@ array.
 
 ------------------------------------------------------------------------
 
-## 📂 Project Structure
+## Project Structure
 
     Project/
     │
