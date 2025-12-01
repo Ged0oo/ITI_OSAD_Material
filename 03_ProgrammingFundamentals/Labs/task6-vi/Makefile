@@ -2,7 +2,7 @@ TCH = g++
 OPT = -Wall -Wextra -std=c++17
 
 # --- Directories ---
-SRC_DIRS := . circle line picture point rect shape
+SRC_DIRS := . keyboard screen application vi
 BUILD_DIR := build/Debug
 TARGET := app
 
@@ -12,7 +12,7 @@ OBJ := $(patsubst %.cpp,$(BUILD_DIR)/%.o,$(SRC))
 ASM := $(patsubst %.cpp,$(BUILD_DIR)/%.s,$(SRC))
 PRE := $(patsubst %.cpp,$(BUILD_DIR)/%.i,$(SRC))
 
-# --- OS Detection ---
+# --- OS Detection --- 
 ifeq ($(OS),Windows_NT)
 	CLEAN = del /Q /F
 	EXT = .exe

@@ -13,4 +13,4 @@ void str_toupper(char str[]);
 
 int str_concat(char str1[], char str2[], int str1Size);
 
-#endif
+#endif 

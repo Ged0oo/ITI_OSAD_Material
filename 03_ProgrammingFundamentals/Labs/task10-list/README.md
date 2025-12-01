@@ -5,7 +5,7 @@ in C++ **without using STL containers**.\
 It stores objects of multiple derived types (`Integer`, `Float`,
 `Character`, `String`) using runtime polymorphism and a custom dynamic
 array.
-
+ 
 ------------------------------------------------------------------------
 
 ## Features

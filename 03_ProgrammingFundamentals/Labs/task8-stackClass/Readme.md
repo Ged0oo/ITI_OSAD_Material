@@ -4,7 +4,7 @@ This project provides a simple stack implementation in C++ **without using STL c
 It demonstrates manual dynamic memory management, boundary checking, and stack operations.
 
 ---
-
+ 
 ## Features
 
 - Push elements onto the stack  
