@@ -2,14 +2,16 @@
 #define PICTURE_H
 
 #include "../shape/shape.h"
+#include <vector>
 
 class Picture {
 private:
-    Shape* arr[10];
-    int count;
+    std::vector<Shape *> shapes;
+
 public:
-    Picture();
+    Picture(){};
     ~Picture();
+
     void addShape(Shape* sh);
     void paint();
 };

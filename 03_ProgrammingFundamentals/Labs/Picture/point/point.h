@@ -10,7 +10,7 @@ private:
 public:
     Point();
     Point(int x,int y);
-    void print_point() const;
+    void print_point();
 };
 
 #endif

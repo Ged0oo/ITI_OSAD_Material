@@ -1,6 +1,4 @@
 #include "circle.h"
-#include <iostream>
-using namespace std;
 
 Circle::Circle() : radius(0) {}
 

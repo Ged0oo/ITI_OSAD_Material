@@ -4,6 +4,9 @@
 #include "../shape/shape.h"
 #include "../point/point.h"
 
+#include <iostream>
+using namespace std;
+
 class Circle : public Shape {
 private:
     Point centre;

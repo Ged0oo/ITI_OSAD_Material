@@ -7,6 +7,6 @@ Point::Point(int x,int y){
     this->y = y;
 }
 
-void Point::print_point() const {
+void Point::print_point() {
     cout << "(" << x << ", " << y << ")";
 }
