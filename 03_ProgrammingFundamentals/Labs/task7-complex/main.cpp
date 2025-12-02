@@ -1,124 +1,79 @@
+#include <iostream>
 #include "./complex/complex.h"
-
-void printHeader(string title) {
-    cout << "\n================ " << title << " ================\n";
-}
+using namespace std;
 
 int main() {
 
+    cout << "=== Constructors ===\n";
+    Complex c1(3, 4);
+    Complex c2(1, 2);
+    Complex c3 = c1; // Copy constructor
+    Complex c4 = std::move(c2); // Move constructor
+    cout << "c1 = " << c1 << "\n";
+    cout << "c3 (copy of c1) = " << c3 << "\n";
+    cout << "c4 (moved from c2) = " << c4 << "\n\n";
 
-    // 1. Default Constructor
-    printHeader("Default Constructor");
-    Complex c1;
-    cout << "c1 = " << c1 << endl;
+    cout << "=== Copy & Move Assignment ===\n";
+    Complex a(10, 20);
+    Complex b(5, 5);
+    b = a; // Copy assignment
+    cout << "b (after copy assign from a) = " << b << "\n";
 
+    Complex m(99, 99);
+    Complex n(11, 11);
+    n = std::move(m); // Move assignment
+    cout << "n (after move assign from m) = " << n << "\n\n";
 
-    // 2. Parameterized Constructor
-    printHeader("Parameterized Constructor");
-    Complex c2(3, 4);
-    cout << "c2 = " << c2 << endl;
+    cout << "=== Arithmetic Operators ===\n";
+    Complex add1 = c1 + 5;
+    Complex add2 = 5 + c1;
+    Complex add3 = c1 + c3;
+    Complex sub = c1 - c3;
+    Complex mul = c1 * c3;
+    Complex div = c1 / Complex(1, 1);
 
+    cout << "c1 + 5 = " << add1 << "\n";
+    cout << "5 + c1 = " << add2 << "\n";
+    cout << "c1 + c3 = " << add3 << "\n";
+    cout << "c1 - c3 = " << sub << "\n";
+    cout << "c1 * c3 = " << mul << "\n";
+    cout << "c1 / (1+i) = " << div << "\n\n";
 
-    // 3. Copy Constructor
-    printHeader("Copy Constructor");
-    Complex c3(c2);
-    cout << "c3 (copy of c2) = " << c3 << endl;
+    cout << "=== Comparison Operators ===\n";
+    cout << "c1 == c3 ? " << (c1 == c3) << "\n";
+    cout << "c1 != c3 ? " << (c1 != c3) << "\n\n";
 
+    cout << "=== [] Operator ===\n";
+    cout << "c1[0] (real) = " << c1[0] << "\n";
+    cout << "c1[1] (imag) = " << c1[1] << "\n";
+    c1[0] = 100;
+    c1[1] = 200;
+    cout << "After modification c1 = " << c1 << "\n\n";
 
-    // 4. Move Constructor
-    printHeader("Move Constructor");
-    Complex temp(10, 20);
-    Complex c4(move(temp));
-    cout << "c4 (moved from temp) = " << c4 << endl;
+    cout << "=== Increment/Decrement ===\n";
+    Complex x(10, 5);
 
+    cout << "Original x = " << x << "\n";
+    cout << "Prefix ++x = " << ++x << "\n"; 
+    cout << "Prefix --x = " << --x << "\n";
+    cout << "Postfix x++ returns = " << (x++) << "\n";
+    cout << "After x++ now = " << x << "\n";
+    cout << "Postfix x-- returns = " << (x--) << "\n";
+    cout << "After x-- now = " << x << "\n\n";
 
-    // 5. Setters & Getters
-    printHeader("Setters & Getters");
-    c4.setReal(99);
-    c4.setImag(77);
-    cout << "c4 = " << c4 << endl;
-    cout << "Real: " << c4.getReal() << endl;
-    cout << "Imag: " << c4.getImag() << endl;
+    cout << "=== Casting Operators ===\n";
+    Complex z(3, 4); // magnitude = 5
 
+    double d = (double)z;
+    int i = (int)z;
+    bool b1 = (bool)z;
+    Complex zero(0, 0);
+    bool b2 = (bool)zero;
 
-    // 6. Assignment Operator (copy)
-    printHeader("Copy Assignment");
-    Complex c5;
-    c5 = c2;
-    cout << "c5 = " << c5 << endl;
-
-
-    // 7. Assignment Operator (move)
-    printHeader("Move Assignment");
-    Complex temp2(50, 60);
-    Complex c6;
-    c6 = move(temp2);
-    cout << "c6 = " << c6 << endl;
-
-
-    // 8. Operator + (Complex + Complex)
-    printHeader("Addition Operator (Complex + Complex)");
-    Complex c7 = c2 + c3;
-    cout << c2 << " + " << c3 << " = " << c7 << endl;
-
-    // 9. Operator + (Complex + int)
-    printHeader("Complex + int");
-    Complex c9 = c2 + 5;
-    cout << c2 << " + 5 = " << c9 << endl;
-
-    // 10. Operator + (int + Complex)
-    printHeader("int + Complex");
-    Complex c10 = 10 + c2;
-    cout << "10 + " << c2 << " = " << c10 << endl;
-
-    // 11. Operator -
-    printHeader("Subtraction Operator");
-    Complex c11 = c2 - c3;
-    cout << c2 << " - " << c3 << " = " << c11 << endl;
-
-
-    // 12. Operator *
-    printHeader("Multiplication Operator");
-    Complex c12 = c2 * c3;
-    cout << c2 << " * " << c3 << " = " << c12 << endl;
-
-
-    // 13. Operator /
-    printHeader("Division Operator");
-    Complex c13 = c2 / Complex(1, 1);
-    cout << c2 << " / (1 + i) = " << c13 << endl;
-
-
-    // 14. Operator ==
-    printHeader("Equality Operator");
-    Complex c14(3, 4);
-    cout << c2 << " == " << c14 << " ? " << (c2 == c14) << endl;
-
-
-    // 15. Operator !=
-    printHeader("Inequality Operator");
-    cout << c2 << " != " << c3 << " ? " << (c2 != c3) << endl;
-
-
-    // 16. stream operator <<
-    printHeader("Output Operator <<");
-    cout << "c2 = " << c2 << endl;
-
-
-    // 17. Magnitude
-    printHeader("Magnitude");
-    cout << "|c2| = " << c2.getMagnitude() << endl;
-
-
-    // 18. Angle in degrees
-    printHeader("Angle (Degrees)");
-    cout << "Angle(c2) = " << c2.getAngle() << " degrees" << endl;
-
-
-    // 19. displayComplex() check
-    printHeader("Display Complex");
-    c2.displayComplex();
-
+    cout << "double(z) = " << d << "\n";
+    cout << "int(z) = " << i << "\n";
+    cout << "bool(z) = " << b1 << "\n";
+    cout << "bool(zero) = " << b2 << "\n";
 
     return 0;
 }

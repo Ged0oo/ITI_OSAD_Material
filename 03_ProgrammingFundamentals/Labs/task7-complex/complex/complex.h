@@ -41,17 +41,30 @@ public:
     // Operator Overloading
     Complex& operator=(const Complex& c);
     Complex& operator=(Complex&& c);
+
     Complex operator+(int realVal);
     friend Complex operator+(int realVal, const Complex& c);
     Complex operator+(const Complex& c);
     Complex operator-(const Complex& c);
-    Complex operator*(const Complex& c);
+    Complex operator*(const Complex& c);    
     Complex operator/(const Complex& c);
+
+    int& operator[](int idx);
+
+    Complex operator++();
+    Complex operator--();
+
+    Complex& operator++(int x);
+    Complex& operator--(int x);
+
+    explicit operator double(); 
+    explicit operator int();    
+    operator bool();            
+
     bool operator==(const Complex& c);
     bool operator!=(const Complex& c);
     friend ostream& operator<<(ostream& os, const Complex& c);
 
-    // Utilities
     void displayComplex();
     double getMagnitude();
     double getAngle();

@@ -105,3 +105,44 @@ double Complex::getAngle() {
     double rad = atan2(imag, real);
     return rad * (180.0 / M_PI);
 }
+
+int& Complex::operator[](int idx){
+    if(idx == 0) return real;
+    else if(idx == 1) return imag;
+}
+
+Complex Complex::operator++(){
+    Complex temp(*this);
+    this->real += 1;
+    this->imag += 1;
+    return temp;
+}
+
+Complex Complex::operator--(){
+    Complex temp(*this);
+    this->real -= 1;
+    this->imag -= 1;
+    return temp;
+}
+
+Complex& Complex::operator++(int x){
+    ++real;
+    ++imag;
+    return *this;
+}
+
+Complex& Complex::operator--(int x){
+    --real;
+    --imag;
+    return *this;
+}
+
+Complex::operator double() { return (double)real; }
+
+Complex::operator int() {
+    return real;
+}
+
+Complex::operator bool() {
+    return !(real == 0 && imag == 0);
+}
