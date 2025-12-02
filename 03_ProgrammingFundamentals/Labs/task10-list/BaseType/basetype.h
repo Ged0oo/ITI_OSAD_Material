@@ -60,6 +60,17 @@ public:
 };
 
 
+class Boolean : public basetype{
+private:
+    bool val;
+
+public:
+    Boolean(bool val);
+    void print() override {cout << val;}
+    string getType() override {return "bool";}
+};
+
+
 basetype* detectType(const string& input);
 
 #endif

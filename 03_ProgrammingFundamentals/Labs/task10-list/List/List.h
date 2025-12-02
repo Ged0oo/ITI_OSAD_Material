@@ -21,6 +21,7 @@ public:
     void add(int v);
     void add(float v);
     void add(char v);
+    void add(bool v);
     void add(const char* v);
     void add(string v);
 

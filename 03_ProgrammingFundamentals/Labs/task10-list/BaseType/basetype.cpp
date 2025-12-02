@@ -5,6 +5,7 @@ Integer::Integer(int v) : val(v) {}
 Float::Float(float v) : val(v) {}
 Character::Character(char v) : val(v) {}
 String::String(string v) : val(v) {}
+Boolean::Boolean(bool v) : val(v) {}
 
 
 basetype* detectType(const string& input){
@@ -30,9 +31,9 @@ basetype* detectType(const string& input){
     } catch(...) {isFloat = false;}
     if(isFloat) {return new Float(floatVal);}
 
+    if(input == "true") {return new Boolean(true);}
+    else if(input == "false") {return new Boolean(false);}
 
     if(input.length() == 1) {return new Character(input[0]);}
-    
-
     return new String(input);
 }

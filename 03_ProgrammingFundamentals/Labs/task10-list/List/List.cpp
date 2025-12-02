@@ -47,6 +47,7 @@ void List::add(string v){
 
 void List::add(int v) { add(new Integer(v)); }
 void List::add(float v) { add(new Float(v)); }
+void List::add(bool v) { add(new Boolean(v)); }
 void List::add(char v) { add(new Character(v)); }
 void List::add(const char* v) { add(new String(string(v))); }
 
