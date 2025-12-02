@@ -11,7 +11,7 @@ int main(){
     Rect r(4, 5);
     cout << "Rect = " << r.calculateArea() << endl;
 
-    Square s(6);
+    Square s(6);    
     cout << "Square = " << s.calculateArea() << endl;
 
     Triangle t(10, 4);

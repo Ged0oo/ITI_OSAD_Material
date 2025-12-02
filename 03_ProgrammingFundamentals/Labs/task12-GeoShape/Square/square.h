@@ -3,7 +3,7 @@
 
 #include "../Rect/rect.h"
 
-class Square : public Rect {
+class Square : private Rect {
 public:
     Square(float s) : Rect(s, s) {}
 
