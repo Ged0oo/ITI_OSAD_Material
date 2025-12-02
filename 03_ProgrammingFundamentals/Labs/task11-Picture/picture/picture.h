@@ -2,14 +2,17 @@
 #define PICTURE_H
 
 #include "../shape/shape.h"
-#include <vector>
+#include <iostream>
 
 class Picture {
 private:
-    std::vector<Shape *> shapes;
+    Shape** shapes;
+    int count;
+    int capacity;
+    void resize();
 
 public:
-    Picture(){};
+    Picture();
     ~Picture();
 
     void addShape(Shape* sh);
