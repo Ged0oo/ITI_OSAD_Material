@@ -73,4 +73,6 @@ public:
 
 basetype* detectType(const string& input);
 
+ostream& operator<<(ostream& os, basetype& b);
+
 #endif

@@ -69,3 +69,9 @@ void printListContent(List& myList){
         cout << endl;
     }
 }
+
+
+basetype& List::operator[](int idx){
+    if(idx >= 0 && idx < size) return *data[idx];
+    throw out_of_range("Index out of range");
+}

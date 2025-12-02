@@ -37,3 +37,10 @@ basetype* detectType(const string& input){
     if(input.length() == 1) {return new Character(input[0]);}
     return new String(input);
 }
+
+
+
+ostream& operator<<(ostream& os, basetype& b) {
+    b.print();
+    return os;
+}

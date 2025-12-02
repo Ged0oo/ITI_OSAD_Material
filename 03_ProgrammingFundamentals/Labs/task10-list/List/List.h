@@ -26,6 +26,7 @@ public:
     void add(string v);
 
     basetype* get(int idx);
+    basetype& operator[](int idx);
 
     int getSize();
     int getCap();
