@@ -9,11 +9,17 @@ class Stack_c {
 private:
     T* st;
     int top;
-    int capacity;
+    int size;
 
 public:
     Stack_c(int size = 8);
     ~Stack_c();
+
+    Stack_c(const Stack_c<T>& other_st);
+    Stack_c(Stack_c<T>&& other_st);
+    
+    Stack_c<T>& operator=(const Stack_c<T>& other_st);
+    Stack_c<T>& operator=(Stack_c<T>&& other_st);
 
     bool isEmpty();
     bool isFull();

@@ -3,68 +3,63 @@
 using namespace std;
 
 int main() {
-    cout << "===== STACK TESTING =====\n\n";
 
-
+    cout << "\n===== TEST 1: BASIC PUSH & PRINT =====\n";
     Stack_c<int> st(3);
-
-
-    // Test 1: print empty
-    cout << "[Test] Print empty stack:\n";
-    st.print();
-    cout << "\n";
-
-
-    // Test 2: pop empty (underflow)
-    cout << "[Test] Pop from empty stack:\n";
-    st.pop();
-    cout << "\n";
-
-
-    // Test 3: peek empty
-    cout << "[Test] Peek from empty stack:\n";
-    st.peek();
-    cout << "\n";
-
-
-    // Test 4: push normally
-    cout << "[Test] Push elements 10, 20, 30:\n";
     st.push(10);
     st.push(20);
     st.push(30);
     st.print();
-    cout << "\n";
 
 
-    // Test 5: push overflow
-    cout << "[Test] Push overflow (push 40):\n";
-    st.push(40); // capacity is 3
-    cout << "\n";
+    cout << "\n===== TEST 2: COPY CONSTRUCTOR =====\n";
+    Stack_c<int> copySt(st);
+    copySt.print();
 
 
-    // Test 6: peek top element
-    cout << "[Test] Peek top element:\n";
-    cout << "Top = " << st.peek() << endl << "\n";
+    cout << "\n===== TEST 3: COPY ASSIGNMENT =====\n";
+    Stack_c<int> assignedSt;
+    assignedSt = st;
+    assignedSt.print();
 
 
-    // Test 7: pop element & print after each
-    cout << "[Test] Pop all elements:\n";
-    cout << "Popped: " << st.pop() << endl;
-    st.print();
+    cout << "\n===== TEST 4: MOVE CONSTRUCTOR =====\n";
+    Stack_c<int> moveCtorSt(Stack_c<int>(5));
+    moveCtorSt.push(111);
+    moveCtorSt.push(222);
+    moveCtorSt.print();
 
-    cout << "Popped: " << st.pop() << endl;
-    st.print();
 
-    cout << "Popped: " << st.pop() << endl;
-    st.print();
+    cout << "\n===== TEST 5: MOVE ASSIGNMENT =====\n";
+    Stack_c<int> moveAssignSt;
+    moveAssignSt = Stack_c<int>(4);
+    moveAssignSt.push(7);
+    moveAssignSt.push(9);
+    moveAssignSt.print();
 
-    
-    // Test 8: pop underflow again
-    cout << "\n[Test] Pop underflow again:\n";
-    st.pop();
-    cout << "\n";
 
-    cout << "===== END OF TESTS =====\n";
+    cout << "\n===== TEST 6: SELF COPY ASSIGNMENT (should be safe) =====\n";
+    assignedSt = assignedSt;
+    assignedSt.print();
+
+
+    cout << "\n===== TEST 7: SELF MOVE ASSIGNMENT (should NOT crash) =====\n";
+    moveAssignSt = std::move(moveAssignSt);
+    moveAssignSt.print();
+
+
+    cout << "\n===== TEST 8: COPY OF EMPTY STACK =====\n";
+    Stack_c<int> emptySt;
+    Stack_c<int> emptyCopy(emptySt);
+    emptyCopy.print();
+
+
+    cout << "\n===== TEST 9: MOVE OF EMPTY STACK =====\n";
+    Stack_c<int> emptyMove(std::move(emptySt));
+    emptyMove.print();
+
+
+    cout << "\n===== ALL TESTS COMPLETED SUCCESSFULLY =====\n";
 
     return 0;
 }
