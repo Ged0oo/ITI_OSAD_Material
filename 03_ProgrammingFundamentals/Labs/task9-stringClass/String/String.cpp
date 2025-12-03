@@ -71,6 +71,24 @@ void String_c::append(const String_c& other) {
     size += other.size;
 }
 
+
+void String_c::append(const char *str) {
+    int extra = strlen(str);
+    int newSize = size + extra;
+    char* buffer = new char[newSize + 1];
+
+    if (data) strcpy(buffer, data);
+    else buffer[0] = '\0';
+
+    strcpy(buffer + size, str);
+
+    delete[] data;
+    data = buffer;
+    size = newSize;
+}
+
+
+
 int String_c::length() const {
     return size;
 }

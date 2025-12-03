@@ -12,7 +12,7 @@ private:
 public:
     String_c();
     ~String_c();
-    String_c(const char*);
+    String_c(const char *);
 
     String_c(const String_c&);
     String_c(String_c&&) noexcept;
@@ -24,6 +24,7 @@ public:
     String_c operator+(const String_c&) const;
 
     void append(const String_c&);
+    void append(const char *);
     int length() const;
 
     char& operator[](int idx);
