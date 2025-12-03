@@ -4,7 +4,6 @@ using namespace std;
 
 int main() {
 
-    std::cout << "=== Constructors ===\n";
     String_c s1("Hello");
     String_c s2("World");
 
