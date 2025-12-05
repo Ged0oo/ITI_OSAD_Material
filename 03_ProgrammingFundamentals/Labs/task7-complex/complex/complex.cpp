@@ -145,6 +145,18 @@ Complex& Complex::operator--(int x){
     return *this;
 }
 
+Complex& Complex::operator+=(const Complex& c){
+    this->real += c.real;
+    this->imag += c.imag;
+    return *this;
+}
+
+Complex& Complex::operator-=(const Complex& c){
+    this->real -= c.real;
+    this->imag -= c.imag;
+    return *this;
+}
+
 Complex::operator double() { return (double)real; }
 
 Complex::operator int() {

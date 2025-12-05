@@ -62,7 +62,7 @@ int main() {
     cout << "After x-- now = " << x << "\n\n";
 
     cout << "=== Casting Operators ===\n";
-    Complex z(3, 4); // magnitude = 5
+    Complex z(3, 4);
 
     double d = (double)z;
     int i = (int)z;
@@ -75,9 +75,19 @@ int main() {
     cout << "bool(z) = " << b1 << "\n";
     cout << "bool(zero) = " << b2 << "\n";
 
-    cout << endl;
+    cout << "=== i/o Stream Overloading ===\n" << endl;
     Complex test;
     cin >> test;
     cout << test << endl;
+
+    cout << "=== += and -= Overloading ===\n" << endl;
+    Complex c11(5,5);
+    Complex c22(2,2);
+    cout << "C11 : " << c11 << endl;
+    cout << "C12 : " << c22 << endl;
+    c11 += c22;
+    cout << "C1 aftre += : " << c11 << endl;
+    c11 -= c22;
+    cout << "C1 aftre -= : " << c11 << endl;
     return 0;
 }

@@ -67,6 +67,9 @@ public:
     friend istream& operator>>(istream& is, Complex& c);
     friend ostream& operator<<(ostream& os, const Complex& c);
 
+    Complex& operator+=(const Complex& c);
+    Complex& operator-=(const Complex& c);
+
 
     void displayComplex();
     double getMagnitude();
