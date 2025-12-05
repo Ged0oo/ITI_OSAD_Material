@@ -117,7 +117,15 @@ double Complex::getAngle() {
 int& Complex::operator[](int idx){
     if(idx == 0) return real;
     else if(idx == 1) return imag;
+    throw std::out_of_range("Index must be 0 or 1");
 }
+
+const int& Complex::operator[](int idx) const{
+    if(idx == 0) return real;
+    else if(idx == 1) return imag;
+    throw std::out_of_range("Index must be 0 or 1");
+}
+
 
 Complex Complex::operator++(){
     Complex temp(*this);
@@ -155,6 +163,10 @@ Complex& Complex::operator-=(const Complex& c){
     this->real -= c.real;
     this->imag -= c.imag;
     return *this;
+}
+
+double Complex::operator()() const{
+    return sqrt(real*real + imag*imag);
 }
 
 Complex::operator double() { return (double)real; }

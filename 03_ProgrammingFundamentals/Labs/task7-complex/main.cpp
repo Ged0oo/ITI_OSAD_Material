@@ -49,6 +49,7 @@ int main() {
     c1[0] = 100;
     c1[1] = 200;
     cout << "After modification c1 = " << c1 << "\n\n";
+    cout << "With [] overloading : " << c1[0] << + " " << c1[1] << "i" << endl;
 
     cout << "=== Increment/Decrement ===\n";
     Complex x(10, 5);
@@ -89,5 +90,11 @@ int main() {
     cout << "C1 aftre += : " << c11 << endl;
     c11 -= c22;
     cout << "C1 aftre -= : " << c11 << endl;
+
+    cout << "=== () Overloading ===\n" << endl;
+    Complex cphy(3, 4);
+    cout << "Cphy: " << cphy.getReal() << " + " << cphy.getImag() << " i " << endl;
+    cout << "Magnitude of C: " << "is " << cphy() << endl;
+
     return 0;
 }

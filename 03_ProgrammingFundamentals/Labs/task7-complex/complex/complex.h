@@ -50,6 +50,7 @@ public:
     Complex operator/(const Complex& c);
 
     int& operator[](int idx);
+    const int& operator[](int idx) const;
 
     Complex operator++();
     Complex operator--();
@@ -70,6 +71,7 @@ public:
     Complex& operator+=(const Complex& c);
     Complex& operator-=(const Complex& c);
 
+    double operator()() const;
 
     void displayComplex();
     double getMagnitude();
