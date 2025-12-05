@@ -75,5 +75,9 @@ int main() {
     cout << "bool(z) = " << b1 << "\n";
     cout << "bool(zero) = " << b2 << "\n";
 
+    cout << endl;
+    Complex test;
+    cin >> test;
+    cout << test << endl;
     return 0;
 }

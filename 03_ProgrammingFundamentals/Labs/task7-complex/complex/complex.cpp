@@ -82,6 +82,14 @@ Complex Complex::operator/(const Complex& c){
     );
 }
 
+istream& operator>>(istream& is, Complex& c){
+    cout << "Enter Real Part: ";
+    is >> c.real;
+    cout << "Enter Imag Part: ";
+    is >> c.imag;
+    return is;
+}
+
 ostream& operator<<(ostream& os, const Complex& c) {
     os << c.real;
     if (c.imag >= 0) os << " + " << c.imag << "i";

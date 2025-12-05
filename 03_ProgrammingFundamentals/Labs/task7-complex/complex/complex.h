@@ -63,7 +63,10 @@ public:
 
     bool operator==(const Complex& c);
     bool operator!=(const Complex& c);
+
+    friend istream& operator>>(istream& is, Complex& c);
     friend ostream& operator<<(ostream& os, const Complex& c);
+
 
     void displayComplex();
     double getMagnitude();
