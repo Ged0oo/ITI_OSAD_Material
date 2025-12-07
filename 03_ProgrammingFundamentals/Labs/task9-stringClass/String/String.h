@@ -25,7 +25,22 @@ public:
 
     void append(const String_c&);
     void append(const char *);
-    int length() const;
+    int length();
+
+    bool empty() ;
+    void clear();
+
+    int compare( String_c&) ;
+    bool equals( String_c&) ;
+
+    int find(char ch) ;
+    int find( char* sub) ;
+
+    String_c substring(int start = 0, int len = -1);
+
+    void to_upper();
+    void to_lower();
+    void trim();
 
     char& operator[](int idx);
     const char& operator[](int idx) const;
