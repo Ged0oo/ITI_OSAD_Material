@@ -1,3 +1,5 @@
+package school;
+
 import java.util.*;
 import java.io.*;
 
@@ -7,17 +9,17 @@ public class Student {
     private String studentName;
     private ArrayList<RegisterCourse> courses;
 
-    Student(int sID, String sName){
+    public Student(int sID, String sName){
         this.studentID = sID;
         this.studentName = sName;
         courses = new ArrayList<RegisterCourse>();
     }
 
-    int getStudentID(){return studentID;}
-    String getStudentName(){return studentName;}
-    ArrayList<RegisterCourse> getRegistrations(){return courses;}
+    public int getStudentID(){return studentID;}
+    public String getStudentName(){return studentName;}
+    public ArrayList<RegisterCourse> getRegistrations(){return courses;}
 
-    void printReport(){
+    public void printReport(){
         StringBuilder sb = new StringBuilder();
         sb.append("Student Name: ")
           .append(studentName)
@@ -36,11 +38,11 @@ public class Student {
         java.lang.System.out.println(sb);
     }
 
-    void registerCourse(Course course, Double grade){
+    public void registerCourse(Course course, Double grade){
         courses.add(new RegisterCourse(course, grade));
     }
 
-    private class RegisterCourse{
+    public class RegisterCourse{
         private Course course;
         private Double grade;
 
