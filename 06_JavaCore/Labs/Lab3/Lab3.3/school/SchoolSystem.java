@@ -27,10 +27,12 @@ public class SchoolSystem {
                     case 0: System.out.println("Exiting System."); running = false; break;
                     case 1: listAllCourses(); break;
                     case 2: listAllStudents(); break;
-                    case 3: addNewStudent(); break;
-                    case 4: registerCourseForStudent(); break;
-                    case 5: printAllReports(); break;
-                    default: System.out.println("Invalid choice. Please enter 0-5."); ScreenHandler.pressEnterToContinue(sc);
+                    case 3: addNewCourse(); break;
+                    case 4: addNewStudent(); break;
+                    case 5: registerCourseForStudent(); break;
+                    case 6: printAllReports(); break;
+                    case 7: printStudentReport(); break;
+                    default: System.out.println("Invalid choice. Please enter 0-6."); ScreenHandler.pressEnterToContinue(sc);
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Invalid input, Please enter a number.");
@@ -58,6 +60,35 @@ public class SchoolSystem {
                 System.out.printf("ID: %-8d | Name: %s%n", s.getStudentID(), s.getStudentName());
             }
         }
+        ScreenHandler.pressEnterToContinue(sc);
+    }
+
+    public void addNewCourse() {
+        ScreenHandler.printHeader("Add New Course");
+
+        try {
+            System.out.print("Enter Course ID: ");
+            int id = Integer.parseInt(sc.nextLine());
+
+            if (coursesMap.containsKey(id)) {
+                System.out.println("Error: Course with ID " + id + " already exists.");
+                ScreenHandler.pressEnterToContinue(sc);
+                return;
+            }
+
+            System.out.print("Enter Course Name: ");
+            String name = sc.nextLine();
+
+            System.out.print("Enter Course Credits: ");
+            int creds = Integer.parseInt(sc.nextLine());
+
+            addCourse(id, name, creds);
+            System.out.println("Course " + name + " added successfully.");
+
+        } catch (NumberFormatException e) {
+            System.out.println("Error: Invalid ID format.");
+        }
+
         ScreenHandler.pressEnterToContinue(sc);
     }
 
@@ -128,6 +159,23 @@ public class SchoolSystem {
         for (Student st : studentsMap.values()) {
             st.printReport();
             ScreenHandler.printSeparator();
+        }
+        ScreenHandler.pressEnterToContinue(sc);
+    }
+
+    public void printStudentReport() {
+        ScreenHandler.printHeader("FINAL STUDENT REPORT");
+        try {
+            System.out.print("Enter Student ID: ");
+            int sId = Integer.parseInt(sc.nextLine());
+            Student student = studentsMap.get(sId);
+            if (student == null) System.out.println("Error: Student with ID " + sId + " was not found.");
+            else {
+                ScreenHandler.printHeader("FINAL STUDENT REPORT");
+                student.printReport();
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Error: Invalid input. Please enter a numeric ID.");
         }
         ScreenHandler.pressEnterToContinue(sc);
     }

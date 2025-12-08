@@ -14,9 +14,11 @@ public class ScreenHandler {
         System.out.println("======= STUDENT REGISTRATION SYSTEM =======");
         System.out.println("1. List Available Courses");
         System.out.println("2. List Registered Students");
-        System.out.println("3. Add New Student");
-        System.out.println("4. Register Course for a Student");
-        System.out.println("5. Print Final Reports");
+        System.out.println("3. Add New Course");
+        System.out.println("4. Add New Student");
+        System.out.println("5. Register Course for a Student");
+        System.out.println("6. Print Final Reports");
+        System.out.println("7. Print Student Final Report");
         System.out.println("0. Exit");
         System.out.print("Enter your choice: ");
     }
