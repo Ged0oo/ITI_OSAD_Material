@@ -157,16 +157,17 @@ public class SchoolSystem {
 
     public void processGrades(Student student, String data) {
         if (student == null) return;
-        String[] tokens = data.split(" "); 
-        for (String token : tokens) {
-            try {
-                String[] parts = token.split(":");
-                int courseId = Integer.parseInt(parts[0]);
-                double grade = Double.parseDouble(parts[1]);
+		StringTokenizer st = new StringTokenizer(data, " ");
+		while(st.hasMoreTokens()){
+			String token = st.nextToken();
+			try {
+				StringTokenizer pair = new StringTokenizer(token, ":");
+                int courseId = Integer.parseInt(pair.nextToken());
+                double grade = Double.parseDouble(pair.nextToken());
                 if (coursesMap.containsKey(courseId)) student.registerCourse(coursesMap.get(courseId), grade);
             } catch (Exception e) {
                 System.out.println("Error parsing grade data: " + token);
             }
-        }
+		}
     }
 }
