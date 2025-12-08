@@ -157,7 +157,7 @@ public class SchoolSystem {
 
     public void processGrades(Student student, String data) {
         if (student == null) return;
-        String[] tokens = data.split(" ");
+        String[] tokens = data.split(" "); 
         for (String token : tokens) {
             try {
                 String[] parts = token.split(":");
