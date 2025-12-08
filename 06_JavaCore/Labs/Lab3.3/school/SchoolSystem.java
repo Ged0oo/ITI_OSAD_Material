@@ -1,5 +1,6 @@
 package school;
 
+import school.ui.ScreenHandler;
 import java.util.*;
 
 public class SchoolSystem {
@@ -17,7 +18,8 @@ public class SchoolSystem {
     public void start() {
         boolean running = true;
         while (running) {
-            printMenu();
+            ScreenHandler.printMenu();
+
             try {
                 String input = sc.nextLine();
                 int choice = Integer.parseInt(input);
@@ -28,55 +30,39 @@ public class SchoolSystem {
                     case 3: addNewStudent(); break;
                     case 4: registerCourseForStudent(); break;
                     case 5: printAllReports(); break;
-                    default: System.out.println("Invalid choice. Please enter 0-5."); HandleReturn();
+                    default: System.out.println("Invalid choice. Please enter 0-5."); ScreenHandler.pressEnterToContinue(sc);
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Invalid input, Please enter a number.");
-                HandleReturn();
+                ScreenHandler.pressEnterToContinue(sc);
             }
         }
     }
 
-    public void printMenu() {
-        clearScreen();
-        System.out.println("\n===========================================");
-        System.out.println("======= STUDENT REGISTRATION SYSTEM =======");
-        System.out.println("1. List Available Courses");
-        System.out.println("2. List Registered Students");
-        System.out.println("3. Add New Student");
-        System.out.println("4. Register Course for a Student");
-        System.out.println("5. Print Final Reports");
-        System.out.println("0. Exit");
-        System.out.print("Enter your choice: ");
-    }
-
     public void listAllCourses() {
-        clearScreen();
-        System.out.println("\n-------- Available Courses --------");
+        ScreenHandler.printHeader("Available Courses");
         if (coursesMap.isEmpty()) { System.out.println("No courses available."); }
         else {
             for (Course c : coursesMap.values()) {
                 System.out.printf("ID: %-4d | Name: %s%n", c.getCourseID(), c.getCourseName());
             }
         }
-        HandleReturn();
+        ScreenHandler.pressEnterToContinue(sc);
     }
 
     public void listAllStudents() {
-        clearScreen();
-        System.out.println("\n-------- Student List --------");
-        if (studentsMap.isEmpty()) { System.out.println("No students registered."); } 
+        ScreenHandler.printHeader("Student List");
+        if (studentsMap.isEmpty()) { System.out.println("No students registered."); }
         else {
             for (Student s : studentsMap.values()) {
                 System.out.printf("ID: %-8d | Name: %s%n", s.getStudentID(), s.getStudentName());
             }
         }
-        HandleReturn();
+        ScreenHandler.pressEnterToContinue(sc);
     }
 
     public void addNewStudent() {
-        clearScreen();
-        System.out.println("\n-------- Add New Student --------");
+        ScreenHandler.printHeader("Add New Student");
 
         try {
             System.out.print("Enter Student ID: ");
@@ -84,7 +70,7 @@ public class SchoolSystem {
 
             if (studentsMap.containsKey(id)) {
                 System.out.println("Error: Student with ID " + id + " already exists.");
-                HandleReturn();
+                ScreenHandler.pressEnterToContinue(sc);
                 return;
             }
 
@@ -98,20 +84,19 @@ public class SchoolSystem {
             System.out.println("Error: Invalid ID format.");
         }
 
-        HandleReturn();
+        ScreenHandler.pressEnterToContinue(sc);
     }
 
     public void registerCourseForStudent() {
-        clearScreen();
-        System.out.println("\n-------- Register Course --------");
+        ScreenHandler.printHeader("Register Course");
         try {
             System.out.print("Enter Student ID: ");
             int sId = Integer.parseInt(sc.nextLine());
-            
+
             Student student = studentsMap.get(sId);
             if (student == null) {
                 System.out.println("Error: Student not found.");
-                HandleReturn();
+                ScreenHandler.pressEnterToContinue(sc);
                 return;
             }
 
@@ -121,7 +106,7 @@ public class SchoolSystem {
 
             if (course == null) {
                 System.out.println("Error: Course not found.");
-                HandleReturn();
+                ScreenHandler.pressEnterToContinue(sc);
                 return;
             }
 
@@ -135,22 +120,16 @@ public class SchoolSystem {
             System.out.println("Error: Invalid number input.");
         }
 
-        HandleReturn();
+        ScreenHandler.pressEnterToContinue(sc);
     }
 
     public void printAllReports() {
-        clearScreen();
-        System.out.println("\n-------- FINAL REPORTS --------");
+        ScreenHandler.printHeader("FINAL REPORTS");
         for (Student st : studentsMap.values()) {
             st.printReport();
-            System.out.println("-------------------------------"); // improved separation
+            ScreenHandler.printSeparator();
         }
-        HandleReturn();
-    }
-
-    public void HandleReturn() {
-        System.out.println("\nPress ENTER to return to Main Menu...");
-        sc.nextLine();
+        ScreenHandler.pressEnterToContinue(sc);
     }
 
     public void InitializeData() {
@@ -177,7 +156,6 @@ public class SchoolSystem {
     }
 
     public void processGrades(Student student, String data) {
-        // "1:90 2:91 3:86 4:80"
         if (student == null) return;
         String[] tokens = data.split(" ");
         for (String token : tokens) {
@@ -190,9 +168,5 @@ public class SchoolSystem {
                 System.out.println("Error parsing grade data: " + token);
             }
         }
-    }
-
-    public static void clearScreen() {
-        for (int i = 0; i < 50; i++) System.out.println();
     }
 }
