@@ -4,180 +4,131 @@ import school.ui.ScreenHandler;
 import java.util.*;
 
 public class SchoolSystem {
-    private Map<Integer, Student> studentsMap;
-    private Map<Integer, Course> coursesMap;
-    private Scanner sc;
-
-    public SchoolSystem() {
-        this.studentsMap = new LinkedHashMap<>();
-        this.coursesMap = new HashMap<>();
-        this.sc = new Scanner(System.in);
-        InitializeData();
-    }
+    private Map<Integer, Student> studentsMap = new LinkedHashMap<>();
+    private Map<Integer, Course> coursesMap = new HashMap<>();
+    private Scanner sc = new Scanner(System.in);
 
     public void start() {
         boolean running = true;
         while (running) {
             ScreenHandler.printMenu();
-            try {
-                String input = sc.nextLine();
-                int choice = Integer.parseInt(input);
+            String input = sc.nextLine();
+            int choice = -1;
+            try { choice = Integer.parseInt(input); } catch (NumberFormatException ignored) {}
 
-                switch (choice) {
-                    case 0: System.out.println("Exiting System."); running = false; break;
-                    case 1: listAllCourses(); break;
-                    case 2: listAllStudents(); break;
-                    case 3: addNewCourse(); break;
-                    case 4: addNewStudent(); break;
-                    case 5: registerCourseForStudent(); break;
-                    case 6: printAllReports(); break;
-                    case 7: printStudentReport(); break;
-                    default: System.out.println("Invalid choice. Please enter 0-6."); ScreenHandler.pressEnterToContinue(sc);
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input, Please enter a number.");
-                ScreenHandler.pressEnterToContinue(sc);
+            switch (choice) {
+                case 0 -> { System.out.println("Exiting System."); running = false; }
+                case 1 -> listAllCourses();
+                case 2 -> listAllStudents();
+                case 3 -> addNewCourse();
+                case 4 -> addNewStudent();
+                case 5 -> registerCourseForStudent();
+                case 6 -> printAllReports();
+                case 7 -> printStudentReport();
+                default -> { System.out.println("Invalid choice."); ScreenHandler.pressEnterToContinue(sc); }
             }
         }
     }
 
-    public void listAllCourses() {
+    private void listAllCourses() {
         ScreenHandler.printHeader("Available Courses");
-        if (coursesMap.isEmpty()) { System.out.println("No courses available."); }
-        else {
-            for (Course c : coursesMap.values()) {
-                System.out.printf("ID: %-4d | Name: %s%n", c.getCourseID(), c.getCourseName());
-            }
-        }
+        if (coursesMap.isEmpty()) System.out.println("No courses available.");
+        else coursesMap.values().forEach(c -> System.out.printf("ID: %-4d | Name: %s%n", c.getCourseID(), c.getCourseName()));
         ScreenHandler.pressEnterToContinue(sc);
     }
 
-    public void listAllStudents() {
+    private void listAllStudents() {
         ScreenHandler.printHeader("Student List");
-        if (studentsMap.isEmpty()) { System.out.println("No students registered."); }
-        else {
-            for (Student s : studentsMap.values()) {
-                System.out.printf("ID: %-8d | Name: %s%n", s.getStudentID(), s.getStudentName());
-            }
-        }
+        if (studentsMap.isEmpty()) System.out.println("No students registered.");
+        else studentsMap.values().forEach(s -> System.out.printf("ID: %-8d | Name: %s%n", s.getStudentID(), s.getStudentName()));
         ScreenHandler.pressEnterToContinue(sc);
     }
 
-    public void addNewCourse() {
+    private void addNewCourse() {
         ScreenHandler.printHeader("Add New Course");
+        int id = readInt("Enter Course ID: ");
+        if (coursesMap.containsKey(id)) { System.out.println("Course exists."); ScreenHandler.pressEnterToContinue(sc); return; }
 
-        try {
-            System.out.print("Enter Course ID: ");
-            int id = Integer.parseInt(sc.nextLine());
-
-            if (coursesMap.containsKey(id)) {
-                System.out.println("Error: Course with ID " + id + " already exists.");
-                ScreenHandler.pressEnterToContinue(sc);
-                return;
-            }
-
-            System.out.print("Enter Course Name: ");
-            String name = sc.nextLine();
-
-            System.out.print("Enter Course Credits: ");
-            int creds = Integer.parseInt(sc.nextLine());
-
-            addCourse(id, name, creds);
-            System.out.println("Course " + name + " added successfully.");
-
-        } catch (NumberFormatException e) {
-            System.out.println("Error: Invalid ID format.");
-        }
-
+        String name = readName("Enter Course Name: ");
+        int credits = readInt("Enter Course Credits: ");
+        coursesMap.put(id, new Course(id, name, credits));
+        System.out.println("Course added successfully.");
         ScreenHandler.pressEnterToContinue(sc);
     }
 
-    public void addNewStudent() {
+    private void addNewStudent() {
         ScreenHandler.printHeader("Add New Student");
+        int id = read8DigitID("Enter Student ID: ");
+        if (studentsMap.containsKey(id)) { System.out.println("Student exists."); ScreenHandler.pressEnterToContinue(sc); return; }
 
-        try {
-            System.out.print("Enter Student ID: ");
-            int id = Integer.parseInt(sc.nextLine());
-
-            if (studentsMap.containsKey(id)) {
-                System.out.println("Error: Student with ID " + id + " already exists.");
-                ScreenHandler.pressEnterToContinue(sc);
-                return;
-            }
-
-            System.out.print("Enter Student Name: ");
-            String name = sc.nextLine();
-
-            studentsMap.put(id, new Student(id, name));
-            System.out.println("Student " + name + " added successfully.");
-
-        } catch (NumberFormatException e) {
-            System.out.println("Error: Invalid ID format.");
-        }
-
+        String name = readName("Enter Student Name: ");
+        studentsMap.put(id, new Student(id, name));
+        System.out.println("Student added successfully.");
         ScreenHandler.pressEnterToContinue(sc);
     }
 
-    public void registerCourseForStudent() {
+    private void registerCourseForStudent() {
         ScreenHandler.printHeader("Register Course");
-        try {
-            System.out.print("Enter Student ID: ");
-            int sId = Integer.parseInt(sc.nextLine());
+        int sId = read8DigitID("Enter Student ID: ");
+        Student student = studentsMap.get(sId);
+        if (student == null) { System.out.println("Student not found."); ScreenHandler.pressEnterToContinue(sc); return; }
 
-            Student student = studentsMap.get(sId);
-            if (student == null) {
-                System.out.println("Error: Student not found.");
-                ScreenHandler.pressEnterToContinue(sc);
-                return;
-            }
+        int cId = readInt("Enter Course ID: ");
+        Course course = coursesMap.get(cId);
+        if (course == null) { System.out.println("Course not found."); ScreenHandler.pressEnterToContinue(sc); return; }
 
-            System.out.print("Enter Course ID: ");
-            int cId = Integer.parseInt(sc.nextLine());
-            Course course = coursesMap.get(cId);
-
-            if (course == null) {
-                System.out.println("Error: Course not found.");
-                ScreenHandler.pressEnterToContinue(sc);
-                return;
-            }
-
-            System.out.print("Enter Grade for " + course.getCourseName() + ": ");
-            double grade = Double.parseDouble(sc.nextLine());
-
-            student.registerCourse(course, grade);
-            System.out.println("Success: Registered " + course.getCourseName() + " for " + student.getStudentName());
-
-        } catch (NumberFormatException e) {
-            System.out.println("Error: Invalid number input.");
-        }
-
+        double grade = readDouble("Enter Grade for " + course.getCourseName() + ": ");
+        student.registerCourse(course, grade);
+        System.out.println("Registered successfully.");
         ScreenHandler.pressEnterToContinue(sc);
     }
 
-    public void printAllReports() {
+    private void printAllReports() {
         ScreenHandler.printHeader("FINAL REPORTS");
-        for (Student st : studentsMap.values()) {
-            st.printReport();
-            ScreenHandler.printSeparator();
-        }
+        studentsMap.values().forEach(s -> { s.printReport(); ScreenHandler.printSeparator(); });
         ScreenHandler.pressEnterToContinue(sc);
     }
 
-    public void printStudentReport() {
+    private void printStudentReport() {
         ScreenHandler.printHeader("FINAL STUDENT REPORT");
-        try {
-            System.out.print("Enter Student ID: ");
-            int sId = Integer.parseInt(sc.nextLine());
-            Student student = studentsMap.get(sId);
-            if (student == null) System.out.println("Error: Student with ID " + sId + " was not found.");
-            else {
-                ScreenHandler.printHeader("FINAL STUDENT REPORT");
-                student.printReport();
-            }
-        } catch (NumberFormatException e) {
-            System.out.println("Error: Invalid input. Please enter a numeric ID.");
-        }
+        int sId = read8DigitID("Enter Student ID: ");
+        Student s = studentsMap.get(sId);
+        if (s == null) System.out.println("Student not found.");
+        else s.printReport();
         ScreenHandler.pressEnterToContinue(sc);
+    }
+
+    private int readInt(String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            try { return Integer.parseInt(sc.nextLine()); }
+            catch (NumberFormatException e) { System.out.println("Invalid number."); }
+        }
+    }
+
+    private double readDouble(String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            try { return Double.parseDouble(sc.nextLine()); }
+            catch (NumberFormatException e) { System.out.println("Invalid number."); }
+        }
+    }
+
+    private int read8DigitID(String prompt) {
+        while (true) {
+            int id = readInt(prompt);
+            if (id >= 10000000 && id <= 99999999) return id;
+            System.out.println("ID must be 8 digits.");
+        }
+    }
+
+    private String readName(String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            String name = sc.nextLine();
+            if (name.matches("[a-zA-Z ]+")) return name;
+            System.out.println("Name must contain only letters.");
+        }
     }
 
     public void InitializeData() {
@@ -195,27 +146,20 @@ public class SchoolSystem {
         processGrades(studentsMap.get(20012409), "1:91 2:95 3:89 4:89");
     }
 
-    private void addCourse(int id, String name, int credits) {
-        coursesMap.put(id, new Course(id, name, credits));
-    }
-
-    private void addStudent(int id, String name) {
-        studentsMap.put(id, new Student(id, name));
-    }
-
     public void processGrades(Student student, String data) {
         if (student == null) return;
-		StringTokenizer st = new StringTokenizer(data, " ");
-		while(st.hasMoreTokens()){
-			String token = st.nextToken();
-			try {
-				StringTokenizer pair = new StringTokenizer(token, ":");
+        StringTokenizer st = new StringTokenizer(data, " ");
+        while (st.hasMoreTokens()) {
+            String token = st.nextToken();
+            try {
+                StringTokenizer pair = new StringTokenizer(token, ":");
                 int courseId = Integer.parseInt(pair.nextToken());
                 double grade = Double.parseDouble(pair.nextToken());
                 if (coursesMap.containsKey(courseId)) student.registerCourse(coursesMap.get(courseId), grade);
-            } catch (Exception e) {
-                System.out.println("Error parsing grade data: " + token);
-            }
-		}
+            } catch (Exception e) { System.out.println("Error parsing: " + token); }
+        }
     }
+
+    private void addCourse(int id, String name, int credits) { coursesMap.put(id, new Course(id, name, credits)); }
+    private void addStudent(int id, String name) { studentsMap.put(id, new Student(id, name)); }
 }
