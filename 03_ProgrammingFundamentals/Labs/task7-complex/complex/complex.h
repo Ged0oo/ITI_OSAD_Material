@@ -59,6 +59,7 @@ public:
     Complex& operator--(int x);
 
     explicit operator double(); 
+    explicit operator string(); 
     explicit operator int();    
     operator bool();            
 

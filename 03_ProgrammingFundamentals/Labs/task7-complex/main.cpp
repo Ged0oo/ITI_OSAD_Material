@@ -66,6 +66,7 @@ int main() {
     Complex z(3, 4);
 
     double d = (double)z;
+    string s = (string)z;
     int i = (int)z;
     bool b1 = (bool)z;
     Complex zero(0, 0);

@@ -169,7 +169,13 @@ double Complex::operator()() const{
     return sqrt(real*real + imag*imag);
 }
 
-Complex::operator double() { return (double)real; }
+Complex::operator double() { 
+    return sqrt(real*real + imag*imag);
+}
+
+Complex::operator string() { 
+    return to_string(real) + " + " + to_string(imag);
+}
 
 Complex::operator int() {
     return real;

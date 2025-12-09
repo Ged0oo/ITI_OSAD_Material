@@ -1,12 +1,21 @@
 public class Main {
     class MyException extends Exception {
-        MyException() {super("This is my Own Exception Class.");}
+        MyException() {
+            super("This is my Own Exception Class.");
+        }
     }
 
     class Car {
         private String carModel;
-        Car() { this.carModel = "BMW"; }
-        Car(String car) {this.carModel = car;}
+        
+        Car() { 
+            this.carModel = "BMW"; 
+        }
+        
+        Car(String car) {
+            this.carModel = car;
+        }
+        
         void checkCarModel(String carName) throws MyException {
             if (!carName.equals(carModel)) {
                 throw new MyException();
