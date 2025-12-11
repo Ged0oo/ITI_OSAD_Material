@@ -14,13 +14,13 @@ public class LibraryManagementSystem {
     private Ui ui = new Ui();
     private Validation valid = new Validation();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ItemNotFoundException {
         LibraryManagementSystem libSystem = new LibraryManagementSystem();
         libSystem.initializeData();
         libSystem.runMenu();
     }
 
-    private void initializeData(){
+    private void initializeData() throws ItemNotFoundException {
         Book book1 = new Book("200124", "Headway OOP Fundamentals", "Mohamed Nagy");
         Magazine magazine1 = new Magazine("200125", "", 45);
         Book book2 = new Book("200126", "Grokking Algorithms", "Tamer Hosny");
@@ -85,6 +85,12 @@ public class LibraryManagementSystem {
         System.out.print("Enter Item ID: ");
         String id = valid.getInputWithValidation(sc, "Enter Item ID: ", valid.ID_PATTERN, "Invalid ID. Must be exactly 6 numeric digits.", false);
 
+        if(library.items.containsKey(id)){
+            System.out.println("Item already Exist.");
+            ui.pressEnterToContinue(sc);
+            return;
+        }
+
         System.out.print("Enter Title: ");
         String title = sc.nextLine();
 
@@ -104,7 +110,7 @@ public class LibraryManagementSystem {
                 System.out.println("Magazine added successfully: " + magazine.getItemDetails());
             }
         }
-        catch (NumberFormatException e) {
+        catch (NumberFormatException | ItemNotFoundException e) {
             System.out.println("Invalid number format. Item not added.");
         }
         finally {

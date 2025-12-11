@@ -5,18 +5,19 @@ import library.model.*;
 import java.util.*;
 
 public class Library {
-    public List<LibraryItem> items;
+    public HashMap<String, LibraryItem> items;
 
-    public Library(){ this.items = new ArrayList<>(); }
+    public Library(){ this.items = new HashMap<>(); }
 
-    public void addItem(LibraryItem item){items.add(item);}
+    public void addItem(LibraryItem item) throws ItemNotFoundException {
+        if(items.containsKey(item.getId())) {
+            throw new ItemNotFoundException("Item with ID " + item.getId() + " already existed.");
+        }
+        items.put(item.getId(), item);
+    }
 
     public <T extends LibraryItem> T getItem(String id) throws ItemNotFoundException{
-        for(LibraryItem item : items){
-            if(item.getId().equals(id)){
-                return (T) item;
-            }
-        }
+        if(items.containsKey(id)) return (T) items.get(id);
         throw new ItemNotFoundException("Item with ID " + id + " not found.");
     }
 
@@ -26,7 +27,7 @@ public class Library {
             System.out.println("No Items Listed.");
             return;
         }
-        for(LibraryItem item : items) System.out.println(item.getItemDetails());
+        for(LibraryItem item : items.values()) System.out.println(item.getItemDetails());
         System.out.println("\n ============== * ============== * ==============");
     }
 
@@ -48,20 +49,13 @@ public class Library {
     }
 
     public void deleteItem(String id) throws ItemNotFoundException{
-        Iterator<LibraryItem> itr = items.iterator();
-        while (itr.hasNext()){
-            LibraryItem item = itr.next();
-            if(item.getId().equals(id)){
-                itr.remove();
-                return;
-            }
-        }
+        if(items.containsKey(id)) items.remove(id);
         throw new ItemNotFoundException("Item with ID " + id + " not found for deletion.");
     }
 
     public void handleItems(List<LibraryItem> list){
         System.out.println("\n ===== Handle Library Items =====");
-        for(LibraryItem item : items) System.out.println(item.getItemDetails());
+        for(LibraryItem item : items.values()) System.out.println(item.getItemDetails());
         System.out.println("\n ===== * ================ * =====");
     }
 }
