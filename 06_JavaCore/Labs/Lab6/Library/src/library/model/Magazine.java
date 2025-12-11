@@ -8,6 +8,8 @@ public class Magazine extends LibraryItem{
         this.issueNumber = issueNumber;
     }
 
+    public Magazine(){}
+
     public void setIssueNumber(int issueNumber){this.issueNumber = issueNumber;}
     public int getIssueNumber(){return  this.issueNumber;}
 

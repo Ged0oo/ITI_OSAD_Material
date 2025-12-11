@@ -31,26 +31,21 @@ public class Library {
         System.out.println("\n ============== * ============== * ==============");
     }
 
-    public void updateItem(String id, LibraryItem newItem) throws ItemNotFoundException{
-        for(int i=0 ; i<items.size() ; i++){
-            LibraryItem oldItem = items.get(i);
-            oldItem.setTitle(newItem.getTitle());
+    public void updateItem(String id, LibraryItem newItem) {
+        LibraryItem oldItem = items.get(id);
+        oldItem.setTitle(newItem.getTitle());
 
-            if(oldItem instanceof Book && newItem instanceof Book){
-                ((Book)oldItem).setAuthor(((Book)newItem).getAuthor());
-            }
-
-            if(oldItem instanceof Magazine && newItem instanceof Magazine){
-                ((Magazine)oldItem).setIssueNumber(((Magazine)newItem).getIssueNumber());
-            }
-            return;
+        if(oldItem instanceof Book && newItem instanceof Book){
+            ((Book)oldItem).setAuthor(((Book)newItem).getAuthor());
+        } else if(oldItem instanceof Magazine && newItem instanceof Magazine){
+            ((Magazine)oldItem).setIssueNumber(((Magazine)newItem).getIssueNumber());
         }
-        throw new ItemNotFoundException("Item with ID " + id + " not found for update.");
+        else return;
     }
 
     public void deleteItem(String id) throws ItemNotFoundException{
         if(items.containsKey(id)) items.remove(id);
-        throw new ItemNotFoundException("Item with ID " + id + " not found for deletion.");
+        else throw new ItemNotFoundException("Item with ID " + id + " not found for deletion.");
     }
 
     public void handleItems(List<LibraryItem> list){

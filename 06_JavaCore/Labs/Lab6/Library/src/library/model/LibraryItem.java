@@ -15,5 +15,7 @@ public abstract class LibraryItem {
         this.id = id;
     }
 
+    public LibraryItem(){}
+
     public abstract String getItemDetails();
 }

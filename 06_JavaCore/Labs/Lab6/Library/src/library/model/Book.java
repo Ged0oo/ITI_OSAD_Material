@@ -8,6 +8,8 @@ public class Book extends LibraryItem {
         this.author = author;
     }
 
+    public Book(){}
+
     public void setAuthor(String author) {this.author = author;}
     public String getAuthor(){return this.author;}
 

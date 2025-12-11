@@ -63,8 +63,8 @@ public class LibraryManagementSystem {
             try {
                 choice = Integer.parseInt(sc.nextLine());
                 switch (choice) {
-                    case 1: addItem(Book.class); break;
-                    case 2: addItem(Magazine.class); break;
+                    case 1: addItem(new Book()); break;
+                    case 2: addItem(new Magazine()); break;
                     case 3: retrieveItem(); break;
                     case 4: library.displayItems(); ui.pressEnterToContinue(sc); break;
                     case 5: updateItem(); break;
@@ -72,17 +72,15 @@ public class LibraryManagementSystem {
                     case 7: break;
                     default: {System.out.println("Invalid choice. Please try again."); ui.pressEnterToContinue(sc);}
                 }
-            } catch (NumberFormatException e) {
+            } catch (NumberFormatException | ItemNotFoundException e) {
                 System.out.println("Invalid input. Please enter a number.");
                 choice = 0;
             }
         } while (choice != 7);
     }
 
-    private <T extends LibraryItem> void  addItem(Class<T> itemType){
+    private void  addItem(LibraryItem itemType){
         ui.printHeader("Add New Item");
-
-        System.out.print("Enter Item ID: ");
         String id = valid.getInputWithValidation(sc, "Enter Item ID: ", valid.ID_PATTERN, "Invalid ID. Must be exactly 6 numeric digits.", false);
 
         if(library.items.containsKey(id)){
@@ -95,14 +93,14 @@ public class LibraryManagementSystem {
         String title = sc.nextLine();
 
         try {
-            if (itemType == Book.class) {
+            if (itemType instanceof Book) {
                 System.out.print("Enter Author: ");
                 String author = valid.getInputWithValidation(sc, "Enter Name: ", valid.NAME_PATTERN, "Invalid Name. Must contain only alphabets and spaces.", true);
                 Book book = new Book(id, title, author);
                 library.addItem(book);
                 System.out.println("Book added successfully: " + book.getItemDetails());
             }
-            else if (itemType == Magazine.class) {
+            else if (itemType instanceof Magazine) {
                 System.out.print("Enter Issue Number: ");
                 int issueNumber = Integer.parseInt(sc.nextLine());
                 Magazine magazine = new Magazine(id, title, issueNumber);
@@ -121,8 +119,7 @@ public class LibraryManagementSystem {
     private void retrieveItem(){
         ui.printHeader("Retrieve Item Information");
 
-        System.out.print("Enter Item ID to retrieve: ");
-        String id = valid.getInputWithValidation(sc, "Enter Client ID: ", valid.ID_PATTERN, "Invalid ID. Must be exactly 6 numeric digits.", false);
+        String id = valid.getInputWithValidation(sc, "Enter Item ID to retrieve: ", valid.ID_PATTERN, "Invalid ID. Must be exactly 6 numeric digits.", false);
 
         try{
             LibraryItem item = library.getItem(id);
@@ -135,11 +132,11 @@ public class LibraryManagementSystem {
         }
     }
 
-    private void updateItem(){
+    private void updateItem() throws ItemNotFoundException {
         ui.printHeader("Update Item Information.");
 
-        System.out.println("Enter Item ID to update: ");
-        String id = valid.getInputWithValidation(sc, "Enter Client ID: ", valid.ID_PATTERN, "Invalid ID. Must be exactly 6 numeric digits.", false);
+        String id = valid.getInputWithValidation(sc, "Enter Item ID to update: ", valid.ID_PATTERN, "Invalid ID. Must be exactly 6 numeric digits.", false);
+        if(library.items.containsKey(id) == false) throw new ItemNotFoundException("Can't Find this id");
 
         try {
             LibraryItem existingItem = library.getItem(id);
@@ -150,8 +147,7 @@ public class LibraryManagementSystem {
             LibraryItem updatedItem;
 
             if (existingItem instanceof Book) {
-                System.out.print("Enter new Author: ");
-                String newAuthor = valid.getInputWithValidation(sc, "Enter Name: ", valid.NAME_PATTERN, "Invalid Name. Must contain only alphabets and spaces.", true);
+                String newAuthor = valid.getInputWithValidation(sc, "Enter new Author Name: ", valid.NAME_PATTERN, "Invalid Name. Must contain only alphabets and spaces.", true);
                 updatedItem = new Book(id, newTitle, newAuthor);
             }
             else if (existingItem instanceof Magazine) {
@@ -178,8 +174,8 @@ public class LibraryManagementSystem {
     private void deleteItem(){
         ui.printHeader("Delete Item");
 
-        System.out.println("Enter Item ID to update: ");
-        String id = valid.getInputWithValidation(sc, "Enter Client ID: ", valid.ID_PATTERN, "Invalid ID. Must be exactly 6 numeric digits.", false);
+        String id = valid.getInputWithValidation(sc, "Enter Item ID to update: ", valid.ID_PATTERN, "Invalid ID. Must be exactly 6 numeric digits.", false);
+
         try {
             library.deleteItem(id);
             System.out.println("Item with ID " + id + " deleted successfully.");
@@ -237,8 +233,7 @@ public class LibraryManagementSystem {
     private void retrieveClient() {
         ui.printHeader("Retrieve Client Information");
 
-        System.out.print("Enter Client ID to retrieve: ");
-        String id = valid.getInputWithValidation(sc, "Enter Client ID: ", valid.ID_PATTERN, "Invalid ID. Must be exactly 6 numeric digits.", false);
+        String id = valid.getInputWithValidation(sc, "Enter Client ID to retrieve:: ", valid.ID_PATTERN, "Invalid ID. Must be exactly 6 numeric digits.", false);
 
         Client client = clientManager.getClient(id);
 
@@ -249,8 +244,7 @@ public class LibraryManagementSystem {
     private void updateClient() {
         ui.printHeader("Update Client Information");
 
-        System.out.print("Enter Client ID to update: ");
-        String id = valid.getInputWithValidation(sc, "Enter Client ID: ", valid.ID_PATTERN, "Invalid ID. Must be exactly 6 numeric digits.", false);
+        String id = valid.getInputWithValidation(sc, "Enter Client ID to update: ", valid.ID_PATTERN, "Invalid ID. Must be exactly 6 numeric digits.", false);
 
         Client client = clientManager.getClient(id);
         if (client != null) {
