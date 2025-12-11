@@ -19,7 +19,7 @@ public class Main {
         dict.addWord("Ged0oo");
         dict.addWord("Zoo");
         
-        // dict.printDict();
-        dict.printCharList('a');
+        dict.printDict();
+        // dict.printCharList('a');
     }
 }

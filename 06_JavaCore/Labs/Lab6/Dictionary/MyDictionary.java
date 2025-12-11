@@ -4,10 +4,7 @@ public class MyDictionary {
 
     TreeMap<Character, TreeSet<String>> dict;
 
-    public MyDictionary() {
-        dict = new TreeMap<>();
-    }
-
+    public MyDictionary() { dict = new TreeMap<>(); }
 
     public void addWord(String word) {
         if (word == null || word.isEmpty()) return;
@@ -17,11 +14,9 @@ public class MyDictionary {
         dict.put(key, wordsSet);
     }
 
-
     public void printDict(){
         for(Character ch:dict.keySet()) printCharList(ch);
     }
-
 
     public void printCharList(char ch) {
         char key = Character.toUpperCase(ch);
