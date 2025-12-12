@@ -20,9 +20,7 @@ public abstract class LibraryItem implements CrudInterface {
     public abstract String getItemDetails();
 
     @Override
-    public void create() {
-
-    }
+    public void create() {}
 
     @Override
     public String read() {
@@ -38,7 +36,5 @@ public abstract class LibraryItem implements CrudInterface {
     }
 
     @Override
-    public void delete() {
-
-    }
+    public void delete() {}
 }

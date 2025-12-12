@@ -76,5 +76,3 @@ Design a clear and user-friendly menu system with descriptive instructions.
 Include meaningful error messages for invalid operations.
 
 
-
-*Reminder* : please if there's any additional assumptions please write it down
