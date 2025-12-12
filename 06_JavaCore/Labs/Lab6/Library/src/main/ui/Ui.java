@@ -12,7 +12,8 @@ public class Ui {
         System.out.println("\n======== Library Management System Menu ========");
         System.out.println("1. Item Operations");
         System.out.println("2. Client Operations");
-        System.out.println("3. Exit");
+        System.out.println("3. Library Operations");
+        System.out.println("4. Exit");
         System.out.print("Enter choice: ");
     }
 
@@ -41,17 +42,34 @@ public class Ui {
         System.out.print("Enter choice: ");
     }
 
+    public void printLibraryOperationsMenu(){
+        clearScreen();
+        System.out.println("\n======== Library Operations Menu ========");
+        System.out.println("1. Borrow Item");
+        System.out.println("2. Return Item");
+        System.out.println("3. Available Items Count");
+        System.out.println("4. Items Borrowed By Client");
+        System.out.println("5. Retrieve All Clients Borrowed Items");
+        System.out.println("6. Back to Main Menu");
+        System.out.print("Enter choice: ");
+    }
+
     public void printHeader(String title) {
         clearScreen();
         System.out.println("\n-------- " + title + " --------");
     }
 
     public void pressEnterToContinue(Scanner sc) {
-        System.out.println("\nPress ENTER to return to Main Menu...");
+        System.out.println("\nPress ENTER to continue..."); // Changed 'return to Main Menu' for clarity
         sc.nextLine();
     }
 
     public void printSeparator() {
         System.out.println("-------------------------------");
+    }
+
+    // FIX: Added the missing method used by the controllers
+    public void printInvalidChoice() {
+        System.out.println("Invalid choice. Please try again.");
     }
 }
