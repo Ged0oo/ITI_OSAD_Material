@@ -17,4 +17,13 @@ public class Book extends LibraryItem {
     public String getItemDetails() {
         return "Book [ID: " + getId() + ", Title: " + getTitle() + ", Author: " + this.author + "]";
     }
+
+    @Override
+    public void update(Object newData) {
+        super.update(newData);
+        if (newData instanceof Book) {
+            Book newBook = (Book) newData;
+            this.setAuthor(newBook.getAuthor());
+        }
+    }
 }

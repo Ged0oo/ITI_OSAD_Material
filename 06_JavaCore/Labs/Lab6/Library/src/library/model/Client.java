@@ -1,6 +1,6 @@
 package library.model;
 
-public class Client {
+public class Client implements CrudInterface {
     private String id;
     private String name;
     private String phone;
@@ -25,5 +25,30 @@ public class Client {
 
     public String getClientDetails() {
         return "Client [ID: " + id + ", Name: " + name + ", Email: " + email + "]";
+    }
+
+    @Override
+    public void create() {
+
+    }
+
+    @Override
+    public String read() {
+        return getClientDetails();
+    }
+
+    @Override
+    public void update(Object newData) {
+        if (newData instanceof Client) {
+            Client newClient = (Client) newData;
+            this.setName(newClient.getName());
+            this.setPhone(newClient.getPhone());
+            this.setEmail(newClient.getEmail());
+        }
+    }
+
+    @Override
+    public void delete() {
+
     }
 }

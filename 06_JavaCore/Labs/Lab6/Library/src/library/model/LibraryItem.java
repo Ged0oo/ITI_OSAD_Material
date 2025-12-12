@@ -1,6 +1,6 @@
 package library.model;
 
-public abstract class LibraryItem {
+public abstract class LibraryItem implements CrudInterface {
     private String id;
     private String title;
 
@@ -18,4 +18,27 @@ public abstract class LibraryItem {
     public LibraryItem(){}
 
     public abstract String getItemDetails();
+
+    @Override
+    public void create() {
+
+    }
+
+    @Override
+    public String read() {
+        return getItemDetails();
+    }
+
+    @Override
+    public void update(Object newData) {
+        if (newData instanceof LibraryItem) {
+            LibraryItem newItem = (LibraryItem) newData;
+            this.setTitle(newItem.getTitle());
+        }
+    }
+
+    @Override
+    public void delete() {
+
+    }
 }

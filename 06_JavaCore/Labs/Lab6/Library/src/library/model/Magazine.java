@@ -17,4 +17,13 @@ public class Magazine extends LibraryItem{
     public String getItemDetails() {
         return "Magazine [ID: " + getId() + ", Title: " + getTitle() + ", Issue: " + issueNumber + "]";
     }
+
+    @Override
+    public void update(Object newData) {
+        super.update(newData);
+        if (newData instanceof Magazine) {
+            Magazine newMagazine = (Magazine) newData;
+            this.setIssueNumber(newMagazine.getIssueNumber());
+        }
+    }
 }
