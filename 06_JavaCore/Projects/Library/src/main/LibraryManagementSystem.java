@@ -15,13 +15,13 @@ public class LibraryManagementSystem {
     private final Library library = new Library();
     private final ClientManager clientManager = new ClientManager();
     private final Ui ui = new Ui();
-    private final Validation valid = new Validation();
 
     private final ItemController itemController;
     private final ClientController clientController;
     private final LibraryOperationsController libraryOpsController;
 
     public LibraryManagementSystem() {
+        Validation valid = new Validation();
         this.itemController = new ItemController(sc, library, clientManager, ui, valid);
         this.clientController = new ClientController(sc, library, clientManager, ui, valid);
         this.libraryOpsController = new LibraryOperationsController(sc, library, clientManager, ui, valid);
