@@ -2,12 +2,22 @@
 
 int main(){
 
-    Linkedlist list;
-    list.insert(10);
-    list.insert(20);
-    list.insertBefore(20, 15);
-    list.insertAfter(15, 22);
+    Linkedlist<string> list;
+    list.insert("Mohamed");
+    list.insert("Nagy");
+    list.insert("Hello");
+    list.insert("Mina");
+
     list.printList();
-    cout << list.getDataByIndex(-3) << endl;
+    
+    cout << "Number of Nodes : " << list.getNumberNodesCount() << endl;
+    
+    cout << "Node at index 2 : " << list.getDataByIndex(2) << endl;
+    
+    list.insertAfter("Nagy", "Jassssss");
+    list.insertBefore("Mohamed", "Ged0oo");
+    
+    list.printList();
+
     return 0;
 }

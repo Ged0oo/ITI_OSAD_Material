@@ -6,23 +6,28 @@
 
 using namespace std;
 
+template <typename T>
 class Linkedlist{
 public:
-    Node *head;
-    Node *tail;
+    Node<T> *head;
+    Node<T> *tail;
 
     Linkedlist();
     ~Linkedlist();
 
-    void insert(int val);
-    void removeNode(int val);
-    void removeNodes(int val);
+    void insert(T val);
+    void removeNode(T val);
+    void removeNodes(T val);
     void printList();
     void reversePrintList();
-    void insertBefore(int data, int newData);
-    void insertAfter(int data, int newData);
+    void insertBefore(T data, T newData);
+    void insertAfter(T data, T newData);
     int getNumberNodesCount();
-    int getDataByIndex(int idx);
+    T getDataByIndex(int idx);
 };
+
+
+#include "./Linkedlist.hpp"
+
 
 #endif //__LINKED_LIST_H__

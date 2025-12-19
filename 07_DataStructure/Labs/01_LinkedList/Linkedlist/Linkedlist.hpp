@@ -1,23 +1,28 @@
-#include "Linkedlist.h"
+#ifndef __LINKED_LIST_HPP__
+#define __LINKED_LIST_HPP__
 
-
-Linkedlist::Linkedlist(){
+template <typename T>
+Linkedlist<T>::Linkedlist(){
     head = nullptr;
     tail = nullptr;
 }
 
-Linkedlist::~Linkedlist(){
-    Node *temp = head;
+
+template <typename T>
+Linkedlist<T>::~Linkedlist(){
+    Node<T> *temp = head;
     while (temp != nullptr){
-        Node *next = temp->next;
+        Node<T> *next = temp->next;
         delete temp;
         temp = next;
     }
     
 }
 
-void Linkedlist::insert(int val){
-    Node *node = new Node(val);
+
+template <typename T>
+void Linkedlist<T>::insert(T val){
+    Node<T> *node = new Node(val);
     if(head == nullptr){head = tail = node; return;}
     tail->next = node;
     node->prev = tail;
@@ -25,8 +30,9 @@ void Linkedlist::insert(int val){
 }
 
 // 10 -> 20 -> 30 -> 40 -> 50      [30]
-void Linkedlist::removeNode(int val){
-    Node *temp = head;
+template <typename T>
+void Linkedlist<T>::removeNode(T val){
+    Node<T> *temp = head;
     while (temp != nullptr && temp->val != val){temp = temp->next;}
     if(temp == nullptr) return;
 
@@ -39,8 +45,10 @@ void Linkedlist::removeNode(int val){
     delete temp;
 }
 
-void Linkedlist::printList(){
-    Node *temp = head;
+
+template <typename T>
+void Linkedlist<T>::printList(){
+    Node<T> *temp = head;
     while (temp != nullptr){
         cout << temp->val << " <-> ";
         temp = temp->next;
@@ -48,8 +56,10 @@ void Linkedlist::printList(){
     cout << "NULL" << endl;
 }
 
-void Linkedlist::reversePrintList(){
-    Node *temp = tail;
+
+template <typename T>
+void Linkedlist<T>::reversePrintList(){
+    Node<T> *temp = tail;
     while (temp != nullptr){
         cout << temp->val << " <-> ";
         temp = temp->prev;
@@ -57,11 +67,13 @@ void Linkedlist::reversePrintList(){
     cout << "NULL" << endl;
 }
 
-void Linkedlist::removeNodes(int val){
-    Node *temp = head;
+
+template <typename T>
+void Linkedlist<T>::removeNodes(T val){
+    Node<T> *temp = head;
     while (temp != nullptr){
         if(temp->val == val){
-            Node *del = temp;
+            Node<T> *del = temp;
 
             if(temp->prev != nullptr) temp->prev->next = temp->next;
             else head = temp->next;
@@ -76,12 +88,14 @@ void Linkedlist::removeNodes(int val){
     }
 }
 
-void Linkedlist::insertBefore(int data, int newData){
-    Node *temp = head;
+
+template <typename T>
+void Linkedlist<T>::insertBefore(T data, T newData){
+    Node<T> *temp = head;
     while (temp != nullptr && temp->val != data){temp = temp->next;}
     if(temp == nullptr) return;
 
-    Node *newNode = new Node(newData);
+    Node<T> *newNode = new Node(newData);
     newNode->next = temp;
     newNode->prev = temp->prev;
 
@@ -91,12 +105,14 @@ void Linkedlist::insertBefore(int data, int newData){
     temp->prev = newNode;
 }
 
-void Linkedlist::insertAfter(int data, int newData){
-    Node *temp = head;
+
+template <typename T>
+void Linkedlist<T>::insertAfter(T data, T newData){
+    Node<T> *temp = head;
     while (temp != nullptr && temp->val != data){temp = temp->next;}
     if(temp == nullptr) return;
 
-    Node *newNode = new Node(newData);
+    Node<T> *newNode = new Node(newData);
     newNode->prev = temp;
     newNode->next = temp->next;
 
@@ -106,16 +122,24 @@ void Linkedlist::insertAfter(int data, int newData){
     temp->next = newNode;
 }
 
-int Linkedlist::getNumberNodesCount(){
+
+template <typename T>
+int Linkedlist<T>::getNumberNodesCount(){
     int count = 0;
-    Node *temp = head;
+    Node<T> *temp = head;
     while (temp != nullptr){temp = temp->next; count++;}
     return count;
 }
 
-int Linkedlist::getDataByIndex(int idx){
-    if (idx < 0) return -1;
-    Node *temp = head;
+
+template <typename T>
+T Linkedlist<T>::getDataByIndex(int idx){
+    if (idx < 0) throw out_of_range("Index Out of Range.");
+    Node<T> *temp = head;
     while (temp != nullptr && idx--){temp = temp->next;}
-    return temp ? temp->val : -1;
+    if(temp) return temp->val;
+    else throw out_of_range("Index Out of Range.");
 }
+
+
+#endif //__LINKED_LIST_HPP__

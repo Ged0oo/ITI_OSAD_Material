@@ -1,14 +1,15 @@
 #ifndef __NODE_H__
 #define __NODE_H__
 
-
+template <typename T>
 class Node{
 public:
-    int val;
-    Node *next;
-    Node *prev;
-    Node(int val);
+    T val;
+    Node<T> *next;
+    Node<T> *prev;
+    Node(T val);
 };
 
+#include "Node.hpp"
 
 #endif //__NODE_H__
