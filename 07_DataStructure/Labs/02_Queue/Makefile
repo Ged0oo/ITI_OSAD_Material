@@ -2,7 +2,7 @@ TCH = g++
 OPT = -std=c++17
 
 # --- Directories ---
-SRC_DIRS := . Queue
+SRC_DIRS := . Linkedlist Node Queue
 BUILD_DIR := build/Debug
 TARGET := app
 

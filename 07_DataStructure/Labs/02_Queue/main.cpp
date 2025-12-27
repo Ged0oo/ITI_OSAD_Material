@@ -6,7 +6,7 @@ using namespace std;
 int main(){
     cout << "=== Deque (Double-Ended Queue) Implementation Test ===\n\n";
 
-    Queue que(5);
+    Queue<int> que;
 
     cout << "Testing insertRear operations:\n";
     que.insertRear(10);
@@ -40,7 +40,7 @@ int main(){
     que.display();
 
     cout << "Trying to insert when full:\n";
-    que.insertFront(0); 
+    que.insertFront(0);
 
     cout << "\nTesting empty queue condition:\n";
     que.deleteFront();
