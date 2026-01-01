@@ -1,0 +1,58 @@
+/* 1. All <p> elements */
+p {
+    color: #E74C3C;
+    font-size: 16px;
+}
+
+
+/* 2. All <p> and <div> elements */
+p, div {
+    font-size: 18px;
+}
+
+
+/* 3. <p class="mainClass"> direct child of div#myDiv */
+#myDiv > p.mainClass {
+    color: #b14356;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 600;
+}
+
+
+/* 4. All <p> inside any <div> */
+div p {
+    color: #00a79e;
+}
+
+
+/* 5. input[type="text"] with class myClass */
+input[type="text"].myClass {
+    border: 2px solid #2980B9;
+    padding: 6px;
+    border-radius: 4px;
+    outline: none;
+    font-size: 16px;
+}
+
+
+/* 6. All <span> elements after any <div> */
+div ~ span {
+    font-style: italic;
+    color: #8E44AD;
+}
+
+
+/* 7. <p> with class myClass */
+p.myClass {
+    font-family: monospace;
+    color: #16A085;
+}
+
+
+/* 8. <div> with id myDiv */
+#myDiv {
+    color: #D35400;
+    background-color: #FDEBD0;
+    padding: 10px;
+    border-radius: 6px;
+}

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+</head>
+<body>
+    <h2>Registration Page</h2>
+    <form action="Thankyou.html" method="get">
+        
+        <label>First Name:</label>
+        <input type="text" name="firstname" required><br><br>
+
+        <label>Last Name:</label>
+        <input type="text" name="lastname" required><br><br>
+
+        <label>Email:</label>
+        <input type="email" name="email" required><br><br>
+
+        <label>Password:</label>
+        <input type="password" name="password"><br><br>
+
+        <label>Repeat Password:</label>
+        <input type="password" name="repassword"><br><br>
+
+        <label>Birth Date:</label>
+        <input type="date" name="birthdate"><br><br>
+
+        <label>User Picture:</label>
+        <input type="file" name="userpic"><br><br>
+
+        <fieldset>
+            <legend>Gender</legend>
+            <input type="radio" name="gender" value="male"> Male
+            <input type="radio" name="gender" value="female"> Female
+        </fieldset>
+        <br>
+
+        <label>Faculty:</label>
+        <select name="faculty">
+            <option value="cs">Computer Science</option>
+            <option value="eng">Engineering</option>
+            <option value="bus">Business</option>
+        </select>
+        <br><br>
+
+        <fieldset>
+            <legend>Interests</legend>
+            <input type="checkbox" name="interest" value="programming"> Programming
+            <input type="checkbox" name="interest" value="reading"> Reading
+            <input type="checkbox" name="interest" value="swimming"> Swimming
+        </fieldset>
+        <br>
+
+        <label>About you:</label><br>
+        <textarea name="about" rows="4" cols="50"></textarea><br><br>
+
+        <input type="checkbox" name="terms" required> I agreed to terms and condition<br><br>
+
+        <input type="submit" value="Submit">
+        <input type="reset" value="Reset">
+
+    </form>
+</body>
+</html>

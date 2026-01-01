@@ -1,0 +1,29 @@
+body {
+    background-color: #f0f8ff;
+    font-family: Arial, sans-serif;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: rgb(247, 225, 236);
+}
+
+td, th {
+    border: 1px solid #ccc;
+    padding: 10px;
+    vertical-align: top;
+}
+
+.header, .nav, .footer {
+    text-align: center;
+    background-color: #dddddd;
+}
+
+.center-col {
+    width: 50%;
+}
+
+.side-col {
+    width: 25%;
+}
