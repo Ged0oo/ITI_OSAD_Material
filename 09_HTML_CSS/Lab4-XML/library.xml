@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Library>
+    <Location>
+        <City>Alexandria</City>
+        <Dist>Raml Station</Dist>
+        <Street>Nabi Danial</Street>
+        <BuildingNumber>22</BuildingNumber>
+    </Location>
+
+    <Description>
+        <![CDATA[ The central hub for Java & Web Technologies. Located at the <Heart> of the city. ]]>
+    </Description>
+
+    <Librarian id="LIB-001">
+        <Name>John Doe</Name>
+        <OnDuty />
+    </Librarian>
+
+    <Books>
+        <Book>
+            <ISBN> 20012409 </ISBN>
+            <Title>Java Programming</Title>
+            <Author>Mohamed Nagy</Author>
+            <Preface> Java Entrprice. </Preface>
+            <Parts>
+                <Part title="Core Concepts">
+                    <Chapters>
+                        <Chapter>
+                            <Title>Introduction to XML</Title>
+                            <Summary>Basics of markup languages.</Summary>
+                            <Sections>
+                                <Section>
+                                    <Paragraph>XML stands for eXtensible Markup Language.</Paragraph>
+                                    <Paragraph>It is designed to store data.</Paragraph>
+                                </Section>
+                            </Sections>
+                        </Chapter>
+                    </Chapters>
+                </Part>
+            </Parts>
+            <Available />
+        </Book>
+
+        <Book>
+            <ISBN> 20012408 </ISBN>
+            <Title>Clean Code</Title>
+            <Author>Robert Martin</Author>
+            <Preface>Handbook of Clean Coding Steps.</Preface>
+            <Parts>
+                <Part title="Principles">
+                    <Chapters>
+                        <Chapter>
+                            <Title>Meaningful Names</Title>
+                            <Summary>How to name variables and functions.</Summary>
+                            <Sections>
+                                <Section>
+                                    <Paragraph>Names should reveal intent.</Paragraph>
+                                    <Paragraph>Avoid disinformation in naming.</Paragraph>
+                                </Section>
+                            </Sections>
+                        </Chapter>
+                        <Chapter>
+                            <Title>Functions</Title>
+                            <Summary>Writing small and focused functions.</Summary>
+                            <Sections>
+                                <Section>
+                                    <Paragraph>Functions should do one thing.</Paragraph>
+                                </Section>
+                            </Sections>
+                        </Chapter>
+                    </Chapters>
+                </Part>
+            </Parts>
+            <ReferenceOnly />
+        </Book>
+    </Books>
+</Library>
