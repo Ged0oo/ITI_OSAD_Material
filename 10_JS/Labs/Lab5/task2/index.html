@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task2</title>
+</head>
+<body>
+
+    <form id="regForm" action="welcome.html" method="GET">
+        Name: <input type="text" name="userName" required><br>
+        Title: <select name="title"><option>Mr.</option><option>Ms.</option></select><br>
+        Email: <input type="email" name="email"><br>
+        Mobile: <input type="text" name="mobile"><br>
+        Address: <input type="text" name="address"><br>
+        Gender: <input type="radio" name="gender" value="Male"> M
+                <input type="radio" name="gender" value="Female"> F <br>
+        <input type="submit" value="Register">
+    </form>
+
+    <script>
+        let timeout = setTimeout(() => {
+            alert("Timeout: Please fill the form!");
+        }, 30000);
+
+        document.getElementById("regForm").addEventListener("input", () => {
+            clearTimeout(timeout);
+        });
+    </script>
+
+</body>
+</html>

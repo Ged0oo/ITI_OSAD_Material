@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task3</title>
+</head>
+<body>
+    <button onclick="startClock()">Start Clock</button>
+    <div id="clk"></div>
+
+    <script>
+        let timer;
+
+        function startClock() {
+            alert("Clock Started");
+            timer = setInterval(() => {
+                let now = new Date();
+                document.getElementById("clk").innerText = now.toLocaleTimeString();
+            }, 1000);
+        }
+
+        window.addEventListener("keydown", (event) => {
+            if (event.altKey && event.key.toLowerCase() === "w") {
+                clearInterval(timer);
+                alert("Clock stopped");
+            }
+        });
+    </script>
+</body>
+</html>

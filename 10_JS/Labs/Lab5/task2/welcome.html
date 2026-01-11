@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task2</title>
+</head>
+<body>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        document.write(`<h1>Welcome, ${params.get('title')} ${params.get('userName')}</h1>`);
+        document.write(`<p><b>Email:</b> ${params.get('email')}</p>`);
+        document.write(`<p><b>Mobile:</b> ${params.get('mobile')}</p>`);
+        document.write(`<p><b>Address:</b> ${params.get('address')}</p>`);
+        document.write(`<p><b>Gender:</b> ${params.get('gender')}</p>`);
+    </script>
+</body>
+</html>

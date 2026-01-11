@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task1</title>
+</head>
+<body>
+    <script>
+        function openChildWindow() {
+            let childWindow = window.open("", "ChildWindow", "width=300,height=200");
+
+            childWindow.document.write("<h2>This will close after 5 Sec</h2>");
+            childWindow.document.close();
+
+            setTimeout(() => {
+                childWindow.close();
+            }, 5000);
+        }
+
+        openChildWindow();
+    </script>
+</body>
+</html>
