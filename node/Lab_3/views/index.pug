@@ -1,0 +1,35 @@
+doctype html
+html(lang="en")
+  head
+    title Inventory
+    style.
+      table {
+        border-collapse: collapse;
+        width: 60%;
+      }
+
+      th, td {
+        border: 1px solid #333;
+        padding: 8px;
+        text-align: left;
+      }
+
+      th {
+        background-color: #f4f4f4;
+      }
+
+  body
+    h1 Inventory List
+
+    table
+      thead
+        tr
+          th Name
+          th Quantity
+          th Category
+      tbody
+        each item in products
+          tr
+            td= item.name
+            td= item.quantity
+            td= item.category
