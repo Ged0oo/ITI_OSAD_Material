@@ -12,11 +12,16 @@ app.use(express.json());
 app.use(routers);
 
 app.use((req, res) => {
-  res.sendStatus(404);
+  res.status(404).json({ error: 'Route not found' });
 })
 
 app.use((error, req, res, next) => {
-  res.status(404).json({ error: error.message });
+  console.error('Error:', error);
+  const status = error.status || 500;
+  const message = error.message || 'Internal server error';
+  res.status(status).json({
+    error: message
+  });
 })
 
 const PORT = process.env.PORT || 3000;

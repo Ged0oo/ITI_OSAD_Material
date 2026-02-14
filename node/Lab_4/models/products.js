@@ -23,6 +23,12 @@ const productSchema = new mongoose.Schema(
       min: [1, "Product Quantity must be a positive value"]
     },
 
+    status: {
+      type: Number,
+      required: [true, "Product Quantity is required"],
+      min: [1, "Product Quantity must be a positive value"]
+    },
+
     categories: {
       type: [String],
       default: ["General"]

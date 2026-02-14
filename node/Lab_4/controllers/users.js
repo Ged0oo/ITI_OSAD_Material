@@ -1,28 +1,45 @@
 const users = require('../models/users')
 
-function createUser(data) {
-  return users.create(data);
+async function createUser(data) {
+  try {
+    const user = await users.create(data);
+    return { message: "User created successfully", user };
+  } catch (err) {
+    if (err.code === 11000) {
+      throw { status: 409, message: "Username already exists" };
+    }
+    throw { status: 400, message: err.message };
+  }
 }
 
 async function getUsers() {
-  const retUsers = await users.find({}, "firstName");
-  return retUsers.map(user => user.firstName);
+  try {
+    const retUsers = await users.find({}, "firstName");
+    return retUsers.map(user => user.firstName);
+  } catch (err) {
+    throw { status: 500, message: err.message };
+  }
 }
 
 async function deleteUser(userId) {
   try {
     const user = await users.findByIdAndDelete(userId);
-    if (!user) return { message: "User not found" };
+    if (!user) {
+      throw { status: 404, message: "User not found" };
+    }
     return { message: "User deleted successfully" };
   } catch (err) {
-    throw err;
+    if (err.status) throw err;
+    throw { status: 500, message: err.message };
   }
 }
 
 async function updateUser(userId, data) {
   try {
     const user = await users.findById(userId);
-    if (!user) return { message: "User not found" };
+    if (!user) {
+      throw { status: 404, message: "User not found" };
+    }
 
     if (data.username !== undefined) user.username = data.username;
     if (data.firstName !== undefined) user.firstName = data.firstName;
@@ -32,7 +49,11 @@ async function updateUser(userId, data) {
     await user.save();
     return { message: "User updated successfully", user };
   } catch (err) {
-    throw err;
+    if (err.status) throw err;
+    if (err.code === 11000) {
+      throw { status: 409, message: "Username already exists" };
+    }
+    throw { status: 400, message: err.message };
   }
 }
 
