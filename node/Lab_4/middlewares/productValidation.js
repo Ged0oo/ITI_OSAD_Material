@@ -20,7 +20,7 @@ const productCreationSchema = Joi.object({
     }),
   quantity: Joi.number()
     .integer()
-    .min(1)
+    .min(0)
     .required()
     .messages({
       'number.base': 'Quantity must be a number',
@@ -44,6 +44,12 @@ const productUpdateSchema = Joi.object({
     .messages({
       'string.min': 'Product name must be at least 5 characters',
       'string.max': 'Product name must not exceed 20 characters'
+    }),
+  status: Joi.string()
+    .valid('Instock', 'Outofstock', 'Discontinued')
+    .optional()
+    .messages({
+      'any.only': 'Status must be one of: Instock, Outofstock, Discontinued'
     }),
   categories: Joi.array()
     .items(Joi.string().min(1).max(50))

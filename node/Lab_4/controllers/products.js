@@ -3,6 +3,11 @@ const products = require('../models/products')
 async function createProduct(data) {
   try {
     const product = await products.create(data);
+
+    if(product.quantity > 2) product.status = "InStock";
+    else if(product.quantity === 0) product.status = "OutOfStock";
+    else if(product.quantity < 2) product.status = "LowStock";
+
     return { message: "Product created successfully", product };
   } catch (err) {
     if (err.code === 11000) {
@@ -20,6 +25,7 @@ async function updateProduct(productId, data) {
     }
 
     if (data.name !== undefined) product.name = data.name;
+    if (data.status !== undefined) product.status = data.status;
     if (data.categories !== undefined) product.categories = data.categories;
 
     await product.save();
