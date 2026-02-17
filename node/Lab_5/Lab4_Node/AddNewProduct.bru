@@ -1,0 +1,25 @@
+meta {
+  name: AddNewProduct
+  type: http
+  seq: 5
+}
+
+post {
+  url: http://127.0.0.1:3000/products
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "owner": "699155268be915c11d1cd908",
+    "name": "NewProduct",
+    "quantity": 5,
+    "categories": ["Refregrator", "Electronics"]
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
