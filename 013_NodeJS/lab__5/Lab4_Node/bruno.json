@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "Lab4_Node",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

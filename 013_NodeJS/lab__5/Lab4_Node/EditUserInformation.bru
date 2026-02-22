@@ -1,0 +1,22 @@
+meta {
+  name: EditUserInformation
+  type: http
+  seq: 4
+}
+
+patch {
+  url: http://127.0.0.1:3000/users/699155138be915c11d1cd906
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "username": "lioneelmessi"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

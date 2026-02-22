@@ -1,0 +1,26 @@
+meta {
+  name: EditProduct
+  type: http
+  seq: 7
+}
+
+patch {
+  url: http://127.0.0.1:3000/products/6991ca23de765761e1a26206
+  body: json
+  auth: inherit
+}
+
+headers {
+  Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTkxYzdmMzY5NjNlNDg3MDVjNzY2NWUiLCJpYXQiOjE3NzExNjE3NjcsImV4cCI6MTc3MTc2NjU2N30.uA6WkH16QI0A_y_BEpoHhq8EP176bBMF-lnlUoce9Q0
+}
+
+body:json {
+  {
+    "name": "DellG5Ultra"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

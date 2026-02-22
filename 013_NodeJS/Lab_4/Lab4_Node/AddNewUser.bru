@@ -1,0 +1,26 @@
+meta {
+  name: AddNewUser
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://127.0.0.1:3000/users
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "username": "ahmedmohamed2521",
+    "firstName": "Ahmed",
+    "lastName": "Mohamed",
+    "password": "010250mN@2@",
+    "email": "ahmedmo@gmail.com"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
