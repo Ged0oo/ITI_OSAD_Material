@@ -171,12 +171,35 @@ vim /etc/hostname
 
 ## 13. How could you have the message only appear in the "logging server's" files
 
+### On the Workstation (Client)
+
+Edit rsyslog configuration:
+
 ```bash
-vim /etc/hostname
+vim /etc/rsyslog.conf
 ```
 
-<p align="left">
-  <img src="./13.png" alt="screen" />
-</p>
+Add:
 
-----------------------
+```bash
+*.* @192.168.1.10:514
+& stop
+```
+
+> Replace `192.168.1.10` with your logging server IP address.
+
+Restart rsyslog:
+
+```bash
+systemctl restart rsyslog
+```
+
+### On the Server side
+
+```bash
+logger "Remote only test message"
+```
+
+Result:
+- Appears on logging server `/var/log/messages`
+- Does NOT appear on workstation `/var/log/messages`
