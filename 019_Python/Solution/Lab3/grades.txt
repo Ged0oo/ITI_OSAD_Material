@@ -1,0 +1,7 @@
+1,Python,85
+1,Java,90
+2,DSA,87
+2,Database,88
+2,SystemDesign,89
+3,Math,80
+3,Physics,92
