@@ -1,0 +1,122 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: sans-serif;
+    background: #f4f6f8;
+    color: #222;
+}
+
+.navbar {
+    background: #1f2a44;
+    padding: 10px 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 80px;
+}
+
+.logo a {
+    color: #ffffff;
+    font-size: 40px;
+    font-weight: normal;
+    text-decoration: none;
+    font-family: Arial, sans-serif;
+}
+
+.nav-links a {
+    color: #fff;
+    font-size: 30px;
+    margin-left: 40px;
+    text-decoration: none;
+    font-weight: 500;
+    position: relative;
+    transition: 0.3s;
+}
+
+.logo a:hover {
+    color: #d1d5db;
+}
+
+.nav-links a::after {
+    content: "";
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    background: #00c6ff;
+    left: 0;
+    bottom: -5px;
+    transition: 0.3s;
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+.container {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 0 16px;
+}
+
+.card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 14px;
+    margin-bottom: 14px;
+}
+
+label {
+    display: block;
+    margin: 8px 0 4px;
+}
+
+input,
+textarea,
+button {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 8px;
+}
+
+button {
+    cursor: pointer;
+    background: #1f2a44;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+}
+
+.student-item {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 12px;
+    align-items: center;
+}
+
+.avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.danger {
+    background: #c0392b;
+}
+
+.center-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+    text-align: center;
+}

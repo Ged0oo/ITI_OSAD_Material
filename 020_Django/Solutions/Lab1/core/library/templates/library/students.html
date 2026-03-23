@@ -1,0 +1,50 @@
+{% extends 'library/base.html' %}
+
+{% block content %}
+<h1>Students</h1>
+
+<form method="post" class="card">
+    {% csrf_token %}
+    <label>Name</label>
+    <input type="text" name="name" required>
+
+    <label>Age</label>
+    <input type="number" name="age" min="1" required>
+
+    <label>Email</label>
+    <input type="email" name="email" required>
+
+    <label>Image URL</label>
+    <input type="url" name="image" placeholder="https://example.com/image.jpg">
+
+    <button type="submit">Add Student</button>
+</form>
+
+<div class="list">
+    {% for student in students %}
+    <div class="card student-item">
+        <div>
+            <strong>{{ student.name }}</strong><br>
+            Age: {{ student.age }}<br>
+            Email: {{ student.email }}
+        </div>
+
+        <div>
+            {% if student.image %}
+            <img src="{{ student.image }}" alt="{{ student.name }}" class="avatar">
+            {% endif %}
+        </div>
+
+        <form method="post" action="{% url 'delete_student' student.id %}">
+            {% csrf_token %}
+            <button type="submit" class="danger">Delete</button>
+        </form>
+    </div>
+
+    {% empty %}
+    <p>No students yet.</p>
+    {% endfor %}
+
+</div>
+
+{% endblock %}

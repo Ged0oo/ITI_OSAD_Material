@@ -1,0 +1,34 @@
+{% extends 'library/base.html' %}
+
+{% block content %}
+<h1>Contact Us</h1>
+
+<form method="post" class="card">
+    {% csrf_token %}
+    <label>Email</label>
+    <input type="email" name="email" required>
+
+    <label>Message</label>
+    <textarea name="message" rows="4" required></textarea>
+
+    <button type="submit">Send Feedback</button>
+</form>
+
+<h2>Submitted Feedback</h2>
+
+<div class="list">
+    {% for feedback in feedback_list %}
+    
+    <div class="card">
+        <strong>{{ feedback.email }}</strong><br>
+        <span>{{ feedback.message }}</span><br>
+        <small>{{ feedback.date_added }}</small>
+    </div>
+
+    {% empty %}
+    <p>No feedback yet.</p>
+    {% endfor %}
+
+</div>
+
+{% endblock %}
