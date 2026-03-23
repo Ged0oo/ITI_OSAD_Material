@@ -1,0 +1,257 @@
+/* ─── Custom Properties ────────────────────────────────────────────── */
+:root {
+  --color-bg: #1a1a2e;
+  --color-container: #16213e;
+  --color-controls: #0f3460;
+  --color-bar: #4a90d9;
+  --color-comparing: #e74c3c;
+  --color-swapping: #f1c40f;
+  --color-sorted: #2ecc71;
+  --color-btn-primary: #4a90d9;
+  --color-btn-hover: #357abd;
+  --color-btn-disabled: #555;
+  --color-text: #e0e0e0;
+  --color-text-muted: #9b9b9b;
+  --radius: 6px;
+  --transition: 0.15s ease;
+}
+
+/* ─── Reset & Base ─────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 32px 16px;
+}
+
+/* ─── Container ────────────────────────────────────────────────────── */
+.container {
+  width: 100%;
+  max-width: 960px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ─── Header ───────────────────────────────────────────────────────── */
+header {
+  text-align: center;
+}
+
+header h1 {
+  font-size: 2rem;
+  letter-spacing: 0.5px;
+  color: var(--color-bar);
+}
+
+.subtitle {
+  margin-top: 4px;
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}
+
+/* ─── Controls ─────────────────────────────────────────────────────── */
+#controls {
+  background-color: var(--color-controls);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 16px;
+}
+
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 140px;
+}
+
+.control-group label {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--color-text-muted);
+}
+
+.action-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+
+/* ─── Buttons ──────────────────────────────────────────────────────── */
+button {
+  padding: 9px 18px;
+  border: none;
+  border-radius: var(--radius);
+  background-color: var(--color-btn-primary);
+  color: #fff;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--transition), opacity var(--transition);
+  white-space: nowrap;
+}
+
+button:hover:not(:disabled) {
+  background-color: var(--color-btn-hover);
+}
+
+button:disabled {
+  background-color: var(--color-btn-disabled);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+#btn-reset {
+  background-color: #555;
+}
+
+#btn-reset:hover:not(:disabled) {
+  background-color: #444;
+}
+
+#btn-pause {
+  background-color: #d97a4a;
+}
+
+#btn-pause:hover:not(:disabled) {
+  background-color: #b8633a;
+}
+
+/* ─── Select ───────────────────────────────────────────────────────── */
+select {
+  padding: 8px 10px;
+  border-radius: var(--radius);
+  border: 1px solid #2a5a8a;
+  background-color: #0d2a4a;
+  color: var(--color-text);
+  font-size: 0.88rem;
+  cursor: pointer;
+  outline: none;
+}
+
+select:focus {
+  border-color: var(--color-bar);
+}
+
+/* ─── Speed Slider ─────────────────────────────────────────────────── */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 130px;
+  height: 6px;
+  border-radius: 3px;
+  background: linear-gradient(
+    to right,
+    var(--color-bar) 0%,
+    var(--color-bar) calc(var(--val, 50) * 1%),
+    #2a5a8a calc(var(--val, 50) * 1%),
+    #2a5a8a 100%
+  );
+  cursor: pointer;
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: #fff;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+}
+
+/* ─── Legend ───────────────────────────────────────────────────────── */
+#legend {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.legend-item {
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: 0.4px;
+}
+
+.legend-item.comparing {
+  background-color: var(--color-comparing);
+}
+
+.legend-item.swapping {
+  background-color: var(--color-swapping);
+  color: #333;
+}
+
+.legend-item.sorted {
+  background-color: var(--color-sorted);
+}
+
+/* ─── Visualization ────────────────────────────────────────────────── */
+#visualization {
+  background-color: var(--color-container);
+  border-radius: var(--radius);
+  height: 360px;
+  display: flex;
+  align-items: flex-end;
+  padding: 12px 12px 0;
+  gap: 2px;
+  overflow: hidden;
+}
+
+/* ─── Bar ──────────────────────────────────────────────────────────── */
+.bar {
+  flex: 1;
+  min-width: 4px;
+  background-color: var(--color-bar);
+  border-radius: 2px 2px 0 0;
+  transition: background-color 0.1s ease, height 0.05s ease;
+}
+
+.bar.comparing {
+  background-color: var(--color-comparing);
+}
+
+.bar.swapping {
+  background-color: var(--color-swapping);
+}
+
+.bar.sorted {
+  background-color: var(--color-sorted);
+}
+
+/* ─── Responsive ───────────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  header h1 {
+    font-size: 1.4rem;
+  }
+
+  #visualization {
+    height: 260px;
+  }
+
+  .control-group {
+    min-width: 100px;
+  }
+}

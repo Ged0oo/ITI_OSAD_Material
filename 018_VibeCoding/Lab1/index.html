@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sorting Algorithm Visualizer</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>Sorting Algorithm Visualizer</h1>
+        <p class="subtitle">Watch algorithms sort step-by-step</p>
+      </header>
+
+      <section id="controls">
+        <button id="btn-generate">Generate New Array</button>
+
+        <div class="control-group">
+          <label for="algorithm">Algorithm</label>
+          <select id="algorithm">
+            <option value="bubble">Bubble Sort</option>
+            <option value="selection">Selection Sort</option>
+            <option value="insertion">Insertion Sort</option>
+            <option value="merge">Merge Sort</option>
+            <option value="quick">Quick Sort</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <label for="speed">Speed</label>
+          <input type="range" id="speed" min="1" max="100" value="50" />
+        </div>
+
+        <div class="action-buttons">
+          <button id="btn-start">Start Sorting</button>
+          <button id="btn-pause" disabled>Pause</button>
+          <button id="btn-reset">Reset</button>
+        </div>
+      </section>
+
+      <div id="legend">
+        <span class="legend-item comparing">Comparing</span>
+        <span class="legend-item swapping">Swapping</span>
+        <span class="legend-item sorted">Sorted</span>
+      </div>
+
+      <div id="visualization"></div>
+    </div>
+
+    <script src="script.js" defer></script>
+  </body>
+</html>

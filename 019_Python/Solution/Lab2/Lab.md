@@ -1,4 +1,4 @@
-# Lap2 : Python
+# Lab2 : Python
 
 ## Calculate Area Function.
 
