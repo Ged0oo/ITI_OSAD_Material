@@ -1,0 +1,89 @@
+{% extends 'library/base.html' %}
+
+{% block content %}
+
+<h1>Grades</h1>
+
+<form method="get" class="card">
+	<label>Search by student ID, student name, or subject name</label>
+	<input type="text" name="q" value="{{ query }}" placeholder="ex: 1 or Ahmed or Math">
+	<button type="submit">Search</button>
+</form>
+
+<form method="post" class="card">
+	{% csrf_token %}
+	{% if editing_grade %}
+	<input type="hidden" name="action" value="update">
+	<input type="hidden" name="grade_id" value="{{ editing_grade.id }}">
+	{% else %}
+	<input type="hidden" name="action" value="create">
+	{% endif %}
+
+	<label>Student</label>
+	<select name="student_id" required>
+		<option value="">Select Student</option>
+		{% for student in students %}
+		<option value="{{ student.id }}" {% if editing_grade and editing_grade.student_id == student.id %}selected{% endif %}>
+			{{ student.id }} - {{ student.name }}
+		</option>
+		{% endfor %}
+	</select>
+
+	<label>Subject</label>
+	<select name="subject_id" required>
+		<option value="">Select Subject</option>
+		{% for subject in subjects %}
+		<option value="{{ subject.id }}" {% if editing_grade and editing_grade.subject_id == subject.id %}selected{% endif %}>
+			{{ subject.code }} - {{ subject.name }}
+		</option>
+		{% endfor %}
+	</select>
+
+	<label>Score</label>
+	<input type="number" name="score" min="0" max="100" step="0.01" value="{{ editing_grade.score|default:'' }}" required>
+
+	<button type="submit">{% if editing_grade %}Update Grade{% else %}Add Grade{% endif %}</button>
+	{% if editing_grade %}
+	<a class="inline-link" href="{% url 'grade' %}">Cancel Edit</a>
+	{% endif %}
+</form>
+
+<div class="card">
+	<h2>Grade Display</h2>
+	{% if grades %}
+	<table class="data-table">
+		<thead>
+			<tr>
+				<th>Student ID</th>
+				<th>Student</th>
+				<th>Subject</th>
+				<th>Score</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for item in grades %}
+			<tr>
+				<td>{{ item.student.id }}</td>
+				<td>{{ item.student.name }}</td>
+				<td>{{ item.subject.name }}</td>
+				<td>{{ item.score }}</td>
+				<td>
+					<a class="inline-link" href="{% url 'grade' %}?edit={{ item.id }}">Edit</a>
+					<form method="post" class="inline-form">
+						{% csrf_token %}
+						<input type="hidden" name="action" value="delete">
+						<input type="hidden" name="grade_id" value="{{ item.id }}">
+						<button type="submit" class="danger small">Delete</button>
+					</form>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	{% else %}
+	<p>No grades found.</p>
+	{% endif %}
+</div>
+
+{% endblock content %}

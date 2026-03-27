@@ -1,0 +1,38 @@
+{% extends 'library/base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+<div class="center-box">
+    <img src="{% static 'library/logo.jpeg' %}" alt="ITI Image">
+    <h1>Welcome to ITI</h1>
+</div>
+
+<section class="card">
+    <h2>Leaderboard - Top 5 Students</h2>
+    {% if leaderboard %}
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Student Name</th>
+                <th>Subjects</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in leaderboard %}
+            <tr>
+                <td>{{ student.name }}</td>
+                <td>{{ student.grades.count }}</td>
+                <td>{{ student.total|floatformat:2 }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No grades yet.</p>
+    {% endif %}
+</section>
+
+{% endblock %}

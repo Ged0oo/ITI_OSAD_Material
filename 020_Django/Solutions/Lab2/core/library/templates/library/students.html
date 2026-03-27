@@ -1,0 +1,69 @@
+{% extends 'library/base.html' %}
+
+{% block content %}
+<h1>Students</h1>
+
+<form method="post" class="card">
+    {% csrf_token %}
+    {% if editing_student %}
+    <input type="hidden" name="action" value="update">
+    <input type="hidden" name="student_id" value="{{ editing_student.id }}">
+    {% else %}
+    <input type="hidden" name="action" value="create">
+    {% endif %}
+
+    <label>Name</label>
+    <input type="text" name="name" value="{{ editing_student.name|default:'' }}" required>
+
+    <label>Age</label>
+    <input type="number" name="age" min="1" value="{{ editing_student.age|default:'' }}" required>
+
+    <label>Email</label>
+    <input type="email" name="email" value="{{ editing_student.email|default:'' }}" required>
+
+    <label>Image URL</label>
+    <input
+        type="url"
+        name="image"
+        value="{{ editing_student.image | default:'https://img.freepik.com/free-vector/smiling-young-man-illustration_1308-174669.jpg?semt=ais_hybrid&w=740&q=80' }}" 
+        placeholder="https://example.com/image.jpg">
+        
+    <button type="submit">{% if editing_student %}Update Student{% else %}Add Student{% endif %}</button>
+    {% if editing_student %}
+    <a class="inline-link" href="{% url 'students' %}">Cancel Edit</a>
+    {% endif %}
+</form>
+
+<div class="list">
+    {% for student in students %}
+    <div class="card student-item">
+        <div>
+            <strong>{{ student.name }}</strong><br>
+            Age: {{ student.age }}<br>
+            Email: {{ student.email }}
+        </div>
+
+        <div>
+            {% if student.image %}
+            <img src="{{ student.image }}" alt="{{ student.name }}" class="avatar">
+            {% endif %}
+        </div>
+
+        <div class="row-actions">
+        <a class="inline-link" href="{% url 'students' %}?edit={{ student.id }}">Edit</a>
+        <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="delete">
+            <input type="hidden" name="student_id" value="{{ student.id }}">
+            <button type="submit" class="danger">Delete</button>
+        </form>
+        </div>
+    </div>
+
+    {% empty %}
+    <p>No students yet.</p>
+    {% endfor %}
+
+</div>
+
+{% endblock %}
