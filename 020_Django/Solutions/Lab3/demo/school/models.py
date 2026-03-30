@@ -30,12 +30,6 @@ class StudentCourse(models.Model):
     def __str__(self):
         return f"{self.student.name} - {self.course.name}"
 
-class SchoolClass(models.Model):
-    name = models.CharField(max_length=100)
-    students = models.ManyToManyField(Student, related_name='classes')
-    def __str__(self):
-        return self.name
-
 
 class StudentToken(models.Model):
     student = models.OneToOneField(Student, on_delete=models.CASCADE, related_name='session_token')

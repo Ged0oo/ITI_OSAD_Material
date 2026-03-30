@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.hashers import make_password
-from .models import Student, Course, StudentCourse, SchoolClass
+from .models import Student, Course
 
 
 class StudentSerializer(serializers.ModelSerializer):
@@ -22,12 +22,6 @@ class StudentSerializer(serializers.ModelSerializer):
             validated_data['password'] = make_password(password)
         return super().create(validated_data)
 
-    def update(self, instance, validated_data):
-        password = validated_data.pop('password', None)
-        if password:
-            validated_data['password'] = make_password(password)
-        return super().update(instance, validated_data)
-
 
 class CourseSerializer(serializers.ModelSerializer):
     class Meta:
@@ -36,21 +30,6 @@ class CourseSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'students': {'required': False},
         }
-
-
-class StudentCourseSerializer(serializers.ModelSerializer):
-    course_name = serializers.CharField(source='course.name', read_only=True)
-    student_name = serializers.CharField(source='student.name', read_only=True)
-
-    class Meta:
-        model = StudentCourse
-        fields = ['id', 'student', 'student_name', 'course', 'course_name']
-
-
-class SchoolClassSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = SchoolClass
-        fields = '__all__'
 
 
 class RegisterStudentSerializer(serializers.ModelSerializer):
