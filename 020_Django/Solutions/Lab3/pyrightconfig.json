@@ -1,0 +1,9 @@
+{
+    "venvPath": "/home/nagy/Mine/ITI/020_Django/Solutions/Lab3",
+    "venv": "venv",
+    "executionEnvironments": [
+        {
+            "root": "demo"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+school system 
+no grades
+
+navBar: home ,student , contact us
+page1:
+ welcome to iti 
+page2:
+ form to create a student(name , age, email ,image)
+ display students
+ delete students
+page3:
+ contact us
+  form create feedback(email, message,date added)

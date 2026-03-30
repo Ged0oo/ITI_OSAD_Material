@@ -1,10 +1,11 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework import generics, viewsets
 from django.contrib.auth.hashers import check_password
 from django.core import signing
-from .models import Student, Course, StudentCourse, SchoolClass, StudentToken
-from .serializer import StudentSerializer, CourseSerializer, StudentCourseSerializer, SchoolClassSerializer, RegisterStudentSerializer
+from .models import Student, Course, StudentCourse, StudentToken
+from .serializer import StudentSerializer, CourseSerializer, StudentCourseSerializer, RegisterStudentSerializer
 
 
 def get_token(request):
@@ -122,75 +123,112 @@ def logout(request):
     return Response({'message': 'Logout successful'}, status=status.HTTP_200_OK)
 
 
+class StudentListCreateView(generics.ListCreateAPIView):
+    queryset = Student.objects.all()
+    serializer_class = StudentSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=False)
+
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        if Student.objects.filter(email=serializer.validated_data['email']).exists():
+            return Response({'error': 'Student with this email already exists'}, status=status.HTTP_400_BAD_REQUEST)
+
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+
+class StudentDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Student.objects.all()
+    serializer_class = StudentSerializer
+    lookup_field = 'id'
+
+
 @api_view(['GET', 'POST'])
-def student_list(request):
+def course_list(request):
     if request.method == 'GET':
-        students = Student.objects.all()
-        serializer = StudentSerializer(students, many=True)
+        courses = Course.objects.all()
+        serializer = CourseSerializer(courses, many=True)
         return Response(serializer.data)
 
-    elif request.method == 'POST':
-        serializer = StudentSerializer(data=request.data)
-        if serializer.is_valid():
-            if Student.objects.filter(email=serializer.validated_data['email']).exists():
-                return Response({'error': 'Student with this email already exists'}, status=status.HTTP_400_BAD_REQUEST)
-            
-            serializer.save()
-            
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-@api_view(['GET', 'POST'])
-def courses_list(request, id):
-    try:
-        student = Student.objects.get(id=id)
-    except Student.DoesNotExist:
-        return Response({'error': 'Student not found'}, status=status.HTTP_404_NOT_FOUND)
-
-    if request.method == 'GET':
-        student_courses = StudentCourse.objects.filter(student=student).select_related('course', 'student')
-        serializer = StudentCourseSerializer(student_courses, many=True)
-        return Response(serializer.data)
-    
-    elif request.method == 'POST':
-        student_course, error_response = enroll_student_course(student, request.data)
-        if error_response:
-            return error_response
-        serializer = StudentCourseSerializer(student_course)
+    serializer = CourseSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-
-@api_view(['GET', 'POST'])
-def courses_for_logged_in_user(request):
-    student, error_response = student_from_token(request)
-    if error_response:
-        return error_response
-
-    if request.method == 'GET':
-        student_courses = StudentCourse.objects.filter(student=student).select_related('course', 'student')
-        serializer = StudentCourseSerializer(student_courses, many=True)
-        return Response(serializer.data)
-
-    student_course, error_response = enroll_student_course(student, request.data)
-    if error_response:
-        return error_response
-
-    serializer = StudentCourseSerializer(student_course)
-    return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
-def student_detail(request, id):
+def course_detail(request, id):
     try:
-        student = Student.objects.get(id=id)
-    except Student.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+        course = Course.objects.get(id=id)
+    except Course.DoesNotExist:
+        return Response({'error': 'Course not found'}, status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
-        serializer = StudentSerializer(student)
+        serializer = CourseSerializer(course)
         return Response(serializer.data)
 
-    elif request.method == 'DELETE':
-        student.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+    if request.method == 'PUT':
+        serializer = CourseSerializer(course, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    course.delete()
+    return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class StudentCourseViewSet(viewsets.ModelViewSet):
+    queryset = StudentCourse.objects.select_related('student', 'course').all()
+    serializer_class = StudentCourseSerializer
+
+    def list_by_student(self, request, id=None):
+        try:
+            student = Student.objects.get(id=id)
+        except Student.DoesNotExist:
+            return Response({'error': 'Student not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        student_courses = self.get_queryset().filter(student=student)
+        serializer = self.get_serializer(student_courses, many=True)
+        return Response(serializer.data)
+
+    def create_for_student(self, request, id=None):
+        try:
+            student = Student.objects.get(id=id)
+        except Student.DoesNotExist:
+            return Response({'error': 'Student not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        student_course, error_response = enroll_student_course(student, request.data)
+        if error_response:
+            return error_response
+
+        serializer = self.get_serializer(student_course)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    def list_for_logged_in_student(self, request):
+        student, error_response = student_from_token(request)
+        if error_response:
+            return error_response
+
+        student_courses = self.get_queryset().filter(student=student)
+        serializer = self.get_serializer(student_courses, many=True)
+        return Response(serializer.data)
+
+    def create_for_logged_in_student(self, request):
+        student, error_response = student_from_token(request)
+        if error_response:
+            return error_response
+
+        student_course, error_response = enroll_student_course(student, request.data)
+        if error_response:
+            return error_response
+
+        serializer = self.get_serializer(student_course)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+

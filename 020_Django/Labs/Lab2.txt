@@ -1,0 +1,27 @@
+nav bar 
+  home
+  students
+  subjects
+  grade
+  userprofile
+  logout
+
+students
+  student display
+  student crud
+
+subjects
+  search display 
+  search crud
+
+grades
+  search studentid or subjectname 
+  grad display
+  grade crud
+
+
+user must be logged in to got to home
+
+BOUNS
+  leaderboard best 5 students 
+  student name , subjects ,total
