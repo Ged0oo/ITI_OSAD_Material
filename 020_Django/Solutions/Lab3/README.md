@@ -1,150 +1,83 @@
-# School API Project Documentation
+# School API - Current Implementation
 
-## 1. Overview
+This README reflects what is currently implemented in code.
 
-This project is a Django + Django REST Framework backend API for managing:
+## Overview
 
-- Students
-- Courses
-- Student-Course enrollment
-- Authentication (signup, login, logout)
+The project is a Django + Django REST Framework backend that provides:
 
-The API uses a mixed DRF style:
+- Student CRUD APIs
+- Course APIs
+- Signup/Login/Logout APIs using signed tokens
+- Student-to-course enrollment via a join model
 
-- **Student** endpoints: Class-Based Views (CBV)
-- **Course** endpoints: Function-Based Views (FBV)
-- **StudentCourse** endpoints: ViewSet-based views
+The project uses mixed view styles:
 
----
+- Student endpoints: class-based generic views
+- Auth and course endpoints: function-based views
 
-## 2. Tech Stack
+## Tech Stack
 
-- Python 3.10+
+- Python 3
 - Django 5.2.x
 - Django REST Framework
-- SQLite (default database)
+- SQLite (local db)
 
----
+## Current Data Models
 
-## 3. Project Structure
+### Student
 
-```text
-Lab3/
-├── demo/
-│   ├── manage.py
-│   ├── db.sqlite3
-│   ├── demo/
-│   │   ├── settings.py
-│   │   └── urls.py
-│   └── school/
-│       ├── models.py
-│       ├── serializer.py
-│       ├── views.py
-│       ├── urls.py
-│       └── migrations/
-├── venv/
-└── README.md
-```
+- id
+- name
+- age
+- gpa
+- email (unique)
+- username
+- password (hashed in serializers)
 
----
+### Course
 
-## 4. Data Model
+- id
+- name
+- description
+- students (ManyToMany with Student)
 
-### 4.1 Student
+### StudentCourse
 
-Fields:
+- student (FK -> Student)
+- course (FK -> Course)
+- unique constraint on `(student, course)`
 
-- `id` (auto)
-- `name` (required)
-- `age` (required)
-- `gpa` (required)
-- `email` (required, unique)
-- `username` (required)
-- `password` (required, hashed in serializers)
+### StudentToken
 
-### 4.2 Course
+- student (OneToOne -> Student)
+- token (unique)
+- created_at
+- updated_at
 
-Fields:
+## Authentication Flow
 
-- `id` (auto)
-- `name`
-- `description`
-- `students` (ManyToMany to Student)
+The app uses `django.core.signing` tokens and stores only active tokens in `StudentToken`.
 
-### 4.3 StudentCourse
+1. Login validates username/password.
+2. A signed token is generated.
+3. Token is stored with `StudentToken.objects.update_or_create(...)`.
+4. Protected operations read token from `Authorization` header (supports `Bearer <token>` or raw token).
+5. Logout deletes token row, immediately invalidating the token.
 
-Join table for student-course enrollment.
+## API Endpoints (Current)
 
-Fields:
+Base URL (local): `http://127.0.0.1:8000/`
 
-- `id` (auto)
-- `student` (FK)
-- `course` (FK)
+Note: URLs are registered without trailing slashes.
 
-Constraints:
+### Auth
 
-- Unique pair (`student`, `course`) via `unique_student_course`.
+- `POST /signup`
+- `POST /login`
+- `POST /logout`
 
-### 4.4 SchoolClass
-
-Fields:
-
-- `id` (auto)
-- `name`
-- `students` (ManyToMany to Student)
-
-### 4.5 StudentToken
-
-Used for persistent server-side token sessions.
-
-Fields:
-
-- `id` (auto)
-- `student` (OneToOne to Student)
-- `token` (unique)
-- `created_at`
-- `updated_at`
-
----
-
-## 5. Authentication & Session Flow
-
-This project uses signed tokens (`django.core.signing`) plus a token table (`StudentToken`) for active-session checks.
-
-### Login
-
-1. User submits `username` and `password`.
-2. Password is validated with `check_password`.
-3. Signed token is generated.
-4. Token is stored/updated in `StudentToken` for that student.
-5. Token is returned in response.
-
-### Authenticated Requests
-
-- Client sends token in `Authorization` header.
-- Server verifies:
-  - Signature validity
-  - Token exists in `StudentToken`
-  - Token belongs to student in payload
-
-### Logout
-
-- Client calls logout endpoint with token in `Authorization` header.
-- Token row is deleted from `StudentToken`.
-- Token becomes inactive immediately.
-
----
-
-## 6. API Endpoints
-
-Base URL: `http://localhost:8000/`
-
-### 6.1 Auth
-
-#### `POST /signup/`
-Create student account.
-
-Request body:
+Example signup body:
 
 ```json
 {
@@ -157,20 +90,7 @@ Request body:
 }
 ```
 
-Response:
-
-```json
-{
-  "id": 1,
-  "username": "mnagy156",
-  "email": "monagy@iti.com"
-}
-```
-
-#### `POST /login/`
-Login and receive token.
-
-Request body:
+Example login body:
 
 ```json
 {
@@ -179,159 +99,64 @@ Request body:
 }
 ```
 
-Response (example):
+### Students
 
-```json
-{
-  "message": "Login successful",
-  "token": "<signed-token>",
-  "id": 1,
-  "username": "mnagy156",
-  "email": "monagy@iti.com"
-}
-```
+- `GET /students`
+- `POST /students`
+- `GET /students/<id>`
+- `PUT /students/<id>`
+- `PATCH /students/<id>`
+- `DELETE /students/<id>`
 
-#### `POST /logout/`
-Invalidate current token.
+### Courses
 
-Headers:
+- `GET /courses`
+  - Returns all courses.
+- `POST /courses`
+  - Requires `Authorization` token.
+  - If body contains `course_id`, enrolls the logged-in student in an existing course.
+  - Otherwise creates a new course from body (`name`, `description`) and enrolls the logged-in student.
 
-```text
-Authorization: Bearer <signed-token>
-```
+- `GET /courses/<id>`
+  - Returns course details.
+- `DELETE /courses/<id>`
+  - Deletes course.
 
-Response:
+Important implementation note:
 
-```json
-{
-  "message": "Logout successful"
-}
-```
+- `PUT /courses/<id>` is currently allowed by decorator and follows the delete path in code (same behavior as delete). This is a current behavior issue in implementation, not intended REST behavior.
 
----
-
-### 6.2 Students
-
-#### `GET /students/`
-List all students.
-
-#### `POST /students/`
-Create a student directly (all required fields expected).
-
-#### `GET /students/<id>/`
-Get student details.
-
-#### `DELETE /students/<id>/`
-Delete student.
-
----
-
-### 6.3 Courses (for logged-in student)
-
-#### `GET /courses/`
-List logged-in student's enrollments.
-
-Headers:
-
-```text
-Authorization: Bearer <signed-token>
-```
-
-#### `POST /courses/`
-Enroll logged-in student.
-
-Two supported payload patterns:
-
-1. Enroll into existing course
-
-```json
-{
-  "course_id": 3
-}
-```
-
-2. Create and enroll in a new course
-
-```json
-{
-  "name": "Algorithms",
-  "description": "Algorithm analysis and design"
-}
-```
-
-Headers:
-
-```text
-Authorization: Bearer <signed-token>
-```
-
----
-
-### 6.4 Courses by student id
-
-#### `GET /students/<id>/courses/`
-List enrollments for a specific student.
-
-#### `POST /students/<id>/courses/`
-Enroll specified student to existing/new course (same payload shape as `/courses/`).
-
----
-
-## 7. Serializers Summary
+## Serializer Behavior
 
 ### StudentSerializer
 
-- `password` is write-only.
-- Password is hashed on create and update.
-- Required fields enforced: `name`, `age`, `gpa`, `email`, `username`, `password`.
+- Includes all student fields.
+- `password` is write-only and required.
+- Hashes password during create.
 
 ### RegisterStudentSerializer
 
-- Used by signup endpoint.
-- Enforces all required registration/student fields.
-- Hashes password before save.
+- Used by `/signup`.
+- Requires: `name`, `age`, `gpa`, `username`, `password`, `email`.
+- Hashes password before create.
 
-### StudentCourseSerializer
+### CourseSerializer
 
-- Returns:
-  - `id`
-  - `student`
-  - `student_name`
-  - `course`
-  - `course_name`
+- Includes all course fields.
+- `students` is optional in request payload.
 
----
+## Run Locally
 
-## 8. Running the Project
-
-From `Lab3/demo`:
+From `demo/`:
 
 ```bash
 python3 manage.py migrate
 python3 manage.py runserver
 ```
 
-Server default URL:
+## Notes
 
-```text
-http://127.0.0.1:8000/
-```
-
----
-
-## 9. Development Notes
-
-- This API currently uses signed custom tokens plus DB token state (not DRF TokenAuthentication/JWT package).
-- `DEBUG = True` in development settings.
-- SQLite is used for local development.
-- API views are function-based, not class-based.
-
----
-
-## 10. Suggested Future Improvements
-
-1. Add token expiry and refresh strategy.
-2. Add authorization rules per endpoint (owner/admin permissions).
-3. Add automated tests in `school/tests.py`.
-4. Add OpenAPI/Swagger docs (drf-spectacular or drf-yasg).
-5. Normalize course enrollment by using `through=StudentCourse` on `Course.students` if desired as the single source of truth.
+- Custom signed-token auth is used (not DRF TokenAuth/JWT packages).
+- Default database is SQLite.
+- No `SchoolClass` model in current code.
+- No `/students/<id>/courses` routes in current URL config.
