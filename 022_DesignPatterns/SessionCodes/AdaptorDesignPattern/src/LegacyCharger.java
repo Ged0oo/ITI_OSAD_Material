@@ -1,0 +1,3 @@
+interface LegacyCharger {
+    void chargeWithMicroUSB();
+}
