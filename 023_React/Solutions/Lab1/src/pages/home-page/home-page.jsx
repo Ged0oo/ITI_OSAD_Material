@@ -14,23 +14,23 @@ function HomePage() {
           <Header />
         </div>
 
-        <div className="reveal-up" style={{ animationDelay: "80ms" }}>
+        <div className="reveal-up">
           <Hero />
         </div>
-        <div className="reveal-up" style={{ animationDelay: "140ms" }}>
+        <div className="reveal-up">
           <Bio />
         </div>
-        <div className="reveal-up" style={{ animationDelay: "200ms" }}>
+        <div className="reveal-up">
           <Education />
         </div>
-        <div className="reveal-up" style={{ animationDelay: "260ms" }}>
+        <div className="reveal-up">
           <Skills />
         </div>
-        <div className="reveal-up" style={{ animationDelay: "320ms" }}>
+        <div className="reveal-up">
           <Contacts />
         </div>
 
-        <div className="reveal-up" style={{ animationDelay: "380ms" }}>
+        <div className="reveal-up">
           <Footer />
         </div>
       </main>

@@ -4,39 +4,21 @@ function Header() {
       <h1 className="text-2xl font-bold tracking-tight transition-transform duration-300 hover:scale-105">
         My Portfolio
       </h1>
+
       <nav className="flex gap-6 text-sm font-medium">
-        <a
-          href="#bio"
-          className="hover:text-slate-300 transition-all duration-300 hover:-translate-y-0.5"
-        >
+        <a id="header-element" href="#bio">
           Bio
         </a>
 
-        <a
-          href="#education"
-          className="hover:text-slate-300 transition-all duration-300 hover:-translate-y-0.5"
-          onClick={(event) => {
-            event.preventDefault();
-            document.getElementById("education")?.scrollIntoView({
-              behavior: "smooth",
-              block: "start",
-            });
-          }}
-        >
+        <a id="header-element" href="#education">
           Education
         </a>
 
-        <a
-          href="#skills"
-          className="hover:text-slate-300 transition-all duration-300 hover:-translate-y-0.5"
-        >
+        <a id="header-element" href="#skills">
           Skills
         </a>
 
-        <a
-          href="#contacts"
-          className="hover:text-slate-300 transition-all duration-300 hover:-translate-y-0.5"
-        >
+        <a id="header-element" href="#contacts">
           Contact
         </a>
       </nav>

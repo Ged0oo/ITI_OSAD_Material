@@ -7,6 +7,7 @@ function Bio() {
       <h3 className="text-lg font-semibold text-slate-900 flex items-center justify-center mb-4">
         Bio
       </h3>
+
       <div className="space-y-3 text-slate-700 text-center max-w-md mx-auto">
         <p>
           A passionate Software Engineer with a strong foundation in open-source
@@ -19,7 +20,6 @@ function Bio() {
           in a collaborative, open-source-driven environment.
         </p>
 
-        {/* CV Download Button */}
         <div className="flex justify-center mt-4">
           <a
             href="/Mohamed_Nagy___CV.pdf"
@@ -27,7 +27,6 @@ function Bio() {
             className="flex items-center gap-2 rounded-lg bg-slate-900 px-6 py-3 text-white shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-slate-700 hover:shadow-lg"
           >
             <svg
-              xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"
               fill="none"
               viewBox="0 0 24 24"

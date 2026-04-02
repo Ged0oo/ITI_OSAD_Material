@@ -1,6 +1,6 @@
 const educationData = [
   {
-    degree: "Open source Application Development Track",
+    degree: "Open source Application Development Graduate",
     school: "Information Technology Institute (ITI)",
     year: "2025 - 2026",
     description:
@@ -28,17 +28,19 @@ function Education() {
       <div className="relative border-l-2 border-slate-300 ml-4">
         {educationData.map((edu, index) => (
           <div key={index} className="group relative mb-8 ml-6">
-            {/* Timeline dot */}
-            <span className="absolute -left-9 top-1 h-4 w-4 rounded-full border-2 border-white bg-slate-900 shadow transition-transform duration-300 group-hover:scale-110"></span>
+            <span className="absolute -left-8 top-1 h-4 w-4 rounded-full border-2 border-white bg-slate-900 shadow transition-transform duration-300 group-hover:scale-110"></span>
 
             <div className="rounded-lg bg-slate-50 p-4 shadow-sm transition-all duration-300 group-hover:-translate-y-0.5 group-hover:bg-slate-100 group-hover:shadow-md">
               <span className="text-xs font-semibold text-white bg-slate-900 px-3 py-1 rounded-full">
                 {edu.year}
               </span>
+
               <h4 className="text-md font-bold text-slate-800 mt-2">
                 {edu.degree}
               </h4>
+
               <p className="text-sm text-slate-600 font-medium">{edu.school}</p>
+
               <p className="text-sm text-slate-500 mt-1">{edu.description}</p>
             </div>
           </div>

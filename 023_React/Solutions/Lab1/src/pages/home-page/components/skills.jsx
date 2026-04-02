@@ -54,11 +54,12 @@ function Skills() {
         {technicalSkills.map((group) => (
           <div
             key={group.category}
-            className="rounded-lg border border-slate-200 p-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-slate-400 hover:bg-slate-50"
+            className="rounded-lg border border-slate-200 p-4 transition-all duration-300 hover:-translate-y-0.5 "
           >
             <h4 className="text-sm font-semibold uppercase tracking-wide text-slate-800">
               {group.category}
             </h4>
+
             <p className="mt-2 text-sm leading-6 text-slate-700">
               {group.items}
             </p>
