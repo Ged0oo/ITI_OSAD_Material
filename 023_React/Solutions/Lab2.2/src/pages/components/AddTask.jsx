@@ -30,7 +30,7 @@ function AddTask({ onAddTask }) {
           placeholder="Task title"
           value={task.title}
           onChange={handleChange}
-          className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-slate-800 placeholder:text-slate-400  transition focus:border-teal-400 focus:ring-2 focus:ring-teal-500/30"
+          className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-slate-800 placeholder:text-slate-400  "
         />
         <textarea
           name="description"
@@ -38,11 +38,11 @@ function AddTask({ onAddTask }) {
           value={task.description}
           onChange={handleChange}
           rows={3}
-          className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-slate-800 placeholder:text-slate-400 outline-none transition focus:border-teal-400 focus:ring-2 focus:ring-teal-500/30"
+          className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-slate-800 placeholder:text-slate-400 outline-none "
         />
         <button
           type="submit"
-          className="mt-1 inline-flex items-center justify-center rounded-lg bg-teal-500 px-4 py-2 font-semibold text-white transition hover:bg-teal-600 focus:ring-2 focus:ring-teal-300 focus:ring-offset-2 focus:ring-offset-white"
+          className="mt-1 inline-flex items-center justify-center rounded-lg bg-teal-500 px-4 py-2 font-semibold "
         >
           Add Task
         </button>

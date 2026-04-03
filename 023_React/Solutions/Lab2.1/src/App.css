@@ -58,8 +58,6 @@
 
 .search-input:focus {
   outline: none;
-  border-color: #0d9488;
-  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.16);
 }
 
 .search-button,
@@ -70,9 +68,7 @@
   font-weight: 600;
   color: #ffffff;
   cursor: pointer;
-  transition:
-    transform 0.15s ease,
-    box-shadow 0.2s ease;
+  transition:;
 }
 
 .search-button {
@@ -83,11 +79,6 @@
 .reset-button {
   background-color: #ef4444;
   box-shadow: 0 10px 20px -10px rgba(239, 68, 68, 0.7);
-}
-
-.search-button:hover,
-.reset-button:hover {
-  transform: translateY(-1px);
 }
 
 .results-count {

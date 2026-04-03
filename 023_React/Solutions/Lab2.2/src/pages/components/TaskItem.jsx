@@ -34,7 +34,7 @@ function TaskItem({ task, onDeleteTask, onUpdateTask }) {
           <button
             type="button"
             onClick={() => onDeleteTask(task.id)}
-            className="rounded-lg border border-rose-300 bg-rose-50 px-3 py-1.5 text-sm font-medium text-rose-700 transition hover:bg-rose-100"
+            className="rounded-lg border border-rose-300 bg-rose-50 px-3 py-1.5 text-sm font-medium text-rose-700 "
           >
             Delete
           </button>
@@ -42,7 +42,7 @@ function TaskItem({ task, onDeleteTask, onUpdateTask }) {
           <button
             type="button"
             onClick={() => onUpdateTask({ ...task, completed: !isCompleted })}
-            className="rounded-lg border border-sky-300 bg-sky-50 px-3 py-1.5 text-sm font-medium text-sky-700 transition hover:bg-sky-100"
+            className="rounded-lg border border-sky-300 bg-sky-50 px-3 py-1.5 text-sm font-medium text-sky-700 "
           >
             {isCompleted ? "Mark Incomplete" : "Mark Complete"}
           </button>
