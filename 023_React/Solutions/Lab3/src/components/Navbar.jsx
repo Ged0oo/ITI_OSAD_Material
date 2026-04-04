@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-function Navbar({ cartCount }) {
+function Navbar() {
   return (
     <header className="hover-lift mb-3 rounded-xl border border-sky-100 bg-white/85 px-6 py-4 text-slate-700 shadow-sm backdrop-blur flex items-center justify-between transition-all duration-300">
       <Link to="/">
@@ -33,11 +33,6 @@ function Navbar({ cartCount }) {
           className="relative hover:text-sky-600 transition-colors duration-300"
         >
           Cart
-          {cartCount > 0 && (
-            <span className="absolute -top-0 -right-6 bg-rose-400 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
-              {cartCount}
-            </span>
-          )}
         </Link>
       </nav>
     </header>

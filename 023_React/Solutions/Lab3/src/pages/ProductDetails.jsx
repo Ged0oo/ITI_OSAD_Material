@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-function ProductDetails({ addToCart }) {
+function ProductDetails() {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [addedMessage, setAddedMessage] = useState(false);
@@ -22,13 +22,6 @@ function ProductDetails({ addToCart }) {
         setError("Could not load product details.");
       });
   }, [id]);
-
-  const handleAddToCart = () => {
-    if (!product) return;
-    addToCart(product);
-    setAddedMessage(true);
-    setTimeout(() => setAddedMessage(false), 2000);
-  };
 
   if (error) {
     return <div className="p-6 text-rose-500">{error}</div>;
@@ -90,10 +83,7 @@ function ProductDetails({ addToCart }) {
           🚚 {product.shippingInformation}
         </p>
 
-        <button
-          onClick={handleAddToCart}
-          className="mt-6 bg-sky-500 text-white px-6 py-3 rounded-lg hover:bg-sky-600 transition"
-        >
+        <button className="mt-6 bg-sky-500 text-white px-6 py-3 rounded-lg hover:bg-sky-600 transition">
           Add to Cart
         </button>
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-function ProductCard({ product, onAddToCart }) {
+function ProductCard({ product }) {
   const discountedPrice = (
     product.price *
     (1 - product.discountPercentage / 100)
@@ -43,10 +43,7 @@ function ProductCard({ product, onAddToCart }) {
         </div>
       </Link>
 
-      <button
-        onClick={() => onAddToCart(product)}
-        className="mt-3 w-full bg-sky-500 text-white py-2 rounded-lg hover:bg-sky-600 transition"
-      >
+      <button className="mt-3 w-full bg-sky-500 text-white py-2 rounded-lg hover:bg-sky-600 transition">
         Add to Cart
       </button>
     </div>

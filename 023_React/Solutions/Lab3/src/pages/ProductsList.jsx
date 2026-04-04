@@ -4,7 +4,7 @@ import Pagination from "../components/Pagination";
 
 const ITEMS_PER_PAGE = 12;
 
-function ProductsList({ addToCart }) {
+function ProductsList() {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
@@ -34,7 +34,7 @@ function ProductsList({ addToCart }) {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
         {products.map((product) => (
-          <ProductCard product={product} onAddToCart={addToCart} />
+          <ProductCard product={product} />
         ))}
       </div>
 
