@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import ProductCard from "../components/ProductCard";
 import Pagination from "../components/Pagination";
 
-const ITEMS_PER_PAGE = 12;
+const itemsPerPage = 12;
 
 function ProductsList() {
   const [products, setProducts] = useState([]);
@@ -10,13 +10,13 @@ function ProductsList() {
   const [totalPages, setTotalPages] = useState(0);
 
   useEffect(() => {
-    const skip = (currentPage - 1) * ITEMS_PER_PAGE;
+    const skip = (currentPage - 1) * itemsPerPage;
 
-    fetch(`https://dummyjson.com/products?limit=${ITEMS_PER_PAGE}&skip=${skip}`)
+    fetch(`https://dummyjson.com/products?limit=${itemsPerPage}&skip=${skip}`)
       .then((res) => res.json())
       .then((data) => {
         setProducts(data.products);
-        setTotalPages(Math.ceil(data.total / ITEMS_PER_PAGE));
+        setTotalPages(Math.ceil(data.total / itemsPerPage));
       })
       .catch((err) => {
         console.error("Error fetching products:", err);

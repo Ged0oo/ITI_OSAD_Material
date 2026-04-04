@@ -10,9 +10,7 @@ function Pagination({ currentPage, totalPages, onPageChange }) {
     <div className="flex items-center justify-center gap-2 mt-8 flex-wrap">
       <button
         onClick={() => onPageChange(currentPage - 1)}
-        disabled={currentPage === 1}
-        className="px-4 py-2 rounded bg-slate-200 text-slate-700 hover:bg-slate-300 
-                   disabled:opacity-40 disabled:cursor-not-allowed transition"
+        className="px-4 py-2 rounded bg-slate-200 text-slate-700 hover:bg-slate-300 transition"
       >
         ← Prev
       </button>
@@ -24,7 +22,7 @@ function Pagination({ currentPage, totalPages, onPageChange }) {
           className={`px-3 py-2 rounded transition
             ${
               num === currentPage
-                ? "bg-sky-500 text-white font-bold"
+                ? "bg-sky-300 text-white font-bold"
                 : "bg-slate-200 text-slate-800 hover:bg-slate-300"
             }`}
         >
@@ -34,9 +32,7 @@ function Pagination({ currentPage, totalPages, onPageChange }) {
 
       <button
         onClick={() => onPageChange(currentPage + 1)}
-        disabled={currentPage === totalPages}
-        className="px-4 py-2 rounded bg-slate-200 text-slate-700 hover:bg-slate-300 
-                   disabled:opacity-40 disabled:cursor-not-allowed transition"
+        className="px-4 py-2 rounded bg-slate-200 text-slate-700 hover:bg-slate-300 transition"
       >
         Next →
       </button>

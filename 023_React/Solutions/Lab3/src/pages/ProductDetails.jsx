@@ -1,14 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 function ProductDetails() {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
-  const [addedMessage, setAddedMessage] = useState(false);
-  const [error, setError] = useState("");
 
   useEffect(() => {
-    setError("");
     fetch(`https://dummyjson.com/products/${id}`)
       .then((res) => res.json())
       .then((data) => {
@@ -19,13 +16,8 @@ function ProductDetails() {
       })
       .catch((err) => {
         console.error(err);
-        setError("Could not load product details.");
       });
   }, [id]);
-
-  if (error) {
-    return <div className="p-6 text-rose-500">{error}</div>;
-  }
 
   if (!product) {
     return null;
@@ -86,10 +78,6 @@ function ProductDetails() {
         <button className="mt-6 bg-sky-500 text-white px-6 py-3 rounded-lg hover:bg-sky-600 transition">
           Add to Cart
         </button>
-
-        {addedMessage && (
-          <p className="mt-2 text-teal-600 font-medium">✅ Added to cart!</p>
-        )}
 
         <div className="mt-6">
           <p className="text-sm text-slate-500">Scan Product</p>
