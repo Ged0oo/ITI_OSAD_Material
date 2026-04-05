@@ -2,16 +2,23 @@ import { Link } from "react-router-dom";
 
 import { useSelector, useDispatch } from "react-redux";
 import {
-  selectCartItems,
-  selectCartTotal,
   removeFromCart,
   updateQuantity,
   clearCart,
 } from "../feature/cart/cartSlice";
 
+// export const selectCartItems = (state) => state.cart.items;
+
 function Cart() {
-  const cartItems = useSelector(selectCartItems);
-  const totalPrice = useSelector(selectCartTotal);
+  const cartItems = useSelector((state) => state.cart.items);
+
+  const totalPrice = useSelector((state) =>
+    state.cart.items.reduce((sum, item) => {
+      const discountedPrice =
+        item.product.price * (1 - item.product.discountPercentage / 100);
+      return sum + discountedPrice * item.quantity;
+    }, 0),
+  );
 
   const dispatch = useDispatch();
 
