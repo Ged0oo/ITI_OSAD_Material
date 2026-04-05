@@ -7,8 +7,6 @@ import {
   clearCart,
 } from "../feature/cart/cartSlice";
 
-// export const selectCartItems = (state) => state.cart.items;
-
 function Cart() {
   const cartItems = useSelector((state) => state.cart.items);
 
