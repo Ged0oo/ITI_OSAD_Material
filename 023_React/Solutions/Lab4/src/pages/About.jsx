@@ -1,9 +1,10 @@
 import React from "react";
 
-import { useLanguage } from "../context/LanguageContext";
+import { useContext } from "react";
+import { LanguageContext } from "../context/LanguageContext";
 
 function About() {
-  const { trans } = useLanguage();
+  const { trans } = useContext(LanguageContext);
   return (
     <div>
       <h2 className="text-2xl font-bold">{trans.aboutH1}</h2>

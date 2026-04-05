@@ -1,15 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-
-import { useLanguage } from "../context/LanguageContext";
+import { useContext } from "react";
+import { LanguageContext } from "../context/LanguageContext";
 
 function Navbar() {
   const cartCount = useSelector((state) =>
     state.cart.items.reduce((total, item) => total + item.quantity, 0),
   );
 
-  const { trans, toggleLanguage, rtl } = useLanguage();
+  const { trans, toggleLanguage, rtl } = useContext(LanguageContext);
 
   return (
     <header

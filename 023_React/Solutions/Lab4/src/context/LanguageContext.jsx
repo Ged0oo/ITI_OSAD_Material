@@ -1,9 +1,9 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useState } from "react";
 import translations from "../translations/translations";
 
 const LanguageContext = createContext();
 
-export const LanguageProvider = ({ children }) => {
+function LanguageProvider({ children }) {
   const [language, setLanguage] = useState("en");
 
   const toggleLanguage = () => {
@@ -21,8 +21,6 @@ export const LanguageProvider = ({ children }) => {
       {children}
     </LanguageContext.Provider>
   );
-};
+}
 
-export const useLanguage = () => {
-  return useContext(LanguageContext);
-};
+export { LanguageProvider, LanguageContext };
