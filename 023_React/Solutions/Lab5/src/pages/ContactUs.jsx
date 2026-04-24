@@ -40,7 +40,7 @@ function Contact() {
                   type="text"
                   name="name"
                   placeholder="Name"
-                  className="w-full rounded-lg border border-neutral-300 bg-white px-4 py-2 text-neutral-800 transition-all duration-200 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
+                  className="w-full rounded-lg border border-neutral-300 bg-white px-4 py-2 text-neutral-800  "
                 />
                 <ErrorMessage
                   name="name"
@@ -54,7 +54,7 @@ function Contact() {
                   type="email"
                   name="email"
                   placeholder="Email"
-                  className="w-full rounded-lg border border-neutral-300 bg-white px-4 py-2 text-neutral-800 transition-all duration-200 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
+                  className="w-full rounded-lg border border-neutral-300 bg-white px-4 py-2 text-neutral-800  "
                 />
                 <ErrorMessage
                   name="email"
@@ -69,7 +69,7 @@ function Contact() {
                   name="message"
                   placeholder="Your Message"
                   rows={5}
-                  className="w-full resize-none rounded-lg border border-neutral-300 bg-white px-4 py-2 text-neutral-800 transition-all duration-200 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
+                  className="w-full resize-none rounded-lg border border-neutral-300 bg-white px-4 py-2 text-neutral-800  "
                 />
                 <ErrorMessage
                   name="message"

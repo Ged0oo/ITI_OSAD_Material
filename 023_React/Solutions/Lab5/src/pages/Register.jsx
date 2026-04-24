@@ -34,7 +34,7 @@ function Register() {
                   type="text"
                   name="name"
                   placeholder="Name"
-                  className="w-full rounded-lg border border-neutral-300 bg-white px-4 py-2 text-neutral-800 transition-all duration-200 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
+                  className="w-full rounded-lg border border-neutral-300 bg-white px-4 py-2 text-neutral-800  "
                 />
                 <ErrorMessage
                   name="name"
@@ -48,7 +48,7 @@ function Register() {
                   type="text"
                   name="username"
                   placeholder="Username"
-                  className="w-full rounded-lg border border-neutral-300 bg-white px-4 py-2 text-neutral-800 transition-all duration-200 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
+                  className="w-full rounded-lg border border-neutral-300 bg-white px-4 py-2 text-neutral-800  "
                 />
                 <ErrorMessage
                   name="username"
@@ -62,7 +62,7 @@ function Register() {
                   type="email"
                   name="email"
                   placeholder="Email"
-                  className="w-full rounded-lg border border-neutral-300 bg-white px-4 py-2 text-neutral-800 transition-all duration-200 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
+                  className="w-full rounded-lg border border-neutral-300 bg-white px-4 py-2 text-neutral-800  "
                 />
                 <ErrorMessage
                   name="email"
@@ -76,7 +76,7 @@ function Register() {
                   type="password"
                   name="password"
                   placeholder="Password"
-                  className="w-full rounded-lg border border-neutral-300 bg-white px-4 py-2 text-neutral-800 transition-all duration-200 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
+                  className="w-full rounded-lg border border-neutral-300 bg-white px-4 py-2 text-neutral-800  "
                 />
                 <ErrorMessage
                   name="password"
@@ -90,7 +90,7 @@ function Register() {
                   type="password"
                   name="confirmPassword"
                   placeholder="Confirm Password"
-                  className="w-full rounded-lg border border-neutral-300 bg-white px-4 py-2 text-neutral-800 transition-all duration-200 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
+                  className="w-full rounded-lg border border-neutral-300 bg-white px-4 py-2 text-neutral-800  "
                 />
                 <ErrorMessage
                   name="confirmPassword"

@@ -9,6 +9,10 @@ function ProductDetails() {
   const [product, setProduct] = useState(null);
   const dispatch = useDispatch();
 
+  const handleAddToCart = () => {
+    dispatch(addToCart(product));
+  };
+
   useEffect(() => {
     fetch(`https://dummyjson.com/products/${id}`)
       .then((res) => res.json())
@@ -84,7 +88,7 @@ function ProductDetails() {
         </p>
 
         <button
-          onClick={() => dispatch(addToCart(product))}
+          onClick={handleAddToCart}
           className="mt-6 rounded-lg bg-primary-600 px-6 py-3 text-white transition-all duration-200 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-300 active:bg-primary-800"
         >
           Add to Cart

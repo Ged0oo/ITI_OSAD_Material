@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Medical AI Chatbot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
+  </head>
+  <body>
+    <div class="bg-glow bg-glow-a"></div>
+    <div class="bg-glow bg-glow-b"></div>
+
+    <main class="container chat-container">
+      <header class="hero chat-hero">
+        <div class="hero-top-row">
+          <p class="eyebrow">Live Assistant View</p>
+          <a class="nav-pill" href="/cases">Open Cases</a>
+        </div>
+        <h1>Medical AI Chatbot</h1>
+        <p class="subtitle">
+          Ask medical guidance questions, request nearby hospitals, and keep a
+          lightweight running conversation memory.
+        </p>
+        <div class="stats">
+          <article class="stat-card">
+            <p class="stat-label">Model</p>
+            <p class="stat-value stat-value-small">{{ model_name }}</p>
+          </article>
+          <article class="stat-card">
+            <p class="stat-label">Command</p>
+            <p class="stat-value stat-value-small">/reset</p>
+          </article>
+        </div>
+      </header>
+
+      <section class="chat-panel">
+        <div id="chat-log" class="chat-log">
+          <article class="message message-assistant">
+            <p>
+              Hello. Share symptoms or MRI findings and I will provide
+              structured, safe guidance. This is not a medical diagnosis.
+              Consult a doctor.
+            </p>
+          </article>
+        </div>
+
+        <form id="chat-form" class="chat-form" autocomplete="off">
+          <label for="chat-input">Your message</label>
+          <div class="chat-input-row">
+            <textarea
+              id="chat-input"
+              rows="3"
+              placeholder="Example: I have persistent headache and blurred vision. MRI shows mild white matter hyperintensities."
+            ></textarea>
+            <button type="submit" id="send-btn">Send</button>
+          </div>
+        </form>
+      </section>
+    </main>
+
+    <script>
+      const chatForm = document.getElementById("chat-form");
+      const chatInput = document.getElementById("chat-input");
+      const chatLog = document.getElementById("chat-log");
+      const sendBtn = document.getElementById("send-btn");
+
+      function addMessage(role, text) {
+        const card = document.createElement("article");
+        card.className = `message message-${role}`;
+        const body = document.createElement("p");
+        body.textContent = text;
+        card.appendChild(body);
+        chatLog.appendChild(card);
+        chatLog.scrollTop = chatLog.scrollHeight;
+      }
+
+      async function sendMessage(text) {
+        sendBtn.disabled = true;
+        addMessage("user", text);
+        addMessage("assistant", "Thinking...");
+
+        try {
+          const response = await fetch("/chat", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ message: text }),
+          });
+
+          const contentType = response.headers.get("content-type") || "";
+          let payload = {};
+          if (contentType.includes("application/json")) {
+            payload = await response.json();
+          } else {
+            const bodyText = await response.text();
+            payload = {
+              error: `Server returned ${response.status}. ${bodyText.slice(0, 160)}`,
+            };
+          }
+          const thinking = chatLog.querySelector(
+            ".message-assistant:last-child p",
+          );
+
+          if (!response.ok) {
+            thinking.textContent = payload.error || "Unexpected server error.";
+          } else {
+            thinking.textContent = payload.reply || "No reply generated.";
+          }
+        } catch (error) {
+          const thinking = chatLog.querySelector(
+            ".message-assistant:last-child p",
+          );
+          thinking.textContent = `Connection error: ${error}`;
+        } finally {
+          sendBtn.disabled = false;
+          chatInput.focus();
+        }
+      }
+
+      chatForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const text = chatInput.value.trim();
+        if (!text) return;
+        chatInput.value = "";
+        await sendMessage(text);
+      });
+    </script>
+  </body>
+</html>

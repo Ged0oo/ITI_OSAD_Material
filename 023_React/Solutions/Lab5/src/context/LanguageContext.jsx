@@ -14,10 +14,8 @@ function LanguageProvider({ children }) {
 
   const rtl = language === "ar";
 
-  const value = { language, toggleLanguage, trans, rtl };
-
   return (
-    <LanguageContext.Provider value={value}>
+    <LanguageContext.Provider value={{ toggleLanguage, trans, rtl }}>
       {children}
     </LanguageContext.Provider>
   );
