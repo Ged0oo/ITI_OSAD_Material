@@ -3,6 +3,7 @@ import { CurrencyPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Product } from '../../interface/product';
 import { Category } from '../../interface/category';
+import { ProductCard } from '../../directives/product-card';
 
 type StockFilter = 'all' | 'in-stock' | 'low-stock' | 'sold-out';
 
@@ -19,7 +20,7 @@ const INITIAL_PRODUCTS: Product[] = [
 
 @Component({
     selector: 'app-products',
-    imports: [CurrencyPipe, FormsModule],
+    imports: [CurrencyPipe, FormsModule, ProductCard],
     templateUrl: './products.html',
     styleUrl: './products.css',
     changeDetection: ChangeDetectionStrategy.OnPush,
