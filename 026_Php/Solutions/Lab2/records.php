@@ -8,9 +8,6 @@
         th, td { border: 1px solid #333; padding: 8px; text-align: left; }
         th { background: #4CAF50; color: white; }
         tr:nth-child(even) { background: #f2f2f2; }
-        .del-btn { background: #e74c3c; color: white; border: none;
-            padding: 6px 12px; cursor: pointer; border-radius: 4px; }
-        .del-btn:hover { background: #c0392b; }
     </style>
 </head>
 <body>
@@ -36,7 +33,7 @@ if (!file_exists($file) || filesize($file) == 0) {
         echo "<tr>";
         echo "<td>" . ($index + 1) . "</td>";
         foreach ($cols as $col) {
-            echo "<td>" . htmlspecialchars($col) . "</td>";
+            echo "<td>" . $col . "</td>";
         }
         echo "</tr>";
     }

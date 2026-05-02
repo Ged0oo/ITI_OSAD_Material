@@ -1,1 +1,3 @@
 Moahmed|Nagy|monagy@gmail.com|male|Giza|us|javascript|OpenSource
+Moahmed|Nagy|monagy@gmail.com|male|Mahalet Ahmed|ca|php|OpenSource
+Nagy|Ahmed|monagy@gmail.com|male|Cairo|uk|javascript|Java
