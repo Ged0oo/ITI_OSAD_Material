@@ -1,0 +1,62 @@
+<div *ngIf="product as prod" class="mx-auto max-w-6xl p-6">
+  <!-- Back Button -->
+  <button (click)="goBack()" class="mb-6 text-sm text-slate-500 hover:text-slate-900">
+    ← Back
+  </button>
+
+  <div class="grid gap-10 md:grid-cols-2">
+    <!-- Image -->
+    <div class="flex items-center justify-center rounded-2xl bg-white p-6 shadow">
+      <img [src]="prod.imageUrl" [alt]="prod.name" class="h-80 w-full object-contain" />
+    </div>
+
+    <!-- Details -->
+    <div class="flex flex-col justify-between">
+      <!-- Title -->
+      <div>
+        <h1 class="mb-2 text-3xl font-bold text-slate-900">
+          {{ prod.name }}
+        </h1>
+
+        <p class="mb-4 text-slate-500">
+          {{ prod.description }}
+        </p>
+
+        <!-- Category -->
+        <span
+          class="inline-block rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600"
+        >
+          {{ prod.category }}
+        </span>
+      </div>
+
+      <!-- Price + Stock -->
+      <div class="mt-6">
+        <p class="text-2xl font-bold text-slate-900">
+          {{ prod.price }}
+        </p>
+
+        <p
+          class="mt-2 text-sm"
+          [class.text-red-500]="prod.quantity === 0"
+          [class.text-yellow-500]="prod.quantity > 0 && prod.quantity <= 3"
+          [class.text-green-600]="prod.quantity > 3"
+        >
+          {{ prod.quantity === 0 ? 'Sold Out' : prod.quantity <= 3 ? 'Low Stock' : 'In Stock' }}
+        </p>
+      </div>
+
+      <!-- Actions -->
+      <div class="mt-8 flex gap-4">
+        <button
+          class="flex-1 rounded-xl bg-slate-900 py-3 text-white transition hover:bg-slate-700 disabled:bg-slate-400"
+          [disabled]="prod.quantity === 0"
+        >
+          Add to Cart
+        </button>
+
+        <button class="rounded-xl border px-4 py-3 text-slate-700 hover:bg-slate-100">❤️</button>
+      </div>
+    </div>
+  </div>
+</div>

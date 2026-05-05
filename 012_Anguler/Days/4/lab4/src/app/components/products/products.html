@@ -1,0 +1,106 @@
+<!-- Filter by Category -->
+<div
+  class="mx-auto mt-10 mb-8 grid max-w-3xl gap-4 rounded-xl border border-slate-200 bg-white p-4 shadow-sm md:grid-cols-2"
+>
+  <div>
+    <label for="category" class="mb-2 block text-sm font-semibold text-slate-700">
+      Filter by category
+    </label>
+    <select
+      id="category"
+      [ngModel]="selectedCategory()"
+      (ngModelChange)="onCategoryChange($event)"
+      class="w-full rounded-xl border border-slate-300 px-4 py-2"
+    >
+      <option value="">All Categories</option>
+      @for (cat of categories(); track cat.id) {
+        <option [value]="cat.name">{{ cat.name }}</option>
+      }
+    </select>
+  </div>
+
+  <div>
+    <label for="stock" class="mb-2 block text-sm font-semibold text-slate-700">
+      Filter by stock
+    </label>
+    <select
+      id="stock"
+      [ngModel]="stockFilter()"
+      (ngModelChange)="onStockFilterChange($event)"
+      class="w-full rounded-xl border border-slate-300 px-4 py-2"
+    >
+      <option value="all">All products</option>
+      <option value="in-stock">In stock</option>
+      <option value="low-stock">Low stock</option>
+      <option value="sold-out">Sold out</option>
+    </select>
+  </div>
+</div>
+
+<!-- Total Price -->
+<div class="mb-6 text-center">
+  <h1 class="text-lg font-semibold text-slate-800">
+    Total Price: {{ totalPrice() | currency: 'USD' : 'symbol' : '1.0-0' }}
+  </h1>
+</div>
+
+<!-- Products -->
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6">
+  @for (prod of filteredProducts(); track prod.id) {
+    <div class="rounded-xl border border-slate-200 bg-white p-4 shadow transition hover:shadow-lg">
+      <div class="mb-2 flex items-center justify-between">
+        <span class="text-xs font-semibold text-slate-500">{{ prod.category }}</span>
+        <span
+          class="rounded-full px-2 py-1 text-xs font-semibold"
+          [class.bg-red-100]="isSoldOut(prod)"
+          [class.text-red-700]="isSoldOut(prod)"
+          [class.bg-yellow-100]="!isSoldOut(prod) && isLowStock(prod)"
+          [class.text-yellow-700]="!isSoldOut(prod) && isLowStock(prod)"
+          [class.bg-emerald-100]="!isSoldOut(prod) && !isLowStock(prod)"
+          [class.text-emerald-700]="!isSoldOut(prod) && !isLowStock(prod)"
+        >
+          {{ getBadgeText(prod) }}
+        </span>
+      </div>
+      <a [routerLink]="['/product', prod.id]" class="block">
+        <div appProductCard="#fff">
+          <img
+            [src]="prod.imageUrl"
+            [alt]="prod.name"
+            class="mb-3 h-32 w-full rounded-lg bg-white object-contain p-2"
+            [class.opacity-60]="isSoldOut(prod)"
+          />
+
+          <h2 class="text-lg font-semibold text-slate-800">{{ prod.name }}</h2>
+          <p class="mb-2 text-sm text-slate-500">{{ prod.description }}</p>
+
+          <div class="flex items-center justify-between gap-2">
+            <span class="font-bold text-slate-900">
+              {{ prod.price | currency: 'USD' : 'symbol' : '1.0-0' }}
+            </span>
+
+            <span class="text-sm text-slate-500"> Qty: {{ prod.quantity }} </span>
+
+            <!-- prevent navigation when clicking button -->
+            <button
+              (click)="addToCart(prod); $event.stopPropagation()"
+              class="rounded-md px-3 py-1 text-white"
+              [class.bg-slate-400]="isSoldOut(prod)"
+              [class.cursor-not-allowed]="isSoldOut(prod)"
+              [class.bg-slate-900]="!isSoldOut(prod)"
+              [disabled]="isSoldOut(prod)"
+            >
+              Add
+            </button>
+          </div>
+        </div>
+      </a>
+    </div>
+  } @empty {
+    <div
+      class="col-span-full rounded-xl border border-slate-200 bg-white p-6 text-center text-slate-500"
+    >
+      No products match the selected filters.
+    </div>
+  }
+</div>
