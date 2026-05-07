@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Unit Testing — Session 1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Fraunces:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --font-sans: 'Fraunces', Georgia, serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --color-background-primary: #ffffff;
+    --color-background-secondary: #f5f4f0;
+    --color-background-info: #E6F1FB;
+    --color-text-primary: #1a1a1a;
+    --color-text-secondary: #5a5a5a;
+    --color-text-info: #0C447C;
+    --color-border-tertiary: rgba(0,0,0,0.12);
+    --color-border-secondary: rgba(0,0,0,0.22);
+    --border-radius-md: 8px;
+    --border-radius-lg: 12px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #faf9f6;
+    font-family: var(--font-sans);
+    color: var(--color-text-primary);
+    padding: 3rem 1.5rem 6rem;
+  }
+
+  .session {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .page-divider {
+    border: none;
+    border-top: 1.5px dashed #d4d0c8;
+    margin: 3.5rem 0;
+  }
+
+  /* badges */
+  .badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-family: var(--font-mono);
+  }
+  .badge-session  { background: var(--color-background-info); color: var(--color-text-info); }
+  .badge-why      { background: #FAECE7; color: #993C1D; }
+  .badge-types    { background: #EAF3DE; color: #3B6D11; }
+  .badge-usecases { background: #EEEDFE; color: #3C3489; }
+  .badge-code     { background: #F1EFE8; color: #5F5E5A; }
+  .badge-green    { background: #EAF3DE; color: #3B6D11; }
+  .badge-purple   { background: #EEEDFE; color: #3C3489; }
+  .badge-teal     { background: #E1F5EE; color: #085041; }
+  .badge-amber    { background: #FAEEDA; color: #633806; }
+  .badge-gray     { background: #F1EFE8; color: #5F5E5A; }
+
+  /* section headers */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 2.5rem 0 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 0.5px solid var(--color-border-tertiary);
+  }
+  .section-title { font-size: 17px; font-weight: 600; color: var(--color-text-primary); }
+
+  /* cards */
+  .card {
+    background: var(--color-background-primary);
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-lg);
+    padding: 1rem 1.25rem;
+    margin-bottom: 0.75rem;
+  }
+  .card-title { font-size: 14px; font-weight: 600; color: var(--color-text-primary); margin-bottom: 6px; }
+  .card-body  { font-size: 13px; color: var(--color-text-secondary); line-height: 1.65; }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+  /* scenario box */
+  .scenario-box {
+    background: var(--color-background-secondary);
+    border-left: 3px solid #E24B4A;
+    border-radius: 0;
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+  }
+  .scenario-label {
+    font-size: 11px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.07em; margin-bottom: 6px;
+    font-family: var(--font-mono); color: #E24B4A;
+  }
+  .scenario-text { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; }
+
+  /* code blocks */
+  .code-block {
+    background: #1e1e2e;
+    border-radius: var(--border-radius-md);
+    padding: 1rem 1.25rem;
+    margin: 0.65rem 0;
+    overflow-x: auto;
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    line-height: 1.75;
+  }
+  .code-block pre { color: #cdd6f4; white-space: pre; }
+  .kw  { color: #cba6f7; }
+  .fn  { color: #89b4fa; }
+  .str { color: #a6e3a1; }
+  .cmt { color: #6c7086; font-style: italic; }
+  .num { color: #fab387; }
+  .vr  { color: #f38ba8; }
+
+  .file-label {
+    font-family: var(--font-mono);
+    font-size: 11px; color: #6c7086;
+    display: block; margin-bottom: -4px;
+  }
+
+  /* tabs */
+  .tab-bar { display: flex; gap: 6px; margin-bottom: 1rem; flex-wrap: wrap; }
+  .tab-btn {
+    font-size: 13px; padding: 6px 14px; border-radius: 20px;
+    border: 0.5px solid var(--color-border-secondary);
+    background: transparent; color: var(--color-text-secondary);
+    cursor: pointer; transition: all 0.15s; font-family: var(--font-mono);
+  }
+  .tab-btn.active {
+    background: #fab387; color: #1a1a1a;
+    border-color: transparent; font-weight: 600;
+  }
+  .tab-content { display: none; }
+  .tab-content.active {
+    display: block;
+    background-color: #fdf6ee;
+    border-radius: var(--border-radius-md);
+    padding: 0.75rem;
+  }
+
+  /* pyramid */
+  .pyramid { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 1.5rem 0; }
+  .pyramid-level {
+    display: flex; align-items: center; justify-content: center;
+    border-radius: var(--border-radius-md);
+    font-size: 13px; font-weight: 600; font-family: var(--font-mono);
+    text-align: center; padding: 10px 16px; position: relative;
+  }
+  .pyr-tip  { width: 130px; background: #E24B4A; font-size: 12px; color: #fff; }
+  .pyr-mid  { width: 260px; background: #EF9F27; color: #1a1a1a; }
+  .pyr-base { width: 400px; background: #1D9E75; color: #fff; }
+  .pyramid-label {
+    position: absolute; right: -105px;
+    font-size: 11px; color: var(--color-text-secondary);
+    white-space: nowrap; font-family: var(--font-mono); font-weight: 400;
+  }
+
+  /* benefits */
+  .benefit-row {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 10px 0; border-bottom: 0.5px solid var(--color-border-tertiary);
+  }
+  .benefit-row:last-child { border-bottom: none; }
+  .benefit-icon {
+    width: 28px; height: 28px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; flex-shrink: 0; margin-top: 1px;
+  }
+  .benefit-text { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; }
+  .benefit-text strong { color: var(--color-text-primary); font-weight: 600; }
+
+  /* use-case pills */
+  .use-case-pill {
+    display: inline-block;
+    background: #d8b4fe;
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: 20px; padding: 5px 12px;
+    font-size: 12px; color: #3C3489; margin: 3px;
+    font-family: var(--font-mono);
+  }
+
+  /* session intro */
+  .session-intro {
+    padding-bottom: 1.5rem;
+    border-bottom: 0.5px solid var(--color-border-tertiary);
+    margin-bottom: 0.5rem;
+  }
+  .session-intro h1 {
+    font-size: 32px; font-weight: 600; line-height: 1.2;
+    color: var(--color-text-primary); margin: 10px 0 8px;
+  }
+  .session-intro p { font-size: 14px; color: var(--color-text-secondary); line-height: 1.65; }
+
+  /* part 2 heading */
+  .part-intro { margin-bottom: 0.5rem; }
+  .part-intro h2 { font-size: 26px; font-weight: 600; margin: 10px 0 6px; color: var(--color-text-primary); }
+  .part-intro p  { font-size: 14px; color: var(--color-text-secondary); line-height: 1.65; }
+
+  /* matcher grid */
+  .matcher-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 10px; margin: 0.75rem 0;
+  }
+  .m-card { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 0.85rem 1rem; }
+  .m-name { font-family: var(--font-mono); font-size: 12px; font-weight: 600; color: var(--color-text-primary); margin-bottom: 4px; }
+  .m-desc { font-size: 12px; color: var(--color-text-secondary); line-height: 1.5; }
+
+  code {
+    font-family: var(--font-mono); font-size: 11.5px;
+    background: var(--color-background-secondary);
+    padding: 1px 5px; border-radius: 4px;
+  }
+
+  /* page title bar */
+  .page-title-bar {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 2.5rem; padding-bottom: 1rem;
+    border-bottom: 2px solid var(--color-text-primary);
+  }
+  .page-title-bar .title {
+    font-size: 13px; font-weight: 600; font-family: var(--font-mono);
+    color: var(--color-text-secondary); letter-spacing: 0.08em; text-transform: uppercase;
+  }
+  .page-title-bar .dot { width: 8px; height: 8px; border-radius: 50%; background: #fab387; flex-shrink: 0; }
+
+  /* table of contents */
+  .toc {
+    background: var(--color-background-secondary);
+    border-radius: var(--border-radius-lg);
+    padding: 1.25rem 1.5rem; margin-bottom: 2.5rem;
+  }
+  .toc-title {
+    font-size: 11px; font-weight: 600; font-family: var(--font-mono);
+    text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--color-text-secondary); margin-bottom: 10px;
+  }
+  .toc-group { margin-bottom: 12px; }
+  .toc-group:last-child { margin-bottom: 0; }
+  .toc-group-label {
+    font-size: 11px; font-weight: 600; font-family: var(--font-mono);
+    text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--color-text-primary); margin-bottom: 5px;
+  }
+  .toc-sub { padding-left: 16px; }
+  .toc a {
+    display: block; font-size: 13px; color: var(--color-text-secondary);
+    text-decoration: none; padding: 3px 0; font-family: var(--font-mono);
+  }
+  .toc a:hover { color: var(--color-text-primary); }
+  .toc a .toc-num { color: #fab387; margin-right: 8px; font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="session">
+
+  <!-- page header -->
+  <div class="page-title-bar">
+    <div class="dot"></div>
+    <span class="title">JavaScript · Unit Testing · Session 1</span>
+  </div>
+
+  <!-- table of contents -->
+  <div class="toc">
+    <div class="toc-title">Contents</div>
+    <div class="toc-group">
+      <div class="toc-group-label">Part 1 — Introduction</div>
+      <div class="toc-sub">
+        <a href="#why"><span class="toc-num">01</span>What goes wrong without tests?</a>
+        <a href="#types"><span class="toc-num">02</span>Types of testing</a>
+        <a href="#usecases"><span class="toc-num">03</span>When to write unit tests &amp; benefits</a>
+        <a href="#starter"><span class="toc-num">04</span>Starting code — JavaScript</a>
+      </div>
+    </div>
+    <div class="toc-group">
+      <div class="toc-group-label">Part 2 — Arrays &amp; Objects</div>
+      <div class="toc-sub">
+        <a href="#matchers"><span class="toc-num">05</span>Key Jest matchers</a>
+        <a href="#ex1"><span class="toc-num">06</span>Example 1 — Array filtering</a>
+        <a href="#ex2"><span class="toc-num">07</span>Example 2 — Object transformation</a>
+        <a href="#ex3"><span class="toc-num">08</span>Example 3 — Sorting &amp; mapping</a>
+        <a href="#ex4"><span class="toc-num">09</span>Example 4 — Nested objects</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════
+       PART 1
+  ═══════════════════════════ -->
+  <div class="session-intro">
+    <span class="badge badge-session">Session 1 of 2</span>
+    <h1>Introduction to<br>Unit Testing</h1>
+    <p>A beginner-friendly guide for developers writing JavaScript for the first time with a testing mindset.</p>
+  </div>
+
+  <!-- WHY -->
+  <div id="why" class="section-header">
+    <span class="badge badge-why">Why</span>
+    <span class="section-title">What goes wrong without tests?</span>
+  </div>
+
+  <div class="scenario-box">
+    <div class="scenario-label">Real scenario — no tests</div>
+    <div class="scenario-text">You build a discount calculator. It works. Six months later, a teammate changes the tax logic. Suddenly discounts break — but nobody notices until customers complain. You spend 2 days hunting a 3-line bug.</div>
+  </div>
+
+  <div class="grid-2" style="margin-bottom:0.75rem;">
+    <div class="card">
+      <div class="card-title">Silent regressions</div>
+      <div class="card-body">Old code breaks when new code is added. Without tests, you only find out in production.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Fear of refactoring</div>
+      <div class="card-body">Teams avoid improving messy code because they can't tell if they broke something.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Manual testing loops</div>
+      <div class="card-body">Every change requires clicking through the app again. Slow, error-prone, and boring.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">No shared truth</div>
+      <div class="card-body">Different developers have different assumptions about what the code is supposed to do.</div>
+    </div>
+  </div>
+
+  <!-- TYPES -->
+  <div id="types" class="section-header">
+    <span class="badge badge-types">Types</span>
+    <span class="section-title">The testing pyramid</span>
+  </div>
+
+  <div class="pyramid">
+    <div class="pyramid-level pyr-tip">E2E Tests<span class="pyramid-label">Slow · Few · Expensive</span></div>
+    <div class="pyramid-level pyr-mid">Integration Tests<span class="pyramid-label">Medium speed</span></div>
+    <div class="pyramid-level pyr-base">Unit Tests ← we are here<span class="pyramid-label">Fast · Many · Cheap</span></div>
+  </div>
+
+  <div class="tab-bar" style="margin-top:1rem;">
+    <button class="tab-btn active" onclick="showTab('unit', event)">Unit</button>
+    <button class="tab-btn" onclick="showTab('integration', event)">Integration</button>
+    <button class="tab-btn" onclick="showTab('e2e', event)">End-to-End</button>
+  </div>
+
+  <div id="tab-unit" class="tab-content active">
+    <div class="card">
+      <div class="card-title">Unit tests</div>
+      <div class="card-body">Test a single function or module in complete isolation. No database, no network, no UI. Just inputs and outputs. Fast to write, instant to run.</div>
+    </div>
+    <p style="font-size:13px;padding:0.5rem 0;color:var(--color-text-secondary);">Example: does <code>calculateDiscount(100, 20)</code> return <code>80</code>?</p>
+  </div>
+
+  <div id="tab-integration" class="tab-content">
+    <div class="card">
+      <div class="card-title">Integration tests</div>
+      <div class="card-body">Test how two or more modules work together. May involve a real database or API call. Slower than unit tests, but catches "the parts don't fit" bugs.</div>
+    </div>
+    <p style="font-size:13px;padding:0.5rem 0;color:var(--color-text-secondary);">Example: does the checkout module correctly talk to the inventory module to reduce stock?</p>
+  </div>
+
+  <div id="tab-e2e" class="tab-content">
+    <div class="card">
+      <div class="card-title">End-to-end (E2E) tests</div>
+      <div class="card-body">Simulate a real user clicking through your app in a real browser. Tests the whole stack — frontend, backend, database. Very realistic but also slow and brittle.</div>
+    </div>
+    <p style="font-size:13px;padding:0.5rem 0;color:var(--color-text-secondary);">Example: open Chrome, add item to cart, checkout, check confirmation email was sent.</p>
+  </div>
+
+  <!-- USE CASES -->
+  <div id="usecases" class="section-header">
+    <span class="badge badge-usecases">Use cases</span>
+    <span class="section-title">When do you write unit tests?</span>
+  </div>
+
+  <div style="margin-bottom:1rem;">
+    <span class="use-case-pill">Pure functions (math, formatting)</span>
+    <span class="use-case-pill">Validation logic</span>
+    <span class="use-case-pill">Business rules (pricing, discounts)</span>
+    <span class="use-case-pill">String manipulation</span>
+    <span class="use-case-pill">Data transformations</span>
+    <span class="use-case-pill">Edge cases (null, 0, empty array)</span>
+    <span class="use-case-pill">Error handling</span>
+    <span class="use-case-pill">Utility helpers</span>
+  </div>
+
+  <div>
+    <div class="benefit-row">
+      <div class="benefit-icon" style="background:#EAF3DE;">✓</div>
+      <div class="benefit-text"><strong>Confidence to refactor</strong> — change the internals of a function, run tests, know immediately if you broke anything.</div>
+    </div>
+    <div class="benefit-row">
+      <div class="benefit-icon" style="background:#E6F1FB;">⚡</div>
+      <div class="benefit-text"><strong>Instant feedback</strong> — unit tests run in milliseconds. You don't wait for a browser or a server to tell you something is wrong.</div>
+    </div>
+    <div class="benefit-row">
+      <div class="benefit-icon" style="background:#EEEDFE;">📖</div>
+      <div class="benefit-text"><strong>Living documentation</strong> — a test suite tells future developers exactly what a function is supposed to do in every scenario.</div>
+    </div>
+    <div class="benefit-row">
+      <div class="benefit-icon" style="background:#FAECE7;">🐛</div>
+      <div class="benefit-text"><strong>Catch bugs early</strong> — find mistakes during development, not after deployment when the cost is much higher.</div>
+    </div>
+  </div>
+
+  <!-- STARTER CODE -->
+  <div id="starter" class="section-header">
+    <span class="badge badge-code">Code</span>
+    <span class="section-title">Starting code — JavaScript</span>
+  </div>
+
+  <p style="margin-bottom:0.5rem;font-size:13px;color:var(--color-text-secondary);">The function we want to test:</p>
+  <span class="file-label">// math.js</span>
+  <div class="code-block"><pre><span class="kw">function</span> <span class="fn">calculateDiscount</span>(price, discountPercent) {
+  <span class="kw">if</span> (price &lt; <span class="num">0</span>) <span class="kw">throw new</span> <span class="fn">Error</span>(<span class="str">'Price cannot be negative'</span>);
+  <span class="kw">if</span> (discountPercent &lt; <span class="num">0</span> || discountPercent &gt; <span class="num">100</span>) {
+    <span class="kw">throw new</span> <span class="fn">Error</span>(<span class="str">'Discount must be between 0 and 100'</span>);
+  }
+  <span class="kw">return</span> price * (<span class="num">1</span> - discountPercent / <span class="num">100</span>);
+}
+
+module.exports = { calculateDiscount };</pre></div>
+
+  <p style="margin:1rem 0 0.5rem;font-size:13px;color:var(--color-text-secondary);">The unit tests (using Jest):</p>
+  <span class="file-label">// math.test.js</span>
+  <div class="code-block"><pre><span class="kw">const</span> { <span class="vr">calculateDiscount</span> } = <span class="fn">require</span>(<span class="str">'./math'</span>);
+
+<span class="cmt">// A "test suite" groups related tests</span>
+<span class="fn">describe</span>(<span class="str">'calculateDiscount'</span>, () =&gt; {
+
+  <span class="cmt">// Happy path</span>
+  <span class="fn">test</span>(<span class="str">'applies 20% discount to $100'</span>, () =&gt; {
+    <span class="kw">const</span> <span class="vr">result</span> = <span class="fn">calculateDiscount</span>(<span class="num">100</span>, <span class="num">20</span>);
+    <span class="fn">expect</span>(<span class="vr">result</span>).<span class="fn">toBe</span>(<span class="num">80</span>);
+  });
+
+  <span class="cmt">// Edge case: 0% discount</span>
+  <span class="fn">test</span>(<span class="str">'returns original price when discount is 0'</span>, () =&gt; {
+    <span class="fn">expect</span>(<span class="fn">calculateDiscount</span>(<span class="num">50</span>, <span class="num">0</span>)).<span class="fn">toBe</span>(<span class="num">50</span>);
+  });
+
+  <span class="cmt">// Edge case: 100% discount (free)</span>
+  <span class="fn">test</span>(<span class="str">'returns 0 when discount is 100%'</span>, () =&gt; {
+    <span class="fn">expect</span>(<span class="fn">calculateDiscount</span>(<span class="num">200</span>, <span class="num">100</span>)).<span class="fn">toBe</span>(<span class="num">0</span>);
+  });
+
+  <span class="cmt">// Error cases</span>
+  <span class="fn">test</span>(<span class="str">'throws on negative price'</span>, () =&gt; {
+    <span class="fn">expect</span>(() =&gt; <span class="fn">calculateDiscount</span>(-<span class="num">10</span>, <span class="num">20</span>))
+      .<span class="fn">toThrow</span>(<span class="str">'Price cannot be negative'</span>);
+  });
+
+  <span class="fn">test</span>(<span class="str">'throws when discount exceeds 100'</span>, () =&gt; {
+    <span class="fn">expect</span>(() =&gt; <span class="fn">calculateDiscount</span>(<span class="num">100</span>, <span class="num">150</span>))
+      .<span class="fn">toThrow</span>(<span class="str">'Discount must be between 0 and 100'</span>);
+  });
+
+});</pre></div>
+
+  <p style="margin:0.75rem 0 0.5rem;font-size:13px;color:var(--color-text-secondary);">Set up in your project:</p>
+  <div class="code-block"><pre><span class="cmt"># Install Jest</span>
+npm install --save-dev jest
+
+<span class="cmt"># Add to package.json → "scripts"</span>
+<span class="str">"test"</span>: <span class="str">"jest"</span>
+
+<span class="cmt"># Run tests</span>
+npm test</pre></div>
+
+
+  <!-- ═══════════════════════════
+       PART 2 — ARRAYS & OBJECTS
+  ═══════════════════════════ -->
+  <hr class="page-divider" />
+
+  <div class="part-intro">
+    <span class="badge badge-code">Part 2</span>
+    <h2>Testing arrays &amp; objects in Jest</h2>
+    <p>Four real-world scenarios — each with the function being tested and the tests that cover it.</p>
+  </div>
+
+  <!-- MATCHERS -->
+  <div id="matchers" class="section-header">
+    <span class="badge badge-green">Matchers</span>
+    <span class="section-title">Key matchers you'll need</span>
+  </div>
+
+  <div class="matcher-grid">
+    <div class="m-card">
+      <div class="m-name">toEqual()</div>
+      <div class="m-desc">Deep equality — compares every key/value inside an object or array. Use instead of <code>toBe</code> for objects.</div>
+    </div>
+    <div class="m-card">
+      <div class="m-name">toContain()</div>
+      <div class="m-desc">Checks that an array includes a specific primitive value.</div>
+    </div>
+    <div class="m-card">
+      <div class="m-name">toHaveLength()</div>
+      <div class="m-desc">Checks the <code>.length</code> property of arrays and strings.</div>
+    </div>
+    <div class="m-card">
+      <div class="m-name">toMatchObject()</div>
+      <div class="m-desc">Checks that an object contains a <em>subset</em> of expected keys — ignores extra keys.</div>
+    </div>
+    <div class="m-card">
+      <div class="m-name">toHaveProperty()</div>
+      <div class="m-desc">Checks that an object has a specific key, optionally with a specific value.</div>
+    </div>
+    <div class="m-card">
+      <div class="m-name">expect.arrayContaining()</div>
+      <div class="m-desc">Checks that an array contains all the listed items (order doesn't matter).</div>
+    </div>
+  </div>
+
+  <!-- EXAMPLE 1 -->
+  <div id="ex1" class="section-header">
+    <span class="badge badge-green">Example 1</span>
+    <span class="section-title">Array filtering</span>
+  </div>
+  <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:.5rem;">A function that filters a list of products by category.</p>
+
+  <span class="file-label">// shop.js</span>
+  <div class="code-block"><pre><span class="kw">function</span> <span class="fn">filterByCategory</span>(products, category) {
+  <span class="kw">if</span> (!Array.isArray(products)) <span class="kw">throw new</span> <span class="fn">Error</span>(<span class="str">'products must be an array'</span>);
+  <span class="kw">return</span> products.<span class="fn">filter</span>(p =&gt; p.category === category);
+}
+
+module.exports = { filterByCategory };</pre></div>
+
+  <span class="file-label">// shop.test.js</span>
+  <div class="code-block"><pre><span class="kw">const</span> { <span class="vr">filterByCategory</span> } = <span class="fn">require</span>(<span class="str">'./shop'</span>);
+
+<span class="kw">const</span> <span class="vr">products</span> = [
+  { id: <span class="num">1</span>, name: <span class="str">'Laptop'</span>,   category: <span class="str">'electronics'</span>, price: <span class="num">999</span> },
+  { id: <span class="num">2</span>, name: <span class="str">'T-shirt'</span>,  category: <span class="str">'clothing'</span>,     price: <span class="num">29</span>  },
+  { id: <span class="num">3</span>, name: <span class="str">'Phone'</span>,    category: <span class="str">'electronics'</span>, price: <span class="num">699</span> },
+  { id: <span class="num">4</span>, name: <span class="str">'Notebook'</span>, category: <span class="str">'stationery'</span>,  price: <span class="num">5</span>   },
+];
+
+<span class="fn">describe</span>(<span class="str">'filterByCategory'</span>, () =&gt; {
+
+  <span class="fn">test</span>(<span class="str">'returns only electronics'</span>, () =&gt; {
+    <span class="kw">const</span> <span class="vr">result</span> = <span class="fn">filterByCategory</span>(<span class="vr">products</span>, <span class="str">'electronics'</span>);
+    <span class="fn">expect</span>(<span class="vr">result</span>).<span class="fn">toHaveLength</span>(<span class="num">2</span>);
+    <span class="fn">expect</span>(<span class="vr">result</span>[<span class="num">0</span>].name).<span class="fn">toBe</span>(<span class="str">'Laptop'</span>);
+    <span class="fn">expect</span>(<span class="vr">result</span>[<span class="num">1</span>].name).<span class="fn">toBe</span>(<span class="str">'Phone'</span>);
+  });
+
+  <span class="fn">test</span>(<span class="str">'returns empty array when no match'</span>, () =&gt; {
+    <span class="kw">const</span> <span class="vr">result</span> = <span class="fn">filterByCategory</span>(<span class="vr">products</span>, <span class="str">'furniture'</span>);
+    <span class="fn">expect</span>(<span class="vr">result</span>).<span class="fn">toEqual</span>([]); <span class="cmt">// toEqual for arrays, not toBe</span>
+  });
+
+  <span class="fn">test</span>(<span class="str">'each result has the correct category'</span>, () =&gt; {
+    <span class="kw">const</span> <span class="vr">result</span> = <span class="fn">filterByCategory</span>(<span class="vr">products</span>, <span class="str">'electronics'</span>);
+    <span class="vr">result</span>.<span class="fn">forEach</span>(item =&gt; {
+      <span class="fn">expect</span>(item.category).<span class="fn">toBe</span>(<span class="str">'electronics'</span>);
+    });
+  });
+
+  <span class="fn">test</span>(<span class="str">'throws when products is not an array'</span>, () =&gt; {
+    <span class="fn">expect</span>(() =&gt; <span class="fn">filterByCategory</span>(<span class="str">'oops'</span>, <span class="str">'electronics'</span>))
+      .<span class="fn">toThrow</span>(<span class="str">'products must be an array'</span>);
+  });
+
+});</pre></div>
+
+  <!-- EXAMPLE 2 -->
+  <div id="ex2" class="section-header">
+    <span class="badge badge-purple">Example 2</span>
+    <span class="section-title">Object transformation</span>
+  </div>
+  <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:.5rem;">A function that formats a raw user object from an API into a cleaner shape.</p>
+
+  <span class="file-label">// user.js</span>
+  <div class="code-block"><pre><span class="kw">function</span> <span class="fn">formatUser</span>(raw) {
+  <span class="kw">return</span> {
+    id:       raw.user_id,
+    fullName: <span class="str">`${raw.first_name} ${raw.last_name}`</span>,
+    email:    raw.email_address.toLowerCase(),
+    isAdmin:  raw.role === <span class="str">'admin'</span>,
+  };
+}
+
+module.exports = { formatUser };</pre></div>
+
+  <span class="file-label">// user.test.js</span>
+  <div class="code-block"><pre><span class="kw">const</span> { <span class="vr">formatUser</span> } = <span class="fn">require</span>(<span class="str">'./user'</span>);
+
+<span class="kw">const</span> <span class="vr">rawUser</span> = {
+  user_id:       <span class="num">42</span>,
+  first_name:    <span class="str">'Sara'</span>,
+  last_name:     <span class="str">'Ahmed'</span>,
+  email_address: <span class="str">'Sara.Ahmed@Example.COM'</span>,
+  role:          <span class="str">'admin'</span>,
+};
+
+<span class="fn">describe</span>(<span class="str">'formatUser'</span>, () =&gt; {
+
+  <span class="fn">test</span>(<span class="str">'returns a correctly shaped object'</span>, () =&gt; {
+    <span class="kw">const</span> <span class="vr">result</span> = <span class="fn">formatUser</span>(<span class="vr">rawUser</span>);
+    <span class="fn">expect</span>(<span class="vr">result</span>).<span class="fn">toEqual</span>({
+      id:       <span class="num">42</span>,
+      fullName: <span class="str">'Sara Ahmed'</span>,
+      email:    <span class="str">'sara.ahmed@example.com'</span>,
+      isAdmin:  <span class="kw">true</span>,
+    });
+  });
+
+  <span class="fn">test</span>(<span class="str">'has the expected properties'</span>, () =&gt; {
+    <span class="kw">const</span> <span class="vr">result</span> = <span class="fn">formatUser</span>(<span class="vr">rawUser</span>);
+    <span class="fn">expect</span>(<span class="vr">result</span>).<span class="fn">toHaveProperty</span>(<span class="str">'id'</span>);
+    <span class="fn">expect</span>(<span class="vr">result</span>).<span class="fn">toHaveProperty</span>(<span class="str">'fullName'</span>, <span class="str">'Sara Ahmed'</span>);
+    <span class="fn">expect</span>(<span class="vr">result</span>).<span class="fn">toHaveProperty</span>(<span class="str">'isAdmin'</span>, <span class="kw">true</span>);
+  });
+
+  <span class="fn">test</span>(<span class="str">'lowercases the email'</span>, () =&gt; {
+    <span class="kw">const</span> <span class="vr">result</span> = <span class="fn">formatUser</span>(<span class="vr">rawUser</span>);
+    <span class="fn">expect</span>(<span class="vr">result</span>.email).<span class="fn">toBe</span>(<span class="vr">result</span>.email.toLowerCase());
+  });
+
+  <span class="fn">test</span>(<span class="str">'isAdmin is false for non-admin role'</span>, () =&gt; {
+    <span class="kw">const</span> <span class="vr">result</span> = <span class="fn">formatUser</span>({ ...<span class="vr">rawUser</span>, role: <span class="str">'viewer'</span> });
+    <span class="fn">expect</span>(<span class="vr">result</span>.isAdmin).<span class="fn">toBe</span>(<span class="kw">false</span>);
+  });
+
+  <span class="fn">test</span>(<span class="str">'does not expose raw field names'</span>, () =&gt; {
+    <span class="kw">const</span> <span class="vr">result</span> = <span class="fn">formatUser</span>(<span class="vr">rawUser</span>);
+    <span class="fn">expect</span>(<span class="vr">result</span>).<span class="fn">not</span>.<span class="fn">toHaveProperty</span>(<span class="str">'user_id'</span>);
+    <span class="fn">expect</span>(<span class="vr">result</span>).<span class="fn">not</span>.<span class="fn">toHaveProperty</span>(<span class="str">'email_address'</span>);
+  });
+
+});</pre></div>
+
+  <!-- EXAMPLE 3 -->
+  <div id="ex3" class="section-header">
+    <span class="badge badge-teal">Example 3</span>
+    <span class="section-title">Array of objects — sorting &amp; mapping</span>
+  </div>
+  <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:.5rem;">A function that takes a list of orders and returns them sorted by amount, with a total added.</p>
+
+  <span class="file-label">// orders.js</span>
+  <div class="code-block"><pre><span class="kw">function</span> <span class="fn">summariseOrders</span>(orders) {
+  <span class="kw">const</span> <span class="vr">sorted</span> = [...orders].<span class="fn">sort</span>((a, b) =&gt; b.amount - a.amount);
+  <span class="kw">const</span> <span class="vr">total</span>  = orders.<span class="fn">reduce</span>((sum, o) =&gt; sum + o.amount, <span class="num">0</span>);
+  <span class="kw">return</span> { sorted: <span class="vr">sorted</span>, total: <span class="vr">total</span> };
+}
+
+module.exports = { summariseOrders };</pre></div>
+
+  <span class="file-label">// orders.test.js</span>
+  <div class="code-block"><pre><span class="kw">const</span> { <span class="vr">summariseOrders</span> } = <span class="fn">require</span>(<span class="str">'./orders'</span>);
+
+<span class="kw">const</span> <span class="vr">orders</span> = [
+  { id: <span class="str">'A'</span>, amount: <span class="num">50</span>  },
+  { id: <span class="str">'B'</span>, amount: <span class="num">200</span> },
+  { id: <span class="str">'C'</span>, amount: <span class="num">30</span>  },
+];
+
+<span class="fn">describe</span>(<span class="str">'summariseOrders'</span>, () =&gt; {
+
+  <span class="fn">test</span>(<span class="str">'calculates the correct total'</span>, () =&gt; {
+    <span class="kw">const</span> { <span class="vr">total</span> } = <span class="fn">summariseOrders</span>(<span class="vr">orders</span>);
+    <span class="fn">expect</span>(<span class="vr">total</span>).<span class="fn">toBe</span>(<span class="num">280</span>);
+  });
+
+  <span class="fn">test</span>(<span class="str">'sorts orders from highest to lowest amount'</span>, () =&gt; {
+    <span class="kw">const</span> { <span class="vr">sorted</span> } = <span class="fn">summariseOrders</span>(<span class="vr">orders</span>);
+    <span class="fn">expect</span>(<span class="vr">sorted</span>[<span class="num">0</span>].id).<span class="fn">toBe</span>(<span class="str">'B'</span>);
+    <span class="fn">expect</span>(<span class="vr">sorted</span>[<span class="num">1</span>].id).<span class="fn">toBe</span>(<span class="str">'A'</span>);
+    <span class="fn">expect</span>(<span class="vr">sorted</span>[<span class="num">2</span>].id).<span class="fn">toBe</span>(<span class="str">'C'</span>);
+  });
+
+  <span class="fn">test</span>(<span class="str">'does not mutate the original array'</span>, () =&gt; {
+    <span class="fn">summariseOrders</span>(<span class="vr">orders</span>);
+    <span class="fn">expect</span>(<span class="vr">orders</span>[<span class="num">0</span>].id).<span class="fn">toBe</span>(<span class="str">'A'</span>); <span class="cmt">// still in original order</span>
+  });
+
+  <span class="fn">test</span>(<span class="str">'returns zero total for empty array'</span>, () =&gt; {
+    <span class="kw">const</span> { <span class="vr">total</span>, <span class="vr">sorted</span> } = <span class="fn">summariseOrders</span>([]);
+    <span class="fn">expect</span>(<span class="vr">total</span>).<span class="fn">toBe</span>(<span class="num">0</span>);
+    <span class="fn">expect</span>(<span class="vr">sorted</span>).<span class="fn">toEqual</span>([]);
+  });
+
+  <span class="fn">test</span>(<span class="str">'sorted result contains all original orders'</span>, () =&gt; {
+    <span class="kw">const</span> { <span class="vr">sorted</span> } = <span class="fn">summariseOrders</span>(<span class="vr">orders</span>);
+    <span class="fn">expect</span>(<span class="vr">sorted</span>).<span class="fn">toEqual</span>(
+      expect.<span class="fn">arrayContaining</span>([
+        expect.<span class="fn">objectContaining</span>({ id: <span class="str">'A'</span> }),
+        expect.<span class="fn">objectContaining</span>({ id: <span class="str">'B'</span> }),
+        expect.<span class="fn">objectContaining</span>({ id: <span class="str">'C'</span> }),
+      ])
+    );
+  });
+
+});</pre></div>
+
+  <!-- EXAMPLE 4 -->
+  <div id="ex4" class="section-header">
+    <span class="badge badge-amber">Example 4</span>
+    <span class="section-title">Nested objects — partial matching</span>
+  </div>
+  <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:.5rem;">A function that merges a default config with user preferences. Uses <code>toMatchObject</code> to check partial structure.</p>
+
+  <span class="file-label">// config.js</span>
+  <div class="code-block"><pre><span class="kw">const</span> <span class="vr">DEFAULTS</span> = {
+  theme:    <span class="str">'light'</span>,
+  language: <span class="str">'en'</span>,
+  notifications: { email: <span class="kw">true</span>, sms: <span class="kw">false</span> },
+};
+
+<span class="kw">function</span> <span class="fn">buildConfig</span>(userPrefs = {}) {
+  <span class="kw">return</span> {
+    ...<span class="vr">DEFAULTS</span>,
+    ...<span class="vr">userPrefs</span>,
+    notifications: {
+      ...<span class="vr">DEFAULTS</span>.notifications,
+      ...(userPrefs.notifications || {}),
+    },
+  };
+}
+
+module.exports = { buildConfig };</pre></div>
+
+  <span class="file-label">// config.test.js</span>
+  <div class="code-block"><pre><span class="kw">const</span> { <span class="vr">buildConfig</span> } = <span class="fn">require</span>(<span class="str">'./config'</span>);
+
+<span class="fn">describe</span>(<span class="str">'buildConfig'</span>, () =&gt; {
+
+  <span class="fn">test</span>(<span class="str">'returns default config when called with no args'</span>, () =&gt; {
+    <span class="kw">const</span> <span class="vr">config</span> = <span class="fn">buildConfig</span>();
+    <span class="fn">expect</span>(<span class="vr">config</span>).<span class="fn">toEqual</span>({
+      theme:    <span class="str">'light'</span>,
+      language: <span class="str">'en'</span>,
+      notifications: { email: <span class="kw">true</span>, sms: <span class="kw">false</span> },
+    });
+  });
+
+  <span class="fn">test</span>(<span class="str">'overrides theme without touching other defaults'</span>, () =&gt; {
+    <span class="kw">const</span> <span class="vr">config</span> = <span class="fn">buildConfig</span>({ theme: <span class="str">'dark'</span> });
+    <span class="cmt">// toMatchObject only checks the keys you specify</span>
+    <span class="fn">expect</span>(<span class="vr">config</span>).<span class="fn">toMatchObject</span>({
+      theme:    <span class="str">'dark'</span>,
+      language: <span class="str">'en'</span>,
+    });
+  });
+
+  <span class="fn">test</span>(<span class="str">'merges nested notifications correctly'</span>, () =&gt; {
+    <span class="kw">const</span> <span class="vr">config</span> = <span class="fn">buildConfig</span>({ notifications: { sms: <span class="kw">true</span> } });
+    <span class="fn">expect</span>(<span class="vr">config</span>.notifications).<span class="fn">toEqual</span>({
+      email: <span class="kw">true</span>,  <span class="cmt">// kept from default</span>
+      sms:   <span class="kw">true</span>,  <span class="cmt">// overridden</span>
+    });
+  });
+
+  <span class="fn">test</span>(<span class="str">'config has the required top-level keys'</span>, () =&gt; {
+    <span class="kw">const</span> <span class="vr">config</span> = <span class="fn">buildConfig</span>();
+    <span class="fn">expect</span>(<span class="vr">config</span>).<span class="fn">toHaveProperty</span>(<span class="str">'theme'</span>);
+    <span class="fn">expect</span>(<span class="vr">config</span>).<span class="fn">toHaveProperty</span>(<span class="str">'notifications.email'</span>); <span class="cmt">// dot notation!</span>
+  });
+
+});</pre></div>
+
+</div><!-- end .session -->
+
+<script>
+function showTab(id, event) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,253 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { font-family: var(--font-sans); }
+
+.ex { padding: 2rem 0; }
+
+.badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.b-green { background: #EAF3DE; color: #3B6D11; }
+.b-amber { background: #FAEEDA; color: #633806; }
+.b-red   { background: #FCEBEB; color: #791F1F; }
+.b-blue  { background: #E6F1FB; color: #0C447C; }
+.b-gray  { background: #F1EFE8; color: #5F5E5A; }
+
+.sec-head {
+  display: flex; align-items: center; gap: 10px;
+  margin: 2rem 0 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 0.5px solid var(--color-border-tertiary);
+}
+.sec-title { font-size: 16px; font-weight: 500; color: var(--color-text-primary); }
+
+.card {
+  background: var(--color-background-primary);
+  border: 0.5px solid var(--color-border-tertiary);
+  border-radius: var(--border-radius-lg);
+  padding: 1rem 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.timer-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 10px;
+  margin-bottom: 1.5rem;
+}
+.t-card {
+  background: var(--color-background-secondary);
+  border-radius: var(--border-radius-md);
+  padding: 0.85rem 1rem;
+  text-align: center;
+}
+.t-label { font-size: 11px; color: var(--color-text-secondary); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.06em; }
+.t-val   { font-size: 20px; font-weight: 500; color: var(--color-text-primary); }
+.t-sub   { font-size: 11px; color: var(--color-text-tertiary); margin-top: 2px; }
+
+.step-row {
+  display: flex; gap: 12px; align-items: flex-start;
+  padding: 12px 0;
+  border-bottom: 0.5px solid var(--color-border-tertiary);
+}
+.step-row:last-child { border-bottom: none; }
+.step-num {
+  width: 24px; height: 24px; border-radius: 50%;
+  background: var(--color-background-secondary);
+  border: 0.5px solid var(--color-border-secondary);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 500;
+  color: var(--color-text-secondary);
+  flex-shrink: 0;
+}
+.step-body { flex: 1; }
+.step-title { font-size: 14px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 3px; }
+.step-desc  { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; }
+
+.code-block {
+  background: #1e1e2e;
+  border-radius: var(--border-radius-md);
+  padding: 1rem 1.25rem;
+  margin: 0.75rem 0;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 12.5px;
+  line-height: 1.75;
+  overflow-x: auto;
+}
+.code-block pre { color: #cdd6f4; white-space: pre; }
+.kw  { color: #cba6f7; }
+.fn  { color: #89b4fa; }
+.str { color: #a6e3a1; }
+.cmt { color: #6c7086; font-style: italic; }
+.num { color: #fab387; }
+.vr  { color: #f38ba8; }
+
+.file-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: #6c7086;
+  display: block; margin-bottom: -4px;
+}
+
+.challenge-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+  margin-bottom: 0.75rem;
+}
+
+.ch-card {
+  background: var(--color-background-primary);
+  border: 0.5px solid var(--color-border-tertiary);
+  border-radius: var(--border-radius-lg);
+  padding: 1rem;
+}
+.ch-num  { font-size: 22px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 4px; }
+.ch-title { font-size: 13px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 6px; }
+.ch-desc { font-size: 12px; color: var(--color-text-secondary); line-height: 1.55; }
+
+.hint-row {
+  display: flex; align-items: flex-start; gap: 10px;
+  font-size: 13px; color: var(--color-text-secondary);
+  padding: 8px 0;
+  border-bottom: 0.5px solid var(--color-border-tertiary);
+  line-height: 1.6;
+}
+.hint-row:last-child { border-bottom: none; }
+.hint-tag {
+  font-size: 11px; font-weight: 500; padding: 2px 8px;
+  border-radius: 20px; flex-shrink: 0; margin-top: 1px;
+}
+
+.ask-btn {
+  font-size: 13px; padding: 7px 16px;
+  border-radius: 20px;
+  border: 0.5px solid var(--color-border-secondary);
+  background: transparent; color: var(--color-text-secondary);
+  cursor: pointer; font-family: var(--font-sans);
+  margin-right: 8px; margin-top: 8px;
+}
+.ask-btn:hover { background: var(--color-background-secondary); }
+
+.sol-toggle {
+  font-size: 13px; padding: 7px 16px;
+  border-radius: 20px;
+  border: 0.5px solid var(--color-border-secondary);
+  background: transparent; color: var(--color-text-secondary);
+  cursor: pointer; font-family: var(--font-sans);
+  margin-bottom: 0.5rem;
+}
+.sol-toggle:hover { background: var(--color-background-secondary); }
+
+.solution { display: none; }
+.solution.open { display: block; }
+
+code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11.5px;
+  background: var(--color-background-secondary);
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+</style>
+
+<div class="ex">
+  <h2 >Hands-on exercise: write unit tests for a password validator function</h2>
+
+  <div class="sec-head">
+    <span class="badge b-gray">Setup</span>
+    <span class="sec-title">Step-by-step instructions</span>
+  </div>
+
+  <div class="card" style="padding:0.25rem 1.25rem;">
+   
+    <div class="step-row">
+      <div class="step-body">
+        <div class="step-title">Write your tests in <code>validator.test.js</code></div>
+        <div class="step-desc">Use <code>describe</code>, <code>test</code>, and <code>expect</code>. Aim for at least 5 tests.</div>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-body">
+        <div class="step-title">Bonus: try to break the function</div>
+        <div class="step-desc">Write a test that reveals unexpected behavior. What happens with an empty string? A very long password?</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec-head">
+    <span class="badge b-gray">Starter code</span>
+    <span class="sec-title">The function to test</span>
+  </div>
+
+  <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:0.5rem;">Copy this exactly, don't change anything. Your job is to test it, not write it.</p>
+
+  <span class="file-label">// validator.js</span>
+  <div class="code-block"><pre><span class="kw">function</span> <span class="fn">isValidPassword</span>(password) {
+  <span class="kw">if</span> (<span class="kw">typeof</span> password !== <span class="str">'string'</span>) {
+    <span class="kw">return</span> { valid: <span class="kw">false</span>, reason: <span class="str">'Password must be a string'</span> };
+  }
+
+  <span class="kw">if</span> (password.length < <span class="num">8</span>) {
+    <span class="kw">return</span> { valid: <span class="kw">false</span>, reason: <span class="str">'Too short (min 8 characters)'</span> };
+  }
+
+  <span class="kw">if</span> (!/[A-Z]/.test(password)) {
+    <span class="kw">return</span> { valid: <span class="kw">false</span>, reason: <span class="str">'Must contain an uppercase letter'</span> };
+  }
+
+  <span class="kw">if</span> (!/[0-9]/.test(password)) {
+    <span class="kw">return</span> { valid: <span class="kw">false</span>, reason: <span class="str">'Must contain a number'</span> };
+  }
+
+  <span class="kw">return</span> { valid: <span class="kw">true</span>, reason: <span class="str">''</span> };
+}
+
+module.exports = { isValidPassword };</pre></div>
+
+  <div class="sec-head">
+    <span class="badge b-gray">Your tasks</span>
+    <span class="sec-title">What to test</span>
+  </div>
+
+  <div class="challenge-grid">
+    <div class="ch-card">
+      <div class="ch-num" style="color:#1D9E75;">1</div>
+      <div class="ch-title">Happy path</div>
+      <div class="ch-desc">A strong valid password returns <code>valid: true</code> and an empty reason.</div>
+    </div>
+    <div class="ch-card">
+      <div class="ch-num" style="color:#E24B4A;">2</div>
+      <div class="ch-title">Too short</div>
+      <div class="ch-desc">A 7-character password should fail with the "Too short" reason.</div>
+    </div>
+    <div class="ch-card">
+      <div class="ch-num" style="color:#E24B4A;">3</div>
+      <div class="ch-title">No uppercase</div>
+      <div class="ch-desc">A password with only lowercase + numbers should fail.</div>
+    </div>
+    <div class="ch-card">
+      <div class="ch-num" style="color:#E24B4A;">4</div>
+      <div class="ch-title">No number</div>
+      <div class="ch-desc">Letters only, even with uppercase, should fail.</div>
+    </div>
+    <div class="ch-card">
+      <div class="ch-num" style="color:#BA7517;">5</div>
+      <div class="ch-title">Wrong type</div>
+      <div class="ch-desc">Pass a number, null, or undefined instead of a string.</div>
+    </div>
+    <div class="ch-card">
+      <div class="ch-num" style="color:#534AB7;">6</div>
+      <div class="ch-title">Edge case</div>
+      <div class="ch-desc">What's the shortest possible valid password? Test exactly 8 chars.</div>
+    </div>
+  </div>
+
+  
