@@ -12,7 +12,7 @@ $pic  = $_SESSION['picture'] ?? '';
 <head><title>Welcome</title></head>
 <body style="font-family:Arial; text-align:center; padding:40px;">
 
-<h1>Welcome, <?= htmlspecialchars($user) ?>!</h1>
+<h1>Welcome, <?= $user ?>!</h1>
 
 <?php if ($pic && file_exists($pic)): ?>
     <img src="<?= $pic ?>" width="200" style="border-radius:10px; border:1px solid #ccc;">
