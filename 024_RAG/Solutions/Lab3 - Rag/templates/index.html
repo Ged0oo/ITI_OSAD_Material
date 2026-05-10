@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>RAG Assistant</title>
+    <style>
+      body { font-family: Arial, sans-serif; max-width: 800px; margin: 2rem auto; }
+      input, textarea { width: 100%; padding: 0.5rem; margin: 0.5rem 0; }
+      button { padding: 0.6rem 1rem; }
+      .result { border: 1px solid #ddd; padding: 1rem; margin-top: 1rem; }
+    </style>
+  </head>
+  <body>
+    <h1>RAG Assistant (Board Games)</h1>
+    <p>Ask about the available documents (Monopoly, Ticket to Ride).</p>
+
+    <label for="q">Question</label>
+    <textarea id="q" rows="3" placeholder="Type your question..."></textarea>
+    <div>
+      <button id="ask">Ask</button>
+    </div>
+
+    <div id="out" class="result" style="display:none">
+      <h3>Answer</h3>
+      <div id="answer"></div>
+      <p><strong>Case:</strong> <span id="case"></span></p>
+      <p><strong>Confidence:</strong> <span id="confidence"></span></p>
+    </div>
+
+    <script>
+      document.getElementById('ask').addEventListener('click', async () => {
+        const q = document.getElementById('q').value.trim();
+        if (!q) return alert('Please type a question');
+
+        document.getElementById('answer').textContent = 'Thinking...';
+        document.getElementById('out').style.display = 'block';
+
+        const res = await fetch('/query', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ question: q })
+        });
+
+        if (!res.ok) {
+          const err = await res.json();
+          document.getElementById('answer').textContent = err.error || 'Server error';
+          return;
+        }
+
+        const data = await res.json();
+        document.getElementById('answer').textContent = data.answer;
+        document.getElementById('case').textContent = data.case;
+        document.getElementById('confidence').textContent = data.confidence || data.best_score || 'N/A';
+      });
+    </script>
+  </body>
+</html>
