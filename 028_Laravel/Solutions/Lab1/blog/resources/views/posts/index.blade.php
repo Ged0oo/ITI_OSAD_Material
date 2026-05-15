@@ -10,6 +10,7 @@
         @foreach ($posts as $post)
             <li>--------------------------</li>
             <li>Post Title: {{$post->title}}</li>
+            <li>Slug: {{$post->slug}}</li>
             <a href="{{ route('posts.show', $post->id) }}">View Post</a>
             |
             <a href="{{ route('posts.edit', $post->id) }}">Edit</a>

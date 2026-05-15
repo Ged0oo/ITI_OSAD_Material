@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Models\User;
-use Illuminate\Http\Request;
+use App\Http\Requests\StorePostRequest;
+use App\Http\Requests\UpdatePostRequest;
 
 class PostController extends Controller
 {
@@ -20,13 +21,9 @@ class PostController extends Controller
         return view('posts.create', ['users' => $users]);
     }
 
-    public function store(Request $request)
+    public function store(StorePostRequest $request)
     {
-        $data = $request->validate([
-            'title' => 'required',
-            'content' => 'required',
-            'user_id' => 'required|exists:users,id',
-        ]);
+        $data = $request->validated();
 
         Post::create($data);
 
@@ -46,13 +43,9 @@ class PostController extends Controller
         return view('posts.edit', compact('post', 'users'));
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdatePostRequest $request, $id)
     {
-        $data = $request->validate([
-            'title' => 'required',
-            'content' => 'required',
-            'user_id' => 'required|exists:users,id',
-        ]);
+        $data = $request->validated();
 
         $post = Post::findOrFail($id);
         $post->update($data);

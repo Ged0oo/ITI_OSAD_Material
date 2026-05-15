@@ -12,11 +12,17 @@
         <div>
             <label>Title</label>
             <input type="text" name="title" value="{{ old('title') }}" required>
+            @error('title')
+                <div style="color: red;">{{ $message }}</div>
+            @enderror
         </div>
 
         <div>
             <label>Content</label>
             <textarea name="content" required>{{ old('content') }}</textarea>
+            @error('content')
+                <div style="color: red;">{{ $message }}</div>
+            @enderror
         </div>
 
         <div>

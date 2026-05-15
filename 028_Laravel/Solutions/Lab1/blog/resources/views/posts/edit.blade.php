@@ -13,22 +13,27 @@
         <div>
             <label>Title</label>
             <input type="text" name="title" value="{{ old('title', $post->title) }}" required>
+            @error('title')
+                <div style="color: red;">{{ $message }}</div>
+            @enderror
         </div>
 
         <div>
             <label>Content</label>
             <textarea name="content" required>{{ old('content', $post->content) }}</textarea>
-                <div>
-                    <label>User</label>
-                    <select name="user_id" required>
-                        @foreach($users as $user)
-                            <option value="{{ $user->id }}" {{ old('user_id', $post->user_id) == $user->id ? 'selected' : '' }}>
-                                {{ $user->name }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-
+            @error('content')
+                <div style="color: red;">{{ $message }}</div>
+            @enderror
+            <div>
+                <label>User</label>
+                <select name="user_id" required>
+                    @foreach($users as $user)
+                        <option value="{{ $user->id }}" {{ old('user_id', $post->user_id) == $user->id ? 'selected' : '' }}>
+                            {{ $user->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
         </div>
 
         <button type="submit">Update</button>

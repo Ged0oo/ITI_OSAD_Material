@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Post;
 use App\Models\User;
+use Cviebrock\EloquentSluggable\Services\SlugService;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -19,10 +20,13 @@ class PostFactory extends Factory
      */
     public function definition(): array
     {
+        $title = $this->faker->sentence;
+
         return [
-            "title"=> $this->faker->sentence,
-            "content"=> $this->faker->paragraph,
-            "user_id"=> User::inRandomOrder()->first()->id
+            'title' => $title,
+            'slug' => SlugService::createSlug(Post::class, 'slug', $title),
+            'content' => $this->faker->paragraph,
+            'user_id' => User::inRandomOrder()->first()->id,
         ];
     }
 }
