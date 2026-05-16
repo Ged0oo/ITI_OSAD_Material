@@ -26,6 +26,6 @@ class UserSeeder extends Seeder
         //     ['name' => 'Hank Taylor', 'created_at' => now(), 'updated_at' => now()],
         //     ['name' => 'Ivy Anderson', 'created_at' => now(), 'updated_at' => now()]
         // );
-        User::factory()->count(20)->create();
+        User::factory()->count(5)->create();
     }
 }

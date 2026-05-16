@@ -24,6 +24,6 @@ class PostSeeder extends Seeder
         //         'updated_at' => now()
         //     ]
         // );
-        Post::factory()->count(500)->create();
+        // Post::factory()->count(5)->create();
     }
 }

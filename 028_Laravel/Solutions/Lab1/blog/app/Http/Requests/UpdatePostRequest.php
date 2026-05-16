@@ -2,8 +2,9 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Contracts\Validation\ValidationRule;
+use App\Rules\NoHtml;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdatePostRequest extends FormRequest
 {
@@ -18,14 +19,14 @@ class UpdatePostRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, ValidationRule|array<mixed>|string>
+    * @return array<string, mixed>
      */
     public function rules(): array
     {
         return [
-            'title' => ['required', 'min:3'],
-            'content' => ['required', 'min:10',],
-            'user_id' => 'required|exists:users,id',
+            'title' => ['required', 'min:3', Rule::unique('posts', 'title')->ignore($this->route('id'))],
+            'content' => ['required', 'min:10', new NoHtml()],
+            'photo' => ['nullable', 'image', 'mimes:jpeg,png', 'max:5120'],
         ];
     }
 }

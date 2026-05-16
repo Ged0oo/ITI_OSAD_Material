@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Contracts\Validation\ValidationRule;
+use App\Rules\NoHtml;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StorePostRequest extends FormRequest
@@ -18,14 +18,14 @@ class StorePostRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, ValidationRule|array<mixed>|string>
+    * @return array<string, mixed>
      */
     public function rules(): array
     {
         return [
             'title' => ['required', 'min:3', 'unique:posts,title'],
-            'content' => ['required', 'min:10',],
-            'user_id' => ['required', 'exists:users,id'],
+            'content' => ['required', 'min:10', new NoHtml()],
+            'photo' => ['nullable', 'image', 'mimes:jpeg,png', 'max:5120'],
         ];
     }
 }
