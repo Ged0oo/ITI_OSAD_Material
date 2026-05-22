@@ -1,0 +1,213 @@
+let data=[
+  {
+    "id": 2,
+    "name": "Urban Maverick Boots",
+    "description": "Rugged leather boots designed to withstand city streets and weekend trails.",
+    "image": "https://images.unsplash.com/photo-1520639888713-7851133b1ed0?w=500&auto=format&fit=crop&q=80",
+    "badge": "BESTSELLER",
+    "price": 180,
+    "discount": 15,
+    "tags": ["Footwear", "Outdoor", "Classic"],
+    "isAvailable": true
+  },
+  {
+    "id": 3,
+    "name": "Minimalist Wallet",
+    "description": "Sleek, RFID-blocking aluminum wallet that holds up to 12 cards.",
+    "image": "https://images.unsplash.com/photo-1627123424574-724758594e93?w=500&auto=format&fit=crop&q=80",
+    "badge": "NEW",
+    "price": 45,
+    "discount": 0,
+    "tags": ["Accessories", "Everyday Carry", "Tech"],
+    "isAvailable": true
+  },
+  {
+    "id": 4,
+    "name": "Chrono Sport Watch",
+    "description": "Water-resistant chronograph watch with a durable silicone strap.",
+    "image": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&auto=format&fit=crop&q=80",
+    "badge": "SALE",
+    "price": 250,
+    "discount": 50,
+    "tags": ["Accessories", "Sport", "Fitness"],
+    "isAvailable": false
+  },
+  {
+    "id": 5,
+    "name": "CloudNine Hoodie",
+    "description": "Ultra-soft cotton blend hoodie perfect for lounging or running errands.",
+    "image": "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=500&auto=format&fit=crop&q=80",
+    "badge": "NEW",
+    "price": 75,
+    "discount": 10,
+    "tags": ["Apparel", "Casual", "Lounge"],
+    "isAvailable": true
+  },
+  {
+    "id": 6,
+    "name": "HydroFit Water Bottle",
+    "description": "Insulated stainless steel bottle that keeps drinks cold for 24 hours.",
+    "image": "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=500&auto=format&fit=crop&q=80",
+    "badge": "TRENDING",
+    "price": 35,
+    "discount": 5,
+    "tags": ["Fitness", "Outdoor", "Eco-Friendly"],
+    "isAvailable": true
+  },
+  {
+    "id": 7,
+    "name": "Apex Backpack",
+    "description": "Waterproof travel backpack with a dedicated 16-inch laptop compartment.",
+    "image": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&auto=format&fit=crop&q=80",
+    "badge": "BESTSELLER",
+    "price": 140,
+    "discount": 25,
+    "tags": ["Travel", "Tech", "Gear"],
+    "isAvailable": true
+  },
+  {
+    "id": 8,
+    "name": "SonicBuds Wireless",
+    "description": "True wireless earbuds with active noise cancellation and deep bass.",
+    "image": "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=500&auto=format&fit=crop&q=80",
+    "badge": "NEW",
+    "price": 99,
+    "discount": 15,
+    "tags": ["Electronics", "Audio", "Tech"],
+    "isAvailable": false
+  },
+  {
+    "id": 9,
+    "name": "Classic Denim Jacket",
+    "description": "Timeless denim jacket with a relaxed fit and vintage wash.",
+    "image": "https://images.unsplash.com/photo-1576995853123-5a10305d93c0?w=500&auto=format&fit=crop&q=80",
+    "badge": "",
+    "price": 85,
+    "discount": 0,
+    "tags": ["Apparel", "Fashion", "Vintage"],
+    "isAvailable": true
+  },
+  {
+    "id": 10,
+    "name": "Lumbar Support Cushion",
+    "description": "Memory foam cushion designed to improve posture during long office hours.",
+    "image": "https://images.unsplash.com/photo-1584100936595-c0654b55a2e2?w=500&auto=format&fit=crop&q=80",
+    "badge": "SALE",
+    "price": 40,
+    "discount": 10,
+    "tags": ["Office", "Home", "Wellness"],
+    "isAvailable": true
+  },
+  {
+    "id": 11,
+    "name": "Aerolite Running Shorts",
+    "description": "Lightweight, moisture-wicking shorts with a hidden zip pocket.",
+    "image": "https://images.unsplash.com/photo-1539185441755-769473a23570?w=500&auto=format&fit=crop&q=80",
+    "badge": "NEW",
+    "price": 48,
+    "discount": 8,
+    "tags": ["Sport", "Fitness", "Apparel"],
+    "isAvailable": true
+  },
+  {
+    "id": 12,
+    "name": "Matte Espresso Maker",
+    "description": "Compact stovetop espresso maker with a heat-resistant handle.",
+    "image": "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=500&auto=format&fit=crop&q=80",
+    "badge": "TRENDING",
+    "price": 60,
+    "discount": 12,
+    "tags": ["Kitchen", "Home", "Coffee"],
+    "isAvailable": false
+  },
+  {
+    "id": 13,
+    "name": "Polarized Horizon Glasses",
+    "description": "Lightweight sunglasses offering 100% UV protection and glare reduction.",
+    "image": "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=500&auto=format&fit=crop&q=80",
+    "badge": "",
+    "price": 110,
+    "discount": 20,
+    "tags": ["Accessories", "Fashion", "Outdoor"],
+    "isAvailable": true
+  },
+  {
+    "id": 14,
+    "name": "Ember Soy Candle",
+    "description": "Hand-poured soy wax candle with a warm cedar and sandalwood scent.",
+    "image": "https://images.unsplash.com/photo-1603006905003-be475563bc59?w=500&auto=format&fit=crop&q=80",
+    "badge": "NEW",
+    "price": 28,
+    "discount": 0,
+    "tags": ["Home", "Decor", "Relaxation"],
+    "isAvailable": true
+  },
+  {
+    "id": 15,
+    "name": "Flexi Grip Yoga Mat",
+    "description": "Eco-friendly, non-slip yoga mat with alignment lines for practice.",
+    "image": "https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=500&auto=format&fit=crop&q=80",
+    "badge": "BESTSELLER",
+    "price": 65,
+    "discount": 10,
+    "tags": ["Fitness", "Wellness", "Sport"],
+    "isAvailable": true
+  },
+  {
+    "id": 17,
+    "name": "Titanium Multi-Tool",
+    "description": "Pocket-sized 10-in-1 multi-tool for quick fixes on the go.",
+    "image": "https://images.unsplash.com/photo-1582211594533-268f4f1edcb9?w=500&auto=format&fit=crop&q=80",
+    "badge": "NEW",
+    "price": 38,
+    "discount": 0,
+    "tags": ["Everyday Carry", "Gear", "Outdoor"],
+    "isAvailable": true
+  },
+  {
+    "id": 18,
+    "name": "Breeze Linen Shirt",
+    "description": "Breathable pure linen button-down shirt designed for warm days.",
+    "image": "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=500&auto=format&fit=crop&q=80",
+    "badge": "TRENDING",
+    "price": 70,
+    "discount": 15,
+    "tags": ["Apparel", "Fashion", "Casual"],
+    "isAvailable": true
+  },
+  {
+    "id": 19,
+    "name": "Glow Desk Lamp",
+    "description": "LED desk lamp with adjustable brightness levels and a wireless charging base.",
+    "image": "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=500&auto=format&fit=crop&q=80",
+    "badge": "SALE",
+    "price": 89,
+    "discount": 20,
+    "tags": ["Office", "Home", "Tech"],
+    "isAvailable": true
+  },
+  {
+    "id": 20,
+    "name": "Nomad Passport Wallet",
+    "description": "Slim leather travel wallet that protects passport and boarding passes.",
+    "image": "https://images.unsplash.com/photo-1544816155-12df9643f363?w=500&auto=format&fit=crop&q=80",
+    "badge": "",
+    "price": 50,
+    "discount": 10,
+    "tags": ["Travel", "Accessories", "Classic"],
+    "isAvailable": true
+  },
+  {
+    "id": 21,
+    "name": "Stratus Windbreaker",
+    "description": "Ultra-lightweight packable windbreaker with water-resistant coating.",
+    "image": "https://images.unsplash.com/photo-1548883354-7622d03aca27?w=500&auto=format&fit=crop&q=80",
+    "badge": "NEW",
+    "price": 105,
+    "discount": 15,
+    "tags": ["Apparel", "Outdoor", "Sport"],
+    "isAvailable": false
+  }
+]
+
+export default data;
