@@ -18,7 +18,7 @@ const props = defineProps({
     </nav>
 
     <div id="nav-actions">
-      <button id="nav-cta" type="button">Sign In</button>
+      <button id="nav-cta" type="button">Hi, Nagy</button>
     </div>
   </header>
 </template>
