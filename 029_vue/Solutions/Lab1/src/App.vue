@@ -1,119 +1,161 @@
 <script setup>
-
 import { computed, ref } from "vue";
-import NavBar from './components/NavBar.vue'
-import Footer from './components/Footer.vue'
-import data from '@/data'
+import NavBar from "./components/NavBar.vue";
+import Footer from "./components/Footer.vue";
+import data from "@/data";
 
-const products = ref(data)
-const currentProduct = ref(products.value[0])
+const products = ref(data);
+const currentProduct = ref(products.value[0]);
+const msg = ref("");
 
-const goToProduct = (prod) => currentProduct.value = prod;
+const goToProduct = (product) => {
+  currentProduct.value = product;
+};
 
-const badgeClass = (badge) => {
-  if (!badge) return '';
+const badgeToneClass = (badge) => {
+  if (!badge) return "";
   switch (badge) {
-    case 'SALE': return 'bg-red-500 text-white';
-    case 'NEW': return 'bg-green-600 text-white';
-    case 'BESTSELLER': return 'bg-yellow-400 text-black';
-    default: return 'bg-gray-200 text-black';
+    case "SALE":
+      return "badge-sale";
+    case "NEW":
+      return "badge-new";
+    case "BESTSELLER":
+      return "badge-bestseller";
+    default:
+      return "badge-default";
   }
-}
+};
 
 const discountedPrice = computed(() => {
-    const price = currentProduct.value.price;
-    const discount = currentProduct.value.discount;
-    const final = price * (1 - discount / 100);
-    return Math.round(final * 100) / 100;
+  const price = currentProduct.value.price;
+  const discount = currentProduct.value.discount;
+  const final = price * (1 - discount / 100);
+  return Math.round(final * 100) / 100;
 });
 
+const relatedProducts = computed(() => {
+  const activeTags = new Set(currentProduct.value.tags);
+  return products.value.filter(
+    (product) =>
+      product.id !== currentProduct.value.id &&
+      product.tags.some((tag) => activeTags.has(tag))
+  );
+});
+
+const getDiscountedPrice = (product) => {
+  const final = product.price * (1 - product.discount / 100);
+  return Math.round(final * 100) / 100;
+};
+
+const addToCart = () => {
+  msg.value = `${currentProduct.value.name} added to cart.`;
+  setTimeout(() => {
+    msg.value = "";
+  }, 2000);
+};
 </script>
 
-
 <template>
-  <NavBar :title="'ITI Store'" />
+  <div id="app-shell">
+    <NavBar :title="'ITI Store'" />
 
-  <div class="flex justify-between  text-2xl m-5">
+    <main id="page-content">
+      <section id="product-showcase">
+        <div id="product-media-panel">
+          <img
+            id="product-image"
+            :src="currentProduct.image"
+            :alt="currentProduct.name"
+          />
+        </div>
 
-      <main class="p-10">
-          <!-- product-details -->
-      <div class="grid grid-cols-2 grid-flow-row gap-4">
-          
-        <img class="w-full h-80 object-cover rounded-2xl"  :src="currentProduct.image" alt="Product Image">
-          
-          <div class="flex flex-col gap-5">
-            <p v-if="currentProduct.badge" :class="badgeClass(currentProduct.badge) + ' inline-block px-2 py-1 rounded text-sm font-semibold'">{{ currentProduct.badge }}</p>
-            <h3>{{ currentProduct.name }}</h3>
+        <div id="product-info-panel">
+          <p
+            v-if="currentProduct.badge"
+            id="product-badge"
+            :class="badgeToneClass(currentProduct.badge)"
+          >
+            {{ currentProduct.badge }}
+          </p>
 
-            <h4 class="text-lg font-bold">Description</h4>
+          <h1 id="product-name">{{ currentProduct.name }}</h1>
 
-            <p>{{ currentProduct.description }}</p>
+          <h2 id="description-title">Description</h2>
+          <p id="product-description">{{ currentProduct.description }}</p>
 
-            <div class="flex-flow-col grid-rows-2 gap-2">
-              <div v-if="currentProduct.discount !== 0">
-                    <h4 class="text-lg font-bold"> original Price</h4>
-                    <p class="line-through text-gray-500" >${{ currentProduct.price }}</p>
-                    <h4 class="text-lg font-bold">discounted price</h4>
-                    <p class="" >${{ discountedPrice }}</p>
-              </div>
+          <div id="pricing-panel">
+            <template v-if="currentProduct.discount > 0">
+              <p id="original-price-label">Original Price</p>
+              <p id="original-price">${{ currentProduct.price }}</p>
+              <p id="discounted-price-label">Discounted Price</p>
+              <p id="discounted-price">${{ discountedPrice }}</p>
+            </template>
 
-              <div v-else>
-                    <h4> original Price</h4>
-                    <p  >${{ currentProduct.price }}</p>
-              </div>
-            <p 
-                class="text-white text-center p-2 w-28 rounded-full font-medium"
-                :class="currentProduct.isAvailable ? 'bg-green-600' : 'bg-red-600'"
-              >
-                {{ currentProduct.isAvailable ? 'In Stock' : 'Out of Stock' }}
-              </p>
-            </div>
-              <div class="flex flex-wrap gap-2">
-                <span 
-                  v-for="tag in currentProduct.tags" :key="tag" class="bg-gray-100 text-gray-800 text-sm font-medium px-3 py-1 rounded-full">
-                  {{ tag }}
-                </span>
-              </div>
-            
-            <button :class="currentProduct.isAvailable?'bg-blue-500 p-3 rounded-full':'bg-blue-400 p-3 rounded-full ' " :disabled="!currentProduct.isAvailable" @click="addToCart()">Buy Now</button>
+            <template v-else>
+              <p id="original-price-label">Price</p>
+              <p id="discounted-price">${{ currentProduct.price }}</p>
+            </template>
+
+            <p
+              id="availability-pill"
+              :class="currentProduct.isAvailable ? 'status-in-stock' : 'status-out-stock'"
+            >
+              {{ currentProduct.isAvailable ? "In Stock" : "Out of Stock" }}
+            </p>
           </div>
-      </div>
 
-      <!-- related-products -->
-      <p class="mt-6 font-semibold text-xl mb-5">Related Products</p>
-          <div class="flex gap-4 overflow-x-auto pb-3 snap-x">
-        <button 
-          @click="goToProduct(product)"
-          class="w-1/3 min-w-[150px] flex-shrink-0 border p-2 rounded text-left snap-start bg-white" 
-          v-for="product in products.filter(product=>{
-            const currentProductTags = new Set(currentProduct.tags);
-            return product.tags.some(tag => currentProductTags.has(tag)) && product.id !== currentProduct.id;
-          })" 
-          :key="product.id"
-        >
-          <img :src="product.image" class="w-full h-50 object-cover rounded" alt="">
-          <p class="text-sm text-black font-semibold mt-5 truncate">{{ product.name }}</p>
-          <p :class="product.isAvailable? 'text-green-900' : 'text-red-900'">{{ product.isAvailable? 'inStock':'out of stock' }}</p>
-
-          <div class="mt-2">
-            <div v-if="product.discount > 0">
-              <p class="text-sm line-through text-gray-500">${{ product.price }}</p>
-              <p class="text-sm font-semibold">${{ Math.round(product.price * (1 - product.discount/100) * 100)/100 }}</p>
-            </div>
-            <div v-else>
-              <p class="text-sm font-semibold">${{ product.price }}</p>
-            </div>
+          <div id="tag-list">
+            <span v-for="tag in currentProduct.tags" :key="tag" class="tag-chip">
+              {{ tag }}
+            </span>
           </div>
-        </button>
 
-      
-    </div >
-  </main>
+          <button
+            id="buy-button"
+            :class="currentProduct.isAvailable ? 'buy-active' : 'buy-disabled'"
+            :disabled="!currentProduct.isAvailable"
+            @click="addToCart"
+          >
+            Buy Now
+          </button>
 
+          <p v-if="msg" id="flash-message">{{ msg }}</p>
+        </div>
+      </section>
+
+      <section id="related-section">
+        <h3 id="related-title">Related Products</h3>
+
+        <div id="related-scroll">
+          <button
+            v-for="product in relatedProducts"
+            :key="product.id"
+            class="related-card"
+            @click="goToProduct(product)"
+          >
+            <img :src="product.image" :alt="product.name" class="related-image" />
+            <p class="related-name">{{ product.name }}</p>
+            <p
+              class="related-stock"
+              :class="product.isAvailable ? 'related-in-stock' : 'related-out-stock'"
+            >
+              {{ product.isAvailable ? "In Stock" : "Out of Stock" }}
+            </p>
+
+            <div class="related-pricing">
+              <template v-if="product.discount > 0">
+                <p class="related-original-price">${{ product.price }}</p>
+                <p class="related-final-price">${{ getDiscountedPrice(product) }}</p>
+              </template>
+              <template v-else>
+                <p class="related-final-price">${{ product.price }}</p>
+              </template>
+            </div>
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <Footer />
   </div>
-
-
-<Footer />
 </template>
-
-<style scoped></style>
